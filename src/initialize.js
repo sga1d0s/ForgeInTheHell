@@ -118,7 +118,7 @@ function initPlayer() {
 
 function initLevel() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(0, 0, 32, 32, 32, 0, 0)
+  const imageSet = new ImageSet(0, 0, 32, 32, 33, 0, 0)
 
   // creamos y guardamos nuestro nivel
   globals.level = new Level(level1, imageSet)
