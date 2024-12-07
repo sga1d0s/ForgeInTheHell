@@ -18,6 +18,7 @@ export const SpriteID = {
   FORGE: 2,
   TABLE: 3,
   TOOLS: 4,
+  HAMMER: 5
 }
 
 // identificador de estado de sprite (dirección)

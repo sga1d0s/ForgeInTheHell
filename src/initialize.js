@@ -16,8 +16,8 @@ function initHTMLElements() {
   globals.ctxUHD = globals.canvasUHD.getContext('2d')
 
   // canvas y context HammerScreen
-  // globals.canvasHammer = document.getElementById('hammerScreen')
-  //globals.ctxHammer = globals.canvasHammer.getContext('2d')
+  globals.canvasHammer = document.getElementById('hammerScreen')
+  globals.ctxHammer = globals.canvasHammer.getContext('2d')
 
   // eliminación del Anti-Aliasing
   globals.ctx.imageSmoothingEnabled = false
@@ -76,7 +76,6 @@ function initSprites() {
   initPlayer()
   initSkeleton()
   initForge()
-  // initHammer()
 }
 
 function initForge() {
@@ -86,7 +85,7 @@ function initForge() {
   const tableSet = new ImageSet(16, 0, 69, 69, 64, -5, 0)
 
   // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(2)
+  const frames = new Frames(3)
 
   // crear sprite de la forja
   const forge = new Sprite(SpriteID.FORGE, State.STILL, 50, -10, forgeSet, frames)
@@ -111,10 +110,10 @@ function initSkeleton() {
   const frames = new Frames(9)
 
   // crear nuestro sprite
-  const pirate = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames)
+  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames)
 
   // añadir el pirate al array de sprites
-  globals.sprites.push(pirate)
+  globals.sprites.push(skeleton)
 }
 
 function initPlayer() {
@@ -139,19 +138,6 @@ function initLevel() {
   globals.level = new Level(level1, imageSet)
 }
 
-// function initHammer() {
-//   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-//   const imageSet = new ImageSet(18, 0, 64, 70, 64, 0, 10)
-
-//   // crear los datos de la animación. 8 frames / state
-//   const frames = new Frames(9)
-
-//   // crear nuestro sprite
-//   const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 215, 0, imageSet, frames)
-
-//   // añadir el player al array de sprites
-//   globals.sprites.push(player)
-// }
 
 // exportar funciones
 export {
@@ -160,5 +146,4 @@ export {
   loadAssets,
   initSprites,
   initLevel,
-  // initHammer
 }

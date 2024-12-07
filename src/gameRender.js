@@ -23,7 +23,7 @@ function drawGame() {
   // borramos la pantalla entera y UHD
   globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
   globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
-  //globals.ctxHammer.clearRect(0, 0, globals.canvasHammer.width, globals.canvasHammer.height)
+  globals.ctxHammer.clearRect(0, 0, globals.canvasHammer.width, globals.canvasHammer.height)
 
   // dibujar el mapa (nivel)
   renderMap()
@@ -35,7 +35,7 @@ function drawGame() {
   renderUHD()
 
   // dibujamos el martillo
-  // renderHammer()
+  renderHammer(25)
 }
 
 // función que dibuja el mapa
@@ -87,9 +87,10 @@ function renderSprite(sprite) {
     xPos, yPos,
     sprite.imageSet.xSize, sprite.imageSet.ySize,
   )
+
 }
 
-// dibunar los sprites
+// dibujar los sprites
 function drawSprites() {
   for (let i = 0; i < globals.sprites.length; ++i) {
     const sprite = globals.sprites[i];
@@ -143,10 +144,10 @@ function renderUHD() {
 
   // round corners. (Remove 1 pixel per corner)
   globals.ctxUHD.fillStyle = 'black'
-  globals.ctxUHD.fillRect(168, 9, 1, 1)
-  globals.ctxUHD.fillRect(168, 15, 1, 1)
-  globals.ctxUHD.fillRect(168 + life - 1, 9, 1, 1)
-  globals.ctxUHD.fillRect(168 + life - 1, 15, 1, 1)
+  globals.ctxUHD.fillRect(168, 9, 1, 2)
+  globals.ctxUHD.fillRect(168, 15, 1, 2)
+  globals.ctxUHD.fillRect(168 + life - 1, 9, 1, 2)
+  globals.ctxUHD.fillRect(168 + life - 1, 15, 1, 2)
 
   // draw time
   globals.ctxUHD.fillStyle = 'lightblue'
@@ -155,10 +156,16 @@ function renderUHD() {
   globals.ctxUHD.fillText(time, 224, 16)
 }
 
-// function renderHammer() {
-//   // draw HAMMER
-//   globals.ctxHammer
-//   globals.ctxHammer.fillText("HIGH SCORE", 72, 8)
-//   globals.ctxHammer.fillStyle = 'black'
-//   globals.ctxHammer.fillText(" " + highScore, 72, 16)
-// }
+function renderHammer(value) {
+  const spriteSheet = new Image();
+  spriteSheet.src = './images/spritesheet.png';
+
+  // calcula el valor a restar de vida del marrtillo
+  let x = 64 * value / 100
+
+  // Dibuja el sprite en (sprite, sx, sy, sWidth, sHeight, displayX, displayY, displayWidth, displayHeight)
+  globals.ctxHammer.drawImage(spriteSheet, -2, 1359, 68, 68, 0, 0, 64, 64);
+
+  // Dibuja el segundo sprite (siguiente en el eje X) en (120, 50)
+  globals.ctxHammer.drawImage(spriteSheet, 68, 1359, 68, 68, 0 + x / 2, 0, 64 - x, 64);
+}

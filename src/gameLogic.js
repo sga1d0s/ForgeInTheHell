@@ -18,24 +18,24 @@ export default function update() {
   }
 }
 
-function updateJoker(sprite) {
+function updateForge(sprite) {
   // actualizar el estado de las variables del pirata
-  sprite.xPos = 55
-  sprite.yPos = 7
+  sprite.xPos = 50
+  sprite.yPos = -10
 
   sprite.state = State.STILL
 
   sprite.frames.frameCounter = 0
 }
 
-function updatePirate(sprite) {
+function updateSkeleton(sprite) {
   // actualizar el estado de las variables del pirata
-  sprite.xPos = 125
-  sprite.yPos = 113
+  sprite.xPos = 300
+  sprite.yPos = 150
 
-  sprite.state = State.LEFT_2
+  sprite.state = State.LEFT
 
-  sprite.frames.frameCounter = 3
+  sprite.frames.frameCounter = 1
 }
 
 function updatePlayer(sprite) {
@@ -49,7 +49,7 @@ function updatePlayer(sprite) {
 }
 
 function playGame() {
-  // updateSprites()
+  updateSprites()
 }
 
 function updateSprites() {
@@ -71,13 +71,13 @@ function updateSprite(sprite) {
       break
 
     // caso pirata
-    case SpriteID.PIRATE:
-      updatePirate(sprite)
+    case SpriteID.SKELETON:
+      updateSkeleton(sprite)
       break
 
     // caso pirata
-    case SpriteID.JOKER:
-      updateJoker(sprite)
+    case SpriteID.FORGE:
+      updateForge(sprite)
       break
 
     // caso del enemigo

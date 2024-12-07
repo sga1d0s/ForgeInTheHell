@@ -7,8 +7,8 @@
   image-rendering: crisp-edges;
 }
 
-#gameUHD{
-  width: 1024px;
+#gameUHD {
+  width: 896px;
   height: 128px;
   margin-top: -5px;
   background-color: black;
@@ -18,18 +18,19 @@
   image-rendering: crisp-edges;
 }
 
-#hammerScreen{
-  width: 124px;
+#hammerScreen {
+  width: 126px;
   height: 128px;
   margin-top: -5px;
-  /* background-color: grey; */
+  margin-left: -4px;
+  background-color: grey;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-crisp-edges;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
 
-#font-face{
+@font-face {
   font-family: emulogic;
   src: url("../fonts/emulogic.ttf");
 }
