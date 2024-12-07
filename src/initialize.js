@@ -1,7 +1,7 @@
 import globals from "./globals.js"
 import { Game, FPS, SpriteID, State } from "./constants.js"
 import Sprite from "./Sprite.js"
-import ImageSet from "./ImageSet.js"
+import { ImageSet, } from "./ImageSet.js"
 import Frames from "./Frames.js"
 import { Level, level1 } from "./Level.js"
 
@@ -14,6 +14,10 @@ function initHTMLElements() {
   // canvas y context UHD
   globals.canvasUHD = document.getElementById('gameUHD')
   globals.ctxUHD = globals.canvasUHD.getContext('2d')
+
+  // canvas y context HammerScreen
+  // globals.canvasHammer = document.getElementById('hammerScreen')
+  //globals.ctxHammer = globals.canvasHammer.getContext('2d')
 
   // eliminación del Anti-Aliasing
   globals.ctx.imageSmoothingEnabled = false
@@ -70,33 +74,44 @@ function loadHandler() {
 
 function initSprites() {
   initPlayer()
-  initPirate()
-  initJoker()
+  initSkeleton()
+  initForge()
+  // initHammer()
 }
 
-function initJoker() {
+function initForge() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(4, 0, 44, 57, 64, 10, 6)
+  const forgeSet = new ImageSet(19, 2, 64, 130, 64, 0, 0)
+  const toolSet = new ImageSet(16, 2, 65, 69, 64, -3, 0)
+  const tableSet = new ImageSet(16, 0, 69, 69, 64, -5, 0)
 
   // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(3)
+  const frames = new Frames(2)
 
-  // crear nuestro sprite
-  const joker = new Sprite(SpriteID.JOKER, State.STILL, 100, 70, imageSet, frames)
+  // crear sprite de la forja
+  const forge = new Sprite(SpriteID.FORGE, State.STILL, 50, -10, forgeSet, frames)
+
+  // crear sprite de las herramientas
+  const tools = new Sprite(SpriteID.TOOLS, State.STILL, 10, 200, toolSet, frames)
+
+  // crear sprite de la mesa
+  const table = new Sprite(SpriteID.TABLE, State.STILL, 195, 120, tableSet, frames)
 
   // añadir el player al array de sprites
-  globals.sprites.push(joker)
+  globals.sprites.push(forge)
+  globals.sprites.push(tools)
+  globals.sprites.push(table)
 }
 
-function initPirate() {
-  // crear las propiedades de las imagener
-  const imageSet = new ImageSet(5, 0, 32, 47, 64, 17, 16)
+function initSkeleton() {
+  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(0, 0, 44, 57, 64, 5, 10)
 
   // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(8)
+  const frames = new Frames(9)
 
   // crear nuestro sprite
-  const pirate = new Sprite(SpriteID.PIRATE, State.RIGHT_2, 100, 100, imageSet, frames)
+  const pirate = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames)
 
   // añadir el pirate al array de sprites
   globals.sprites.push(pirate)
@@ -104,13 +119,13 @@ function initPirate() {
 
 function initPlayer() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(0, 0, 44, 57, 64, 10, 6)
+  const imageSet = new ImageSet(8, 0, 44, 57, 64, 20, 10)
 
   // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(8)
+  const frames = new Frames(9)
 
   // crear nuestro sprite
-  const player = new Sprite(SpriteID.PLAYER, State.UP, 100, 70, imageSet, frames)
+  const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 100, 200, imageSet, frames)
 
   // añadir el player al array de sprites
   globals.sprites.push(player)
@@ -118,11 +133,25 @@ function initPlayer() {
 
 function initLevel() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(0, 0, 32, 32, 33, 0, 0)
+  const imageSet = new ImageSet(0, 0, 32, 32, 32, 0, 0)
 
   // creamos y guardamos nuestro nivel
   globals.level = new Level(level1, imageSet)
 }
+
+// function initHammer() {
+//   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+//   const imageSet = new ImageSet(18, 0, 64, 70, 64, 0, 10)
+
+//   // crear los datos de la animación. 8 frames / state
+//   const frames = new Frames(9)
+
+//   // crear nuestro sprite
+//   const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 215, 0, imageSet, frames)
+
+//   // añadir el player al array de sprites
+//   globals.sprites.push(player)
+// }
 
 // exportar funciones
 export {
@@ -130,5 +159,6 @@ export {
   initVars,
   loadAssets,
   initSprites,
-  initLevel
+  initLevel,
+  // initHammer
 }

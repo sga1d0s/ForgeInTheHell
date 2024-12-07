@@ -14,24 +14,21 @@ export const FPS = 30
 // identificador de tipo de Sprite (ID)
 export const SpriteID = {
   PLAYER: 0,
-  PIRATE: 1,
-  JOKER: 2,
-  KNIGHT: 3,
+  SKELETON: 1,
+  FORGE: 2,
+  TABLE: 3,
+  TOOLS: 4,
 }
 
 // identificador de estado de sprite (dirección)
 export const State = {
-  // estados PLAYER
+  // estados PLAYER y ESQUELETO
   UP: 0,
   LEFT: 1,
   DOWN: 2,
   RIGHT: 3,
 
-  // estados PIRATE
-  LEFT_2: 0,
-  RIGHT_2: 1,
-
-  // estados JOKER, KNIGHT
+  // estados TOOLS
   STILL: 0,
 }
 

@@ -23,6 +23,7 @@ function drawGame() {
   // borramos la pantalla entera y UHD
   globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
   globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
+  //globals.ctxHammer.clearRect(0, 0, globals.canvasHammer.width, globals.canvasHammer.height)
 
   // dibujar el mapa (nivel)
   renderMap()
@@ -32,6 +33,9 @@ function drawGame() {
 
   // dibujamos el UHD
   renderUHD()
+
+  // dibujamos el martillo
+  // renderHammer()
 }
 
 // función que dibuja el mapa
@@ -91,7 +95,7 @@ function drawSprites() {
     const sprite = globals.sprites[i];
 
     // TEST: dibuja un rectangulo verde alrededor del sprite
-    drawSpriteRectangle(sprite)
+    // drawSpriteRectangle(sprite)
 
     renderSprite(sprite)
   }
@@ -106,8 +110,8 @@ function drawSpriteRectangle(sprite) {
   const h1 = sprite.imageSet.ySize
 
   // dibujo en verde
-  // globals.ctx.fillStyle = "green"
-  // globals.ctx.fillRect(x1, y1, w1, h1)
+  globals.ctx.fillStyle = "green"
+  globals.ctx.fillRect(x1, y1, w1, h1)
 }
 
 // funcion para dibujar los elementos del UHD
@@ -150,3 +154,11 @@ function renderUHD() {
   globals.ctxUHD.fillStyle = 'lightgray'
   globals.ctxUHD.fillText(time, 224, 16)
 }
+
+// function renderHammer() {
+//   // draw HAMMER
+//   globals.ctxHammer
+//   globals.ctxHammer.fillText("HIGH SCORE", 72, 8)
+//   globals.ctxHammer.fillStyle = 'black'
+//   globals.ctxHammer.fillText(" " + highScore, 72, 16)
+// }

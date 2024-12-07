@@ -8,6 +8,8 @@ export default {
   ctx: {},
   canvasUHD: {},
   ctxUHD: {},
+  canvasHammer: {},
+  ctxHammer: {},
 
   // estado del juego
   gameState: Game.INVALID,

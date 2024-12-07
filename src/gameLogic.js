@@ -40,16 +40,16 @@ function updatePirate(sprite) {
 
 function updatePlayer(sprite) {
   // actualizar el estado de las variables del pirata
-  sprite.xPos = 55
-  sprite.yPos = 137
+  sprite.xPos = 100
+  sprite.yPos = 200
 
-  sprite.state = State.LEFT
+  sprite.state = State.RIGHT
 
-  sprite.frames.frameCounter = 2
+  sprite.frames.frameCounter = 1
 }
 
 function playGame() {
-  updateSprites()
+  // updateSprites()
 }
 
 function updateSprites() {
