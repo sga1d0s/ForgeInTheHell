@@ -104,7 +104,7 @@ function initForge() {
 
 function initSkeleton() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(0, 0, 44, 57, 64, 5, 10)
+  const imageSet = new ImageSet(0, 0, 64, 64, 64, 0, 0)
 
   // crear los datos de la animación. 8 frames / state
   const frames = new Frames(9)
@@ -118,7 +118,7 @@ function initSkeleton() {
 
 function initPlayer() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(8, 0, 44, 57, 64, 20, 10)
+  const imageSet = new ImageSet(8, 0, 64, 64, 64, 0, 0)
 
   // crear los datos de la animación. 8 frames / state
   const frames = new Frames(9)

@@ -35,7 +35,7 @@ function updateSkeleton(sprite) {
 
   sprite.state = State.LEFT
 
-  sprite.frames.frameCounter = 1
+  sprite.frames.frameCounter = 4
 }
 
 function updatePlayer(sprite) {
@@ -45,7 +45,7 @@ function updatePlayer(sprite) {
 
   sprite.state = State.RIGHT
 
-  sprite.frames.frameCounter = 1
+  sprite.frames.frameCounter = 4
 }
 
 function playGame() {

@@ -123,6 +123,8 @@ function renderUHD() {
   const life = 40
   const time = 3000
 
+  let alpha = life / 100
+
   // draw score
   globals.ctxUHD.font = '8px emulogic'
   globals.ctxUHD.fillStyle = 'lightblue'
@@ -137,19 +139,21 @@ function renderUHD() {
   globals.ctxUHD.fillText(" " + highScore, 72, 16)
 
   // draw life
-  globals.ctxUHD.fillStyle = 'lightblue'
-  globals.ctxUHD.fillText("LIFE", 168, 8)
-  globals.ctxUHD.fillStyle = 'lightgray'
-  globals.ctxUHD.fillRect(168, 9, life, 8)
+  globals.ctxUHD.font = '15px emulogic'
+  // globals.ctxUHD.globalAlpha = alphaBlue;
+  globals.ctxUHD.fillStyle = 'red'
+  globals.ctxUHD.fillText("LIFE", 158, 15.5)
 
-  // round corners. (Remove 1 pixel per corner)
-  globals.ctxUHD.fillStyle = 'black'
-  globals.ctxUHD.fillRect(168, 9, 1, 2)
-  globals.ctxUHD.fillRect(168, 15, 1, 2)
-  globals.ctxUHD.fillRect(168 + life - 1, 9, 1, 2)
-  globals.ctxUHD.fillRect(168 + life - 1, 15, 1, 2)
+  globals.ctxUHD.font = '15px emulogic'
+  globals.ctxUHD.globalAlpha = alpha;
 
+  globals.ctxUHD.fillStyle = 'blue'
+  globals.ctxUHD.fillText("LIFE", 158, 15.5)
+
+
+  globals.ctxUHD.globalAlpha = 1;
   // draw time
+  globals.ctxUHD.font = '8px emulogic'
   globals.ctxUHD.fillStyle = 'lightblue'
   globals.ctxUHD.fillText("TIME", 224, 8)
   globals.ctxUHD.fillStyle = 'lightgray'
