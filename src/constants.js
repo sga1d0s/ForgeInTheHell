@@ -6,6 +6,9 @@ export const Game = {
   LOADING: 0,
   PLAYING: 1,
   OVER: 2,
+  HISTORY: 3,
+  CONTROLS: 4,
+  SCORES: 5,
 }
 
 // velocidad del juevo

@@ -5,12 +5,17 @@ export default function update() {
 
   // change what the game is doing based on the game state
   switch (globals.gameState) {
+
     case Game.LOADING:
       console.log("Loading assets...")
       break
 
     case Game.PLAYING:
       playGame()
+      break
+
+    case Game.OVER:
+      // console.log("Over logic");
       break
 
     default:
@@ -70,12 +75,12 @@ function updateSprite(sprite) {
       updatePlayer(sprite)
       break
 
-    // caso pirata
+    // caso esqueleto
     case SpriteID.SKELETON:
       updateSkeleton(sprite)
       break
 
-    // caso pirata
+    // caso forja
     case SpriteID.FORGE:
       updateForge(sprite)
       break

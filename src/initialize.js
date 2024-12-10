@@ -138,6 +138,15 @@ function initLevel() {
   globals.level = new Level(level1, imageSet)
 }
 
+function gameOver() {
+  console.log("game over");
+
+    // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+    const imageSet = new ImageSet(0, 0, 0, 0, 0, 0, 0)
+
+    // creamos y guardamos nuestro nivel
+    globals.level = new Level(level1, imageSet)
+}
 
 // exportar funciones
 export {
@@ -146,4 +155,5 @@ export {
   loadAssets,
   initSprites,
   initLevel,
+  gameOver
 }

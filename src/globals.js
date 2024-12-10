@@ -12,7 +12,7 @@ export default {
   ctxHammer: {},
 
   // estado del juego
-  gameState: Game.INVALID,
+  gameState: Game.PLAYING,
 
   // estado de ciclo anterior (milisegundos)
   previousCycleMilliseconds: -1,

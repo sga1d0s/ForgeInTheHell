@@ -3,6 +3,7 @@ import { Game, Tile } from "./constants.js"
 
 // funcion que renderiza los graficos
 export default function render() {
+
   // change what the game is doing based on the game state
   switch (globals.gameState) {
 
@@ -12,6 +13,10 @@ export default function render() {
 
     case Game.PLAYING:
       drawGame()
+      break
+
+    case Game.OVER:
+      // console.log("over render");
       break
 
     default:
@@ -140,17 +145,14 @@ function renderUHD() {
 
   // draw life
   globals.ctxUHD.font = '15px emulogic'
-  // globals.ctxUHD.globalAlpha = alphaBlue;
   globals.ctxUHD.fillStyle = 'red'
   globals.ctxUHD.fillText("LIFE", 158, 15.5)
-
   globals.ctxUHD.font = '15px emulogic'
+  // modify bright with alpha value
   globals.ctxUHD.globalAlpha = alpha;
-
   globals.ctxUHD.fillStyle = 'blue'
   globals.ctxUHD.fillText("LIFE", 158, 15.5)
-
-
+  // restore bright
   globals.ctxUHD.globalAlpha = 1;
   // draw time
   globals.ctxUHD.font = '8px emulogic'
@@ -160,11 +162,12 @@ function renderUHD() {
   globals.ctxUHD.fillText(time, 224, 16)
 }
 
+// draw hammer
 function renderHammer(value) {
   const spriteSheet = new Image();
-  spriteSheet.src = './images/spritesheet.png';
+  spriteSheet.src = globals.assetsToLoad[0].src
 
-  // calcula el valor a restar de vida del marrtillo
+  // calcula el valor a restar de vida del martillo
   let x = 64 * value / 100
 
   // Dibuja el sprite en (sprite, sx, sy, sWidth, sHeight, displayX, displayY, displayWidth, displayHeight)
@@ -173,3 +176,4 @@ function renderHammer(value) {
   // Dibuja el segundo sprite (siguiente en el eje X) en (120, 50)
   globals.ctxHammer.drawImage(spriteSheet, 68, 1359, 68, 68, 0 + x / 2, 0, 64 - x, 64);
 }
+

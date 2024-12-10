@@ -58,6 +58,7 @@ function gameLoop(timeStamp) {
     // update the game logic. gameLogic.js
     update()
 
+    // actualiza los sprites
     updateSprite()
 
     // perform the drawing operation. gameRender.js
