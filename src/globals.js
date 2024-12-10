@@ -39,4 +39,10 @@ export default {
 
   // datos de nivel
   level: {},
+
+  //***** TEXT DATA
+
+  // game over text
+  overText: ["GAME OVER"]
+
 }

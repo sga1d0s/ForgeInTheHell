@@ -16,7 +16,7 @@ export default function render() {
       break
 
     case Game.OVER:
-      // console.log("over render");
+      drawGameOver()
       break
 
     default:
@@ -36,11 +36,11 @@ function drawGame() {
   // dibujar los elementos
   drawSprites()
 
-  // dibujamos el UHD
+  // dibujar el UHD
   renderUHD()
 
-  // dibujamos el martillo
-  renderHammer(25)
+  // dibujar el martillo pasandole el valor de gastado
+  renderHammer(0)
 }
 
 // función que dibuja el mapa
@@ -125,7 +125,7 @@ function renderUHD() {
   // TEST: datos hardcodeados
   const score = 1500
   const highScore = 130000
-  const life = 40
+  const life = 10
   const time = 3000
 
   let alpha = life / 100
@@ -148,12 +148,18 @@ function renderUHD() {
   globals.ctxUHD.fillStyle = 'red'
   globals.ctxUHD.fillText("LIFE", 158, 15.5)
   globals.ctxUHD.font = '15px emulogic'
+
+  // save context state
+  globals.ctxUHD.save()
+
   // modify bright with alpha value
   globals.ctxUHD.globalAlpha = alpha;
   globals.ctxUHD.fillStyle = 'blue'
   globals.ctxUHD.fillText("LIFE", 158, 15.5)
-  // restore bright
-  globals.ctxUHD.globalAlpha = 1;
+
+  // restore bright, restore context state
+  globals.ctxUHD.restore()
+
   // draw time
   globals.ctxUHD.font = '8px emulogic'
   globals.ctxUHD.fillStyle = 'lightblue'
@@ -177,3 +183,40 @@ function renderHammer(value) {
   globals.ctxHammer.drawImage(spriteSheet, 68, 1359, 68, 68, 0 + x / 2, 0, 64 - x, 64);
 }
 
+
+function drawGameOver() {
+
+  // globals
+  let main = globals.ctx
+  let uhd = globals.ctxUHD
+  let hammer = globals.ctxHammer
+
+  // variable del texto
+  let text = globals.overText
+
+  // CTX 
+  main.fillStyle = "black"
+  // ctx.fillRect(x, y, width, height);
+  main.fillRect(0, 0, 480, 480)
+
+  main.fillStyle = "blue"
+  main.fillRect(0, 0, 60, 50)
+
+  main.fillStyle = "red"
+  main.fillRect(420, 0, 60, 50)
+  
+
+  // CTX UHD
+  uhd.fillStyle = "red"
+  uhd.fillRect(0, 0, 40, 100)
+
+  // CTX HAMMER
+  hammer.fillStyle = "blue"
+  hammer.fillRect(0, 0, 100, 100)
+
+  // print text
+  main.font = '40px emulogic'
+  main.fillStyle = 'lightblue'
+  main.fillText(text, 50, 180)
+
+}
