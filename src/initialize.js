@@ -68,7 +68,7 @@ function loadHandler() {
     console.log("Assets finish loading")
 
     // *********** Game State ************ //
-    globals.gameState = Game.PLAYING
+    globals.gameState = Game.OVER
   }
 }
 
