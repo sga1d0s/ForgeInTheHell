@@ -16,8 +16,8 @@ function initHTMLElements() {
   globals.ctxUHD = globals.canvasUHD.getContext('2d')
 
   // canvas y context HammerScreen
-  globals.canvasHammer = document.getElementById('hammerScreen')
-  globals.ctxHammer = globals.canvasHammer.getContext('2d')
+  // globals.canvasHammer = document.getElementById('hammerScreen')
+  // globals.ctxHammer = globals.canvasHammer.getContext('2d')
 
   // eliminación del Anti-Aliasing
   globals.ctx.imageSmoothingEnabled = false
@@ -68,7 +68,9 @@ function loadHandler() {
     console.log("Assets finish loading")
 
     // *********** Game State ************ //
-    globals.gameState = Game.OVER
+    // *********** Game State ************ //
+    // *********** Game State ************ //
+    globals.gameState = Game.STORY
   }
 }
 

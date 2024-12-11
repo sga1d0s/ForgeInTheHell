@@ -4,9 +4,10 @@ export const Game = {
   LOADING: 0,
   PLAYING: 1,
   OVER: 2,
-  HISTORY: 3,
+  STORY: 3,
   CONTROLS: 4,
   SCORES: 5,
+  MAIN: 6,
 }
 
 // velocidad del juevo
@@ -54,5 +55,17 @@ export const Block = {
 
 //***** TEXT DATA
 export const GameText = {
-  GAME_OVER: "GAME OVER"
+  GAME_OVER: "GAME OVER",
+  GAME_NAME: "Forge In The Hell",
+  GAME_STORY: [
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
+  ]
 }

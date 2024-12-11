@@ -18,6 +18,14 @@ export default function update() {
       // console.log("Over logic");
       break
 
+    case Game.MAIN:
+      //
+      break
+
+    case Game.STORY:
+      //
+      break
+
     default:
       console.error("Error: Game State invalid")
   }
