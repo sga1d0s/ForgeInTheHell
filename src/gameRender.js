@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, Tile } from "./constants.js"
+import { Game, GameText, Tile } from "./constants.js"
 
 // funcion que renderiza los graficos
 export default function render() {
@@ -17,6 +17,10 @@ export default function render() {
 
     case Game.OVER:
       drawGameOver()
+      break
+
+    case Game.NewGame:
+      drawNewGameNewGame()
       break
 
     default:
@@ -194,7 +198,7 @@ function drawGameOver() {
   const time = 30
 
   // variable del texto
-  let text = globals.overText
+  let text = GameText.GAME_OVER
 
   // CTX 
   main.fillStyle = "black"
@@ -240,5 +244,64 @@ function drawGameOver() {
   uhd.font = '8px emulogic'
   uhd.fillStyle = 'lightblue'
   uhd.fillText("NEW GAME IN " + time + " seg", 80, 8)
-  
+
+}
+
+function drawNewGame() {
+
+  // globals
+  let main = globals.ctx
+  let uhd = globals.ctxUHD
+  let hammer = globals.ctxHammer
+
+  const time = 30
+
+  // variable del texto
+  let text = GameText.GAME_OVER
+
+  // CTX 
+  main.fillStyle = "black"
+  // ctx.fillRect(x, y, width, height);
+  main.fillRect(0, 0, 480, 480)
+
+  main.fillStyle = "blue"
+  main.fillRect(0, 0, 60, 50)
+
+  main.fillStyle = "red"
+  main.fillRect(390, 0, 90, 50)
+
+  // print MAIN
+  main.font = '12px emulogic'
+  main.fillStyle = 'red'
+  main.fillText("MAIN", 5, 20)
+  main.fillText("PAGE", 5, 40)
+
+  // CTX UHD
+  uhd.fillStyle = "red"
+  uhd.fillRect(0, 0, 55, 100)
+
+  // print SCORES
+  uhd.font = '8px emulogic'
+  uhd.fillStyle = 'blue'
+  // context.fillText(text, x, y [, maxWidth])
+  uhd.fillText("SCORES", 4, 12)
+
+
+  uhd.fillStyle = "black"
+  uhd.fillRect(80, 0, 200, 100)
+
+  // CTX HAMMER
+  hammer.fillStyle = "blue"
+  hammer.fillRect(0, 0, 100, 100)
+
+  // print text
+  main.font = '40px emulogic'
+  main.fillStyle = 'lightblue'
+  main.fillText(text, 50, 180)
+
+  // draw time
+  uhd.font = '8px emulogic'
+  uhd.fillStyle = 'lightblue'
+  uhd.fillText("NEW GAME IN " + time + " seg", 80, 8)
+
 }

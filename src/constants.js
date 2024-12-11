@@ -1,5 +1,3 @@
-// constants
-
 // estados del juego
 export const Game = {
   INVALID: -1,
@@ -52,4 +50,9 @@ export const Block = {
   GRAY: 5,
   CRYSTAL_1: 6,
   CRYSTAL_2: 7,
+}
+
+//***** TEXT DATA
+export const GameText = {
+  GAME_OVER: "GAME OVER"
 }
