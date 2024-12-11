@@ -57,15 +57,36 @@ export const Block = {
 export const GameText = {
   GAME_OVER: "GAME OVER",
   GAME_NAME: "Forge In The Hell",
-  GAME_STORY: [
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-    "Veniam qui eiusmod velit ipsum ullamco occaecat pariatur est deserunt.",
-  ]
+  GAME_NEW: "NEW GAME",
+  GAME_CONTROLS: "CONTROLS",
+  GAME_CONTROLS_TEXT: [
+    "-TYPE 'A' TO GO LEFT",
+    "-TYPE 'D' TO GO RIGHT",
+    "-TYPE 'W' TO GO UP",
+    "-TYPE 'S' TO GO DOWN",
+    "-TYPE 'SPACE' TO HIT THE ENEMY",
+    "",
+    "-TYPE 'R' TO RESTORE THE AXE",
+  ],
+  GAME_STORY: "STORY",
+  GAME_SCORES: "HIGH SCORES",
+  SCORES: [
+    {name: "JON", score: 100},
+    {name: "BIL", score: 1000},
+    {name: "DAN", score: 10000},
+    {name: "RAY", score: 10},
+    {name: "TOM", score: 1},
+  ],
+  GAME_STORY_TEXT: [
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+  ],
+  SHORTCUTS: "TYPE 'S' TO STORY - TYPE 'C' TO CONTROLS - TYPE 'H' TO HIGH SCORES - TYPE 'N' TO NEW GAME"
 }

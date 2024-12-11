@@ -26,6 +26,10 @@ export default function update() {
       //
       break
 
+    case Game.CONTROLS:
+      //
+      break
+
     case Game.SCORES:
       //
       break

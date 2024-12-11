@@ -28,12 +28,82 @@ export default function render() {
       break
 
     case Game.CONTROLS:
-      drawStory()
-      breakﬂ
+      drawControls()
+      break
+
+    case Game.SCORES:
+      drawScores()
+      break
 
     default:
       console.error("Error: Game State invalid")
   }
+}
+
+// dibujar textos y cuadrados de las esquinas
+function drawCorners() {
+
+  // globals
+  let ctx = globals.ctx
+
+  // CTX 
+  ctx.fillStyle = "black"
+  // ctx.fillRect(x, y, width, height);
+  ctx.fillRect(0, 0, 512, 384)
+
+  // UP LEFT
+  ctx.fillStyle = "blue"
+  ctx.fillRect(0, 0, 64, 64)
+
+  // text up left
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = 'red'
+  ctx.fillText(GameText.GAME_STORY, 5, 40)
+
+  // UP RIGHT
+  ctx.fillStyle = "red"
+  ctx.fillRect(448, 0, 64, 64)
+
+  // text up right
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = 'blue'
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_CONTROLS, 325, 40)
+
+  // DOWN LEFT
+  ctx.fillStyle = "red"
+  ctx.fillRect(0, 320, 64, 64)
+
+  // print down left
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = 'blue'
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_SCORES, 5, 360)
+
+  // DOWN RIGHT
+  ctx.fillStyle = "blue"
+  ctx.fillRect(448, 320, 64, 64)
+
+  // print down right
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = 'red'
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_NEW, 320, 360)
+  // ctx.fillText("GAME", 400, 370)
+
+}
+
+// dibujar atajos de teclado
+function keyboardShortcuts() {
+  let uhd = globals.ctxUHD
+
+  // DOWN CENTRE
+  uhd.fillStyle = "white"
+  uhd.fillRect(5, 10, 502, 30)
+  uhd.font = '10px emulogic'
+  uhd.fillStyle = 'black'
+  uhd.fillText(GameText.SHORTCUTS, 10, 30, 480)
+
 }
 
 function drawGame() {
@@ -55,7 +125,7 @@ function drawGame() {
   renderHammer(0)
 }
 
-// función que dibuja el mapa
+// dibujar el mapa
 function renderMap() {
   const brickSize = globals.level.imageSet.gridSize
   const levelData = globals.level.data
@@ -83,6 +153,7 @@ function renderMap() {
   }
 }
 
+// dibujar sprites
 function renderSprite(sprite) {
 
   // calcular la posicion del tile de inicio
@@ -107,7 +178,7 @@ function renderSprite(sprite) {
 
 }
 
-// dibujar los sprites
+// mapear sprites
 function drawSprites() {
   for (let i = 0; i < globals.sprites.length; ++i) {
     const sprite = globals.sprites[i];
@@ -265,6 +336,7 @@ function drawGameOver() {
   // context.fillText(text, x, y [, maxWidth])
   ctx.fillText("NEW GAME", 320, 360)
   // ctx.fillText("GAME", 400, 370)
+
 }
 
 function drawNewGame() {
@@ -317,13 +389,6 @@ function drawNewGame() {
   // context.fillText(text, x, y [, maxWidth])
   ctx.fillText("SCORES", 5, 360)
 
-  // DOWN CENTRE
-  // uhd.fillStyle = "blue"
-  // uhd.fillRect(258, 0, 10, 50)
-  // uhd.font = '8px emulogic'
-  // uhd.fillStyle = 'red'
-  // uhd.fillText("NEW GAME", 258, 12)
-
   // DOWN RIGHT
   ctx.fillStyle = "blue"
   ctx.fillRect(448, 320, 64, 64)
@@ -334,6 +399,8 @@ function drawNewGame() {
   // context.fillText(text, x, y [, maxWidth])
   ctx.fillText("NEW GAME", 320, 360)
   // ctx.fillText("GAME", 400, 370)
+
+  keyboardShortcuts()
 
 }
 
@@ -356,11 +423,13 @@ function drawStory() {
   let startX = 30
   let startY = 120
 
-  ctx.font = '10px emulogic'
+  ctx.font = '15px emulogic'
   ctx.fillStyle = 'lightblue'
+  ctx.fillText("THE FORGE...", 160, 80)
+  ctx.font = '10px emulogic'
   // recorrer el array corigiendo la posición por línea
-  for (let i = 0; i < GameText.GAME_STORY.length; i++) {
-    ctx.fillText(GameText.GAME_STORY[i], startX, startY + i * lineHeight, 450)
+  for (let i = 0; i < GameText.GAME_STORY_TEXT.length; i++) {
+    ctx.fillText(GameText.GAME_STORY_TEXT[i], startX, startY + i * lineHeight, 450)
   }
 
   // UP LEFT
@@ -370,7 +439,7 @@ function drawStory() {
   // text up left
   ctx.font = '22px emulogic'
   ctx.fillStyle = 'red'
-  ctx.fillText("STORY", 5, 40)
+  ctx.fillText(GameText.GAME_STORY, 5, 40)
 
   // UP RIGHT
   ctx.fillStyle = "red"
@@ -380,7 +449,7 @@ function drawStory() {
   ctx.font = '22px emulogic'
   ctx.fillStyle = 'blue'
   // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("CONTROLS", 325, 40)
+  ctx.fillText(GameText.GAME_CONTROLS, 325, 40)
 
   // DOWN LEFT
   ctx.fillStyle = "red"
@@ -390,14 +459,7 @@ function drawStory() {
   ctx.font = '22px emulogic'
   ctx.fillStyle = 'blue'
   // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("SCORES", 5, 360)
-
-  // DOWN CENTRE
-  // uhd.fillStyle = "blue"
-  // uhd.fillRect(258, 0, 10, 50)
-  // uhd.font = '8px emulogic'
-  // uhd.fillStyle = 'red'
-  // uhd.fillText("NEW GAME", 258, 12)
+  ctx.fillText(GameText.GAME_SCORES, 5, 360)
 
   // DOWN RIGHT
   ctx.fillStyle = "blue"
@@ -407,7 +469,83 @@ function drawStory() {
   ctx.font = '22px emulogic'
   ctx.fillStyle = 'red'
   // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("NEW GAME", 320, 360)
+  ctx.fillText(GameText.GAME_NEW, 320, 360)
   // ctx.fillText("GAME", 400, 370)
 
+  keyboardShortcuts()
+
+}
+
+function drawControls() {
+
+  drawCorners()
+
+  // globals
+  let ctx = globals.ctx
+
+  const time = 30
+
+  // main text
+  let text = ""
+  let lineHeight = 20
+  let startX = 80
+  let startY = 150
+
+  ctx.font = '15px emulogic'
+  ctx.fillStyle = 'lightblue'
+  ctx.fillText("GAME CONTROLS", 160, 110)
+  ctx.font = '10px emulogic'
+
+  // recorrer el array corigiendo la posición por línea
+  for (let i = 0; i < GameText.GAME_CONTROLS_TEXT.length; i++) {
+    ctx.fillText(GameText.GAME_CONTROLS_TEXT[i], startX, startY + i * lineHeight, 450)
+  }
+
+  keyboardShortcuts()
+}
+
+function drawScores() {
+
+  drawCorners()
+
+  // globals
+  let ctx = globals.ctx
+
+  const time = 30
+
+  // TEXT GRID REFERENCES
+  let lineHeight = 20
+  let nameX = 80
+  let scoreX = 200
+  let startY = 150
+
+  ctx.font = '15px emulogic'
+  ctx.fillStyle = 'lightblue'
+  ctx.fillText(GameText.GAME_SCORES, 160, 110)
+  ctx.font = '12px emulogic'
+
+  orderByscore(GameText.SCORES)
+
+  // recorrer el array corigiendo la posición por línea
+  for (let i = 0; i < GameText.SCORES.length; i++) {
+    ctx.fillText((i + 1) + "  " + GameText.SCORES[i].name, nameX, startY + i * lineHeight, 450)
+    ctx.fillText(GameText.SCORES[i].score, scoreX, startY + i * lineHeight, 450)
+  }
+
+  keyboardShortcuts()
+}
+
+function orderByscore(array) {
+  let n = array.length
+  for (let i = 0; i < n - 1; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
+      if (array[j].score < array[j + 1].score) {
+        // intercambiar datos
+        let temp = array[j];
+        array[j] = array[j + 1];
+        array[j + 1] = temp;
+      }
+    }
+  }
+  return array
 }
