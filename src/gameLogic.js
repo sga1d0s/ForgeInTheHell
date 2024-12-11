@@ -26,6 +26,10 @@ export default function update() {
       //
       break
 
+    case Game.SCORES:
+      //
+      break
+
     default:
       console.error("Error: Game State invalid")
   }

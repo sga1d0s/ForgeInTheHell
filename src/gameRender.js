@@ -27,6 +27,10 @@ export default function render() {
       drawStory()
       break
 
+    case Game.CONTROLS:
+      drawStory()
+      breakﬂ
+
     default:
       console.error("Error: Game State invalid")
   }
