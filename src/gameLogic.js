@@ -15,10 +15,10 @@ export default function update() {
       break
 
     case Game.OVER:
-      // console.log("Over logic");
+      // 
       break
 
-    case Game.MAIN:
+    case Game.NEW_GAME:
       //
       break
 

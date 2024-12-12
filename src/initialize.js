@@ -70,14 +70,17 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    globals.gameState = Game.SCORES
+    globals.gameState = Game.STORY
   }
 }
 
 function initSprites() {
-  initPlayer()
-  initSkeleton()
-  initForge()
+  // initPlayer()
+  // initSkeleton()
+  // initForge()
+
+  initPlayerNewGame()
+  initSkeletonNewGame()
 }
 
 function initForge() {
@@ -130,6 +133,34 @@ function initPlayer() {
 
   // añadir el player al array de sprites
   globals.sprites.push(player)
+}
+
+function initSkeletonNewGame() {
+  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(0, 4, 64, 64, 64, 0, 0)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(9)
+
+  // crear nuestro sprite
+  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 130, imageSet, frames)
+
+  // añadir el pirate al array de sprites
+  globals.sprites.push(skeleton)
+}
+
+function initPlayerNewGame() {
+  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(8, 4, 64, 64, 64, 0, 0)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(9)
+
+  // crear nuestro sprite
+  const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 100, 198, imageSet, frames)
+
+  // añadir el player al array de sprites
+  globals.spritesNewGame.push(player)
 }
 
 function initLevel() {

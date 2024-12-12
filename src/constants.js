@@ -7,7 +7,7 @@ export const Game = {
   STORY: 3,
   CONTROLS: 4,
   SCORES: 5,
-  MAIN: 6,
+  NEW_GAME: 6,
 }
 
 // velocidad del juevo

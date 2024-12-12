@@ -35,6 +35,9 @@ export default {
   // array con los datos de los sprites
   sprites: [],
 
+  // array con los datos de los sprites de new game
+  spritesNewGame: [],
+
   cycleRealTime: 0,
 
   // datos de nivel

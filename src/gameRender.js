@@ -19,7 +19,7 @@ export default function render() {
       drawGameOver()
       break
 
-    case Game.MAIN:
+    case Game.NEW_GAME:
       drawNewGame()
       break
 
@@ -58,7 +58,7 @@ function drawCorners() {
   // text up left
   ctx.font = '22px emulogic'
   ctx.fillStyle = 'red'
-  ctx.fillText(GameText.GAME_STORY, 5, 40)
+  ctx.fillText(GameText.GAME_STORY, 5, 40, 70)
 
   // UP RIGHT
   ctx.fillStyle = "red"
@@ -68,7 +68,7 @@ function drawCorners() {
   ctx.font = '22px emulogic'
   ctx.fillStyle = 'blue'
   // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_CONTROLS, 325, 40)
+  ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
 
   // DOWN LEFT
   ctx.fillStyle = "red"
@@ -78,7 +78,7 @@ function drawCorners() {
   ctx.font = '22px emulogic'
   ctx.fillStyle = 'blue'
   // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_SCORES, 5, 360)
+  ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
 
   // DOWN RIGHT
   ctx.fillStyle = "blue"
@@ -88,9 +88,8 @@ function drawCorners() {
   ctx.font = '22px emulogic'
   ctx.fillStyle = 'red'
   // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_NEW, 320, 360)
+  ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
   // ctx.fillText("GAME", 400, 370)
-
 }
 
 // dibujar atajos de teclado
@@ -103,14 +102,13 @@ function keyboardShortcuts() {
   uhd.font = '10px emulogic'
   uhd.fillStyle = 'black'
   uhd.fillText(GameText.SHORTCUTS, 10, 30, 480)
-
 }
 
 function drawGame() {
   // borramos la pantalla entera y UHD
   globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
   globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
-  globals.ctxHammer.clearRect(0, 0, globals.canvasHammer.width, globals.canvasHammer.height)
+  //globals.ctxHammer.clearRect(0, 0, globals.canvasHammer.width, globals.canvasHammer.height)
 
   // dibujar el mapa (nivel)
   renderMap()
@@ -175,7 +173,6 @@ function renderSprite(sprite) {
     xPos, yPos,
     sprite.imageSet.xSize, sprite.imageSet.ySize,
   )
-
 }
 
 // mapear sprites
@@ -252,7 +249,7 @@ function renderUHD() {
 }
 
 // draw hammer
-/* function renderHammer(value) {
+function renderHammer(value) {
   const spriteSheet = new Image();
   spriteSheet.src = globals.assetsToLoad[0].src
 
@@ -260,165 +257,65 @@ function renderUHD() {
   let x = 64 * value / 100
 
   // Dibuja el sprite en (sprite, sx, sy, sWidth, sHeight, displayX, displayY, displayWidth, displayHeight)
-  globals.ctxHammer.drawImage(spriteSheet, -2, 1359, 68, 68, 0, 0, 64, 64);
+  // globals.ctxHammer.drawImage(spriteSheet, -2, 1359, 68, 68, 0, 0, 64, 64);
 
   // Dibuja el segundo sprite (siguiente en el eje X) en (120, 50)
-  globals.ctxHammer.drawImage(spriteSheet, 68, 1359, 68, 68, 0 + x / 2, 0, 64 - x, 64);
+  // globals.ctxHammer.drawImage(spriteSheet, 68, 1359, 68, 68, 0 + x / 2, 0, 64 - x, 64);
 }
- */
+
 
 function drawGameOver() {
 
+  drawCorners()
+
   // globals
   let ctx = globals.ctx
-  let uhd = globals.ctxUHD
-  // let hammer = globals.ctxHammer
 
   const time = 30
 
   // variable del texto
   let text = GameText.GAME_OVER
 
-  // CTX 
-  ctx.fillStyle = "black"
-  // ctx.fillRect(x, y, width, height);
-  ctx.fillRect(0, 0, 512, 384)
-
-  // main text
+  // TITTLE
   ctx.font = '40px emulogic'
   ctx.fillStyle = 'lightblue'
   ctx.fillText(text, 80, 215)
 
-  // UP LEFT
-  ctx.fillStyle = "blue"
-  ctx.fillRect(0, 0, 64, 64)
-
-  // text up left
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'red'
-  ctx.fillText("STORY", 5, 40)
-
-  // UP RIGHT
-  ctx.fillStyle = "red"
-  ctx.fillRect(448, 0, 64, 64)
-
-  // text up right
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'blue'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("CONTROLS", 325, 40)
-
-  // DOWN LEFT
-  ctx.fillStyle = "red"
-  ctx.fillRect(0, 320, 64, 64)
-
-  // print down left
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'blue'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("SCORES", 5, 360)
-
-  // DOWN CENTRE
-  uhd.fillStyle = "black"
-  uhd.fillRect(0, 0, 512, 64)
-  // text down centre
-  uhd.font = '16px emulogic'
-  uhd.fillStyle = 'lightblue'
-  uhd.fillText("NEW GAME IN " + time + " seg", 100, 40)
-
-  // DOWN RIGHT
-  ctx.fillStyle = "blue"
-  ctx.fillRect(448, 320, 64, 64)
-
-  // print down right
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'red'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("NEW GAME", 320, 360)
-  // ctx.fillText("GAME", 400, 370)
-
+  keyboardShortcuts()
 }
 
 function drawNewGame() {
 
+  drawCorners()
+
   // globals
   let ctx = globals.ctx
-  let uhd = globals.ctxUHD
 
   const time = 30
 
   // variable del texto
   let text = GameText.GAME_NAME
 
-  // CTX 
-  ctx.fillStyle = "black"
-  // ctx.fillRect(x, y, width, height);
-  ctx.fillRect(0, 0, 512, 384)
-
-  // main text
+  // TITTLE
   ctx.font = '30px emulogic'
   ctx.fillStyle = 'lightblue'
   ctx.fillText(text, 50, 215, 400)
 
-  // UP LEFT
-  ctx.fillStyle = "blue"
-  ctx.fillRect(0, 0, 64, 64)
-
-  // text up left
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'red'
-  ctx.fillText("STORY", 5, 40)
-
-  // UP RIGHT
-  ctx.fillStyle = "red"
-  ctx.fillRect(448, 0, 64, 64)
-
-  // text up right
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'blue'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("CONTROLS", 325, 40)
-
-  // DOWN LEFT
-  ctx.fillStyle = "red"
-  ctx.fillRect(0, 320, 64, 64)
-
-  // print down left
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'blue'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("SCORES", 5, 360)
-
-  // DOWN RIGHT
-  ctx.fillStyle = "blue"
-  ctx.fillRect(448, 320, 64, 64)
-
-  // print down right
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'red'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText("NEW GAME", 320, 360)
-  // ctx.fillText("GAME", 400, 370)
+  drawSprites()
 
   keyboardShortcuts()
-
 }
 
 function drawStory() {
 
+  drawCorners()
+
   // globals
   let ctx = globals.ctx
-  let uhd = globals.ctxUHD
 
   const time = 30
 
-  // CTX 
-  ctx.fillStyle = "black"
-  // ctx.fillRect(x, y, width, height);
-  ctx.fillRect(0, 0, 512, 384)
-
-  // main text
-  let text = ""
+  // TITTLE
   let lineHeight = 20
   let startX = 30
   let startY = 120
@@ -432,48 +329,7 @@ function drawStory() {
     ctx.fillText(GameText.GAME_STORY_TEXT[i], startX, startY + i * lineHeight, 450)
   }
 
-  // UP LEFT
-  ctx.fillStyle = "blue"
-  ctx.fillRect(0, 0, 64, 64)
-
-  // text up left
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'red'
-  ctx.fillText(GameText.GAME_STORY, 5, 40)
-
-  // UP RIGHT
-  ctx.fillStyle = "red"
-  ctx.fillRect(448, 0, 64, 64)
-
-  // text up right
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'blue'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_CONTROLS, 325, 40)
-
-  // DOWN LEFT
-  ctx.fillStyle = "red"
-  ctx.fillRect(0, 320, 64, 64)
-
-  // print down left
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'blue'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_SCORES, 5, 360)
-
-  // DOWN RIGHT
-  ctx.fillStyle = "blue"
-  ctx.fillRect(448, 320, 64, 64)
-
-  // print down right
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = 'red'
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_NEW, 320, 360)
-  // ctx.fillText("GAME", 400, 370)
-
   keyboardShortcuts()
-
 }
 
 function drawControls() {
@@ -485,8 +341,7 @@ function drawControls() {
 
   const time = 30
 
-  // main text
-  let text = ""
+  // TITTLE
   let lineHeight = 20
   let startX = 80
   let startY = 150
