@@ -70,7 +70,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    globals.gameState = Game.STORY
+    globals.gameState = Game.NEW_GAME
   }
 }
 
@@ -160,7 +160,7 @@ function initPlayerNewGame() {
   const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 100, 198, imageSet, frames)
 
   // añadir el player al array de sprites
-  globals.spritesNewGame.push(player)
+  globals.sprites.push(player)
 }
 
 function initLevel() {
