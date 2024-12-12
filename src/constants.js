@@ -56,14 +56,14 @@ export const Block = {
 //***** TEXT DATA
 export const GameText = {
   GAME_OVER: "GAME OVER",
-  GAME_NAME: "Forge In The Hell",
+  GAME_NAME: "FORGE IN THE HELL",
   GAME_NEW: "NEW GAME",
   GAME_CONTROLS: "CONTROLS",
   GAME_CONTROLS_TEXT: [
-    "-TYPE 'A' TO GO LEFT",
-    "-TYPE 'D' TO GO RIGHT",
-    "-TYPE 'W' TO GO UP",
-    "-TYPE 'S' TO GO DOWN",
+    "-TYPE 'A' TO MOVE LEFT",
+    "-TYPE 'D' TO MOVE RIGHT",
+    "-TYPE 'W' TO MOVE UP",
+    "-TYPE 'S' TO MOVE DOWN",
     "-TYPE 'SPACE' TO HIT THE ENEMY",
     "",
     "-TYPE 'R' TO RESTORE THE AXE",

@@ -264,13 +264,13 @@ function renderHammer(value) {
   // globals.ctxHammer.drawImage(spriteSheet, 68, 1359, 68, 68, 0 + x / 2, 0, 64 - x, 64);
 }
 
-
 function drawGameOver() {
 
   drawCorners()
 
   // globals
   let ctx = globals.ctx
+  let uhd = globals.ctxUHD
 
   const time = 30
 
@@ -282,7 +282,12 @@ function drawGameOver() {
   ctx.fillStyle = 'lightblue'
   ctx.fillText(text, 80, 215)
 
-  keyboardShortcuts()
+  // drow time
+  uhd.fillStyle = "black"
+  uhd.fillRect(5, 10, 502, 30)
+  uhd.font = '10px emulogic'
+  uhd.fillStyle = 'white'
+  uhd.fillText("--- NEW GAME START IN " + time + " SECONDS ---", 80, 35, 480)
 }
 
 function drawNewGame() {

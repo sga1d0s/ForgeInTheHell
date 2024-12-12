@@ -70,7 +70,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    globals.gameState = Game.NEW_GAME
+    globals.gameState = Game.SCORES
   }
 }
 
@@ -81,58 +81,6 @@ function initSprites() {
 
   initPlayerNewGame()
   initSkeletonNewGame()
-}
-
-function initForge() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const forgeSet = new ImageSet(19, 2, 64, 130, 64, 0, 0)
-  const toolSet = new ImageSet(16, 2, 65, 69, 64, -3, 0)
-  const tableSet = new ImageSet(16, 0, 69, 69, 64, -5, 0)
-
-  // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(3)
-
-  // crear sprite de la forja
-  const forge = new Sprite(SpriteID.FORGE, State.STILL, 50, -10, forgeSet, frames)
-
-  // crear sprite de las herramientas
-  const tools = new Sprite(SpriteID.TOOLS, State.STILL, 10, 200, toolSet, frames)
-
-  // crear sprite de la mesa
-  const table = new Sprite(SpriteID.TABLE, State.STILL, 195, 120, tableSet, frames)
-
-  // añadir el player al array de sprites
-  globals.sprites.push(forge)
-  globals.sprites.push(tools)
-  globals.sprites.push(table)
-}
-
-function initSkeleton() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(0, 0, 64, 64, 64, 0, 0)
-
-  // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(9)
-
-  // crear nuestro sprite
-  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames)
-
-  // añadir el pirate al array de sprites
-  globals.sprites.push(skeleton)
-}
-
-function initPlayer() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(8, 0, 64, 64, 64, 0, 0)
-
-  // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(9)
-
-  // crear nuestro sprite
-  const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 100, 200, imageSet, frames)
-
-  // añadir el player al array de sprites
-  globals.sprites.push(player)
 }
 
 function initSkeletonNewGame() {
