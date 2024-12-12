@@ -88,5 +88,5 @@ export const GameText = {
     "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
     "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
   ],
-  SHORTCUTS: "TYPE 'S' TO STORY - TYPE 'C' TO CONTROLS - TYPE 'H' TO HIGH SCORES - TYPE 'N' TO NEW GAME"
+  SHORTCUTS: "--- SELECT WITH ARROWS --- PRESS 'ENTER' TO CONFIRM ---"
 }

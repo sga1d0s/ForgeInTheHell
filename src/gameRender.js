@@ -45,6 +45,8 @@ function drawCorners() {
 
   // globals
   let ctx = globals.ctx
+  let black = "black"
+  let blue = "lightblue"
 
   // CTX 
   ctx.fillStyle = "black"
@@ -52,44 +54,43 @@ function drawCorners() {
   ctx.fillRect(0, 0, 512, 384)
 
   // UP LEFT
-  ctx.fillStyle = "blue"
-  ctx.fillRect(0, 0, 64, 64)
+  ctx.fillStyle = blue
+  ctx.fillRect(0, 0, 10, 64)
 
   // text up left
   ctx.font = '22px emulogic'
-  ctx.fillStyle = 'red'
+  ctx.fillStyle = blue
   ctx.fillText(GameText.GAME_STORY, 5, 40, 70)
 
   // UP RIGHT
-  ctx.fillStyle = "red"
-  ctx.fillRect(448, 0, 64, 64)
+  ctx.fillStyle = blue
+  ctx.fillRect(502, 0, 10, 64)
 
   // text up right
   ctx.font = '22px emulogic'
-  ctx.fillStyle = 'blue'
+  ctx.fillStyle = blue
   // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
 
   // DOWN LEFT
-  ctx.fillStyle = "red"
-  ctx.fillRect(0, 320, 64, 64)
+  ctx.fillStyle = blue
+  ctx.fillRect(0, 320, 10, 64)
 
   // print down left
   ctx.font = '22px emulogic'
-  ctx.fillStyle = 'blue'
+  ctx.fillStyle = blue
   // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
 
   // DOWN RIGHT
-  ctx.fillStyle = "blue"
-  ctx.fillRect(448, 320, 64, 64)
+  ctx.fillStyle = blue
+  ctx.fillRect(367, 320, 145, 64)
 
   // print down right
   ctx.font = '22px emulogic'
-  ctx.fillStyle = 'red'
+  ctx.fillStyle = black
   // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
-  // ctx.fillText("GAME", 400, 370)
 }
 
 // dibujar atajos de teclado
@@ -97,11 +98,11 @@ function keyboardShortcuts() {
   let uhd = globals.ctxUHD
 
   // DOWN CENTRE
-  uhd.fillStyle = "white"
+  uhd.fillStyle = "black"
   uhd.fillRect(5, 10, 502, 30)
   uhd.font = '10px emulogic'
-  uhd.fillStyle = 'black'
-  uhd.fillText(GameText.SHORTCUTS, 10, 30, 480)
+  uhd.fillStyle = 'white'
+  uhd.fillText(GameText.SHORTCUTS, 10, 35, 480)
 }
 
 function drawGame() {
@@ -298,7 +299,7 @@ function drawNewGame() {
 
   // TITTLE
   ctx.font = '30px emulogic'
-  ctx.fillStyle = 'lightblue'
+  ctx.fillStyle = 'red'
   ctx.fillText(text, 50, 215, 400)
 
   drawSprites()
