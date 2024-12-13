@@ -70,7 +70,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    globals.gameState = Game.NEW_GAME
+    globals.gameState = Game.PLAYING
   }
 }
 

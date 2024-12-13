@@ -49,7 +49,7 @@ function drawCorners() {
   let blue = "lightblue"
 
   // CTX 
-  ctx.fillStyle = "black"
+  ctx.fillStyle = black
   // ctx.fillRect(x, y, width, height);
   ctx.fillRect(0, 0, 512, 384)
 
@@ -214,7 +214,7 @@ function renderUHD() {
 
   const gridXScore = 10
   const gridXHighScore = gridXScore + 90
-  const gridXTime = gridXHighScore + 230
+  const gridXTime = gridXHighScore + 250
 
   let alpha = life / 100
 
@@ -234,7 +234,7 @@ function renderUHD() {
   // draw life
   globals.ctxUHD.font = '45px emulogic'
   globals.ctxUHD.fillStyle = 'red'
-  globals.ctxUHD.fillText("LIFE", 240, gridY2, 80)
+  globals.ctxUHD.fillText("LIFE", 240, gridY2, 100)
 
   // save context state
   globals.ctxUHD.save()
@@ -242,7 +242,7 @@ function renderUHD() {
   // modify bright with alpha value
   globals.ctxUHD.globalAlpha = alpha;
   globals.ctxUHD.fillStyle = 'blue'
-  globals.ctxUHD.fillText("LIFE", 240, gridY2, 80)
+  globals.ctxUHD.fillText("LIFE", 240, gridY2, 100)
 
   // restore bright, restore context state
   globals.ctxUHD.restore()
@@ -264,10 +264,10 @@ function renderHammer(value) {
   let x = 64 * value / 100
 
   // Dibuja el sprite en (sprite, sx, sy, sWidth, sHeight, displayX, displayY, displayWidth, displayHeight)
-  // globals.ctxHammer.drawImage(spriteSheet, -2, 1359, 68, 68, 0, 0, 64, 64);
+  globals.ctxUHD.drawImage(spriteSheet, -2, 1359, 68, 68, 430, 0, 64, 64);
 
   // Dibuja el segundo sprite (siguiente en el eje X) en (120, 50)
-  // globals.ctxHammer.drawImage(spriteSheet, 68, 1359, 68, 68, 0 + x / 2, 0, 64 - x, 64);
+  globals.ctxUHD.drawImage(spriteSheet, 68, 1359, 68, 68, 430 + x / 2, 0, 64 - x, 64);
 }
 
 function drawGameOver() {
