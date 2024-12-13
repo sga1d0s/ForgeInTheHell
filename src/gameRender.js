@@ -380,9 +380,9 @@ function drawScores() {
 
   // TEXT GRID REFERENCES
   const lineHeight = 20
-  const nameX = 100
+  const nameX = 160
   const scoreX = 250
-  const startY = 150
+  const startY = 180
 
   ctx.font = '15px emulogic'
   ctx.fillStyle = 'lightblue'
