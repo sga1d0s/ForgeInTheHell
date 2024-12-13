@@ -206,29 +206,35 @@ function renderUHD() {
   // TEST: datos hardcodeados
   const score = 1500
   const highScore = 130000
-  const life = 10
-  const time = 3000
+  const life = 50
+  const time = 30
+
+  const gridY = 26
+  const gridY2 = gridY + 25
+
+  const gridXScore = 10
+  const gridXHighScore = gridXScore + 90
+  const gridXTime = gridXHighScore + 230
 
   let alpha = life / 100
 
   // draw score
-  globals.ctxUHD.font = '8px emulogic'
+  globals.ctxUHD.font = '15px emulogic'
   globals.ctxUHD.fillStyle = 'lightblue'
-  globals.ctxUHD.fillText("SCORE", 8, 8)
+  globals.ctxUHD.fillText("SCORE", gridXScore, gridY)
   globals.ctxUHD.fillStyle = 'lightgray'
-  globals.ctxUHD.fillText(" " + score, 8, 16)
+  globals.ctxUHD.fillText(score, gridXScore, gridY2)
 
   // draw HIGH score
   globals.ctxUHD.fillStyle = 'lightblue'
-  globals.ctxUHD.fillText("HIGH SCORE", 72, 8)
+  globals.ctxUHD.fillText("HIGH SCORE", gridXHighScore, gridY, 130)
   globals.ctxUHD.fillStyle = 'lightgray'
-  globals.ctxUHD.fillText(" " + highScore, 72, 16)
+  globals.ctxUHD.fillText(highScore, gridXHighScore, gridY2)
 
   // draw life
-  globals.ctxUHD.font = '15px emulogic'
+  globals.ctxUHD.font = '45px emulogic'
   globals.ctxUHD.fillStyle = 'red'
-  globals.ctxUHD.fillText("LIFE", 158, 15.5)
-  globals.ctxUHD.font = '15px emulogic'
+  globals.ctxUHD.fillText("LIFE", 240, gridY2, 80)
 
   // save context state
   globals.ctxUHD.save()
@@ -236,17 +242,17 @@ function renderUHD() {
   // modify bright with alpha value
   globals.ctxUHD.globalAlpha = alpha;
   globals.ctxUHD.fillStyle = 'blue'
-  globals.ctxUHD.fillText("LIFE", 158, 15.5)
+  globals.ctxUHD.fillText("LIFE", 240, gridY2, 80)
 
   // restore bright, restore context state
   globals.ctxUHD.restore()
 
   // draw time
-  globals.ctxUHD.font = '8px emulogic'
+  globals.ctxUHD.font = '15px emulogic'
   globals.ctxUHD.fillStyle = 'lightblue'
-  globals.ctxUHD.fillText("TIME", 224, 8)
+  globals.ctxUHD.fillText("TIME", gridXTime, gridY)
   globals.ctxUHD.fillStyle = 'lightgray'
-  globals.ctxUHD.fillText(time, 224, 16)
+  globals.ctxUHD.fillText(time, gridXTime, gridY2)
 }
 
 // draw hammer
