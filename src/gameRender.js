@@ -285,7 +285,7 @@ function drawGameOver() {
 
   // TITTLE
   ctx.font = '40px emulogic'
-  ctx.fillStyle = 'lightblue'
+  ctx.fillStyle = 'red'
   ctx.fillText(text, 80, 215)
 
   // drow time
@@ -359,8 +359,9 @@ function drawControls() {
   let startY = 150
 
   ctx.font = '15px emulogic'
-  ctx.fillStyle = 'lightblue'
+  ctx.fillStyle = 'red'
   ctx.fillText("GAME CONTROLS", 160, 110)
+  ctx.fillStyle = 'lightblue'
   ctx.font = '10px emulogic'
 
   // recorrer el array corigiendo la posición por línea
@@ -385,7 +386,7 @@ function drawScores() {
   const startY = 180
 
   ctx.font = '15px emulogic'
-  ctx.fillStyle = 'lightblue'
+  ctx.fillStyle = 'red'
   ctx.fillText(GameText.GAME_SCORES, 160, 110)
   ctx.font = '14px emulogic'
 
