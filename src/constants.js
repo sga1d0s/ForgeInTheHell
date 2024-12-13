@@ -68,7 +68,6 @@ export const GameText = {
     "",
     "-TYPE 'R' TO RESTORE THE AXE",
   ],
-  GAME_STORY: "STORY",
   GAME_SCORES: "HIGH SCORES",
   SCORES: [
     {name: "JON", score: 100},
@@ -77,16 +76,16 @@ export const GameText = {
     {name: "RAY", score: 10},
     {name: "TOM", score: 1},
   ],
+  GAME_STORY: "STORY",
+  GAME_STORY_TITTLE: "THE FORGE...",
   GAME_STORY_TEXT: [
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
-    "Veniam occaecat reprehenderit amet adipisicing ullamco irure minim elit ipsum",
+    "That morning something different was haunting", 
+    "John Smith's forge... a darkness hung over the village.",
+    "John was well aware that it was something he harbored in",
+    "his possession that was causing it. At last he had found", 
+    "the mallet of destiny with which to forge extraordinary",
+    "wonders. But... undoubtedly that would make others want", 
+    "to get hold of the magnificent mallet...               ",
   ],
   SHORTCUTS: "--- SELECT WITH ARROWS --- PRESS 'ENTER' TO CONFIRM ---"
 }

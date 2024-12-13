@@ -280,8 +280,8 @@ function drawGameOver() {
 
   const time = 30
 
-  // variable del texto
-  let text = GameText.GAME_OVER
+  // TEXT GAME OVER
+  const text = GameText.GAME_OVER
 
   // TITTLE
   ctx.font = '40px emulogic'
@@ -293,7 +293,7 @@ function drawGameOver() {
   uhd.fillRect(5, 10, 502, 30)
   uhd.font = '10px emulogic'
   uhd.fillStyle = 'white'
-  uhd.fillText("--- NEW GAME START IN " + time + " SECONDS ---", 80, 35, 480)
+  uhd.fillText("--- NEW GAME WILL START IN " + time + " SECONDS ---", 50, 35, 480)
 }
 
 function drawNewGame() {
@@ -301,12 +301,10 @@ function drawNewGame() {
   drawCorners()
 
   // globals
-  let ctx = globals.ctx
+  const ctx = globals.ctx
 
-  const time = 30
-
-  // variable del texto
-  let text = GameText.GAME_NAME
+  // TEXT NEW GAME
+  const text = GameText.GAME_NAME
 
   // TITTLE
   ctx.font = '30px emulogic'
@@ -323,18 +321,20 @@ function drawStory() {
   drawCorners()
 
   // globals
-  let ctx = globals.ctx
-
-  const time = 30
+  const ctx = globals.ctx
+  const text = GameText.GAME_STORY_TITTLE
 
   // TITTLE
-  let lineHeight = 20
-  let startX = 30
-  let startY = 120
+  const lineHeight = 20
+  const startX = 30
+  const startY = 120
 
   ctx.font = '15px emulogic'
-  ctx.fillStyle = 'lightblue'
-  ctx.fillText("THE FORGE...", 160, 80)
+  ctx.fillStyle = 'red'
+  ctx.fillText(text, 160, 80)
+
+  // STORY TEXT
+  ctx.fillStyle = 'lightgrey'
   ctx.font = '10px emulogic'
   // recorrer el array corigiendo la posición por línea
   for (let i = 0; i < GameText.GAME_STORY_TEXT.length; i++) {
@@ -376,15 +376,13 @@ function drawScores() {
   drawCorners()
 
   // globals
-  let ctx = globals.ctx
-
-  const time = 30
+  const ctx = globals.ctx
 
   // TEXT GRID REFERENCES
-  let lineHeight = 20
-  let nameX = 80
-  let scoreX = 200
-  let startY = 150
+  const lineHeight = 20
+  const nameX = 80
+  const scoreX = 200
+  const startY = 150
 
   ctx.font = '15px emulogic'
   ctx.fillStyle = 'lightblue'
