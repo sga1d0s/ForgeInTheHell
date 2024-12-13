@@ -380,21 +380,39 @@ function drawScores() {
 
   // TEXT GRID REFERENCES
   const lineHeight = 20
-  const nameX = 80
-  const scoreX = 200
+  const nameX = 100
+  const scoreX = 250
   const startY = 150
 
   ctx.font = '15px emulogic'
   ctx.fillStyle = 'lightblue'
   ctx.fillText(GameText.GAME_SCORES, 160, 110)
-  ctx.font = '12px emulogic'
+  ctx.font = '14px emulogic'
 
   orderByscore(GameText.SCORES)
 
   // recorrer el array corigiendo la posición por línea
   for (let i = 0; i < GameText.SCORES.length; i++) {
-    ctx.fillText((i + 1) + "  " + GameText.SCORES[i].name, nameX, startY + i * lineHeight, 450)
-    ctx.fillText(GameText.SCORES[i].score, scoreX, startY + i * lineHeight, 450)
+
+    let space = " "
+    let n
+
+    // resaltar en amarillo los 3 primeros
+    if (i == 0 | i == 1 | i == 2) {
+      ctx.fillStyle = 'yellow'
+
+    } else {
+      ctx.fillStyle = 'lightblue'
+    }
+
+    // alinear a la derecha en función del nº de dígitos del score
+    if (GameText.SCORES[i].score.toString().length < 5) {
+      n = 5 - GameText.SCORES[i].score.toString().length 
+    } 
+
+    // imprimir el score alineado
+    ctx.fillText((i + 1) + " " + GameText.SCORES[i].name, nameX, startY + i * lineHeight, 450)
+    ctx.fillText((space.repeat(n)) + GameText.SCORES[i].score, scoreX, startY + i * lineHeight, 450)
   }
 
   keyboardShortcuts()
