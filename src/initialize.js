@@ -4,6 +4,7 @@ import Sprite from "./Sprite.js"
 import { ImageSet, } from "./ImageSet.js"
 import Frames from "./Frames.js"
 import { Level, level1 } from "./Level.js"
+import Physics from "./Physics.js"
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -28,6 +29,9 @@ function initVars() {
 
   // inicializamos el estado del juego
   globals.gameState = Game.LOADING
+
+  // iniciamos el contador
+  globals.gameTime = 0
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
@@ -113,8 +117,11 @@ function initSkeleton() {
   // crear los datos de la animación. 8 frames / state
   const frames = new Frames(9)
 
-  // crear nuestro sprite
-  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 130, imageSet, frames)
+  // inicializamos physics
+  const physics = new Physics(40)
+
+  // crear nuestro sprite *** con fisicas añadidas
+  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 130, imageSet, frames, physics)
 
   // añadir el pirate al array de sprites
   globals.sprites.push(skeleton)

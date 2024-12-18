@@ -49,7 +49,7 @@ function updateForge(sprite) {
   sprite.frames.frameCounter = 0
 }
 
-function updateSkeleton(sprite) {
+/* function updateSkeleton(sprite) {
   // actualizar el estado de las variables del pirata
   sprite.xPos = 300
   sprite.yPos = 150
@@ -57,6 +57,29 @@ function updateSkeleton(sprite) {
   sprite.state = State.LEFT
 
   sprite.frames.frameCounter = 4
+} */
+
+
+function updateSkeleton(sprite) {
+  switch (sprite.state) {
+    case State.RIGHT:
+      sprite.physics.vx = sprite.physics.vLimit
+      break
+
+    case State.LEFT:
+      sprite.physics.vx = -sprite.physics.vLimit
+      break
+
+    default:
+      console.log("ERROR: State invalid");
+      break;
+  }
+
+  // calcular la distancia que se mueve
+  sprite.xPos += sprite.physics.vx * globals.deltaTime
+
+  // actualizar sprite para la animación
+  updateAnimationFrame(sprite)
 }
 
 function updatePlayer(sprite) {
@@ -71,6 +94,7 @@ function updatePlayer(sprite) {
 
 function playGame() {
   updateSprites()
+  updateGameTime()
 }
 
 function updateSprites() {
@@ -107,3 +131,14 @@ function updateSprite(sprite) {
   }
 }
 
+function updateGameTime() {
+  globals.gameTime += globals.deltaTime
+}
+
+function updateAnimationFrame(sprite) {
+  sprite.frames.frameCounter++
+
+  if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
+    sprite.frames.frameCounter = 0
+  }
+}
