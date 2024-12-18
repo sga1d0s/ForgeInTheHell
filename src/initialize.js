@@ -15,10 +15,6 @@ function initHTMLElements() {
   globals.canvasUHD = document.getElementById('gameUHD')
   globals.ctxUHD = globals.canvasUHD.getContext('2d')
 
-  // canvas y context HammerScreen
-  // globals.canvasHammer = document.getElementById('hammerScreen')
-  // globals.ctxHammer = globals.canvasHammer.getContext('2d')
-
   // eliminación del Anti-Aliasing
   globals.ctx.imageSmoothingEnabled = false
 }
@@ -71,19 +67,46 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     globals.gameState = Game.PLAYING
+    // *********** Game State ************ //
+    // *********** Game State ************ //
+    // *********** Game State ************ //
   }
 }
 
 function initSprites() {
-  // initPlayer()
-  // initSkeleton()
-  // initForge()
+  initPlayer()
+  initSkeleton()
+  initForge()
 
-  initPlayerNewGame()
-  initSkeletonNewGame()
+  // initPlayerNewGame()
+  // initSkeletonNewGame()
 }
 
-function initSkeletonNewGame() {
+function initForge() {
+  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const forgeSet = new ImageSet(19, 2, 64, 130, 64, 0, 0)
+  const toolSet = new ImageSet(16, 2, 65, 69, 64, -3, 0)
+  const tableSet = new ImageSet(16, 0, 69, 69, 64, -5, 0)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(2)
+
+  // crear sprite de la forja
+  const forge = new Sprite(SpriteID.FORGE, State.STILL, 50, -10, forgeSet, frames)
+
+  // crear sprite de las herramientas
+  const tools = new Sprite(SpriteID.TOOLS, State.STILL, 10, 200, toolSet, frames)
+
+  // crear sprite de la mesa
+  const table = new Sprite(SpriteID.TABLE, State.STILL, 195, 120, tableSet, frames)
+
+  // añadir el player al array de sprites
+  globals.sprites.push(forge)
+  globals.sprites.push(tools)
+  globals.sprites.push(table)
+}
+
+function initSkeleton() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(0, 4, 64, 64, 64, 0, 0)
 
@@ -97,7 +120,7 @@ function initSkeletonNewGame() {
   globals.sprites.push(skeleton)
 }
 
-function initPlayerNewGame() {
+function initPlayer() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(8, 4, 64, 64, 64, 0, 0)
 
@@ -105,7 +128,7 @@ function initPlayerNewGame() {
   const frames = new Frames(9)
 
   // crear nuestro sprite
-  const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 100, 198, imageSet, frames)
+  const player = new Sprite(SpriteID.PLAYER, State.LEFT, 100, 198, imageSet, frames)
 
   // añadir el player al array de sprites
   globals.sprites.push(player)
