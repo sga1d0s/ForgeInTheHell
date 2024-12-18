@@ -5,6 +5,7 @@ import { ImageSet, } from "./ImageSet.js"
 import Frames from "./Frames.js"
 import { Level, level1 } from "./Level.js"
 import Physics from "./Physics.js"
+import { keydownHandler, keyupHandler } from "./events.js"
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -32,6 +33,13 @@ function initVars() {
 
   // iniciamos el contador
   globals.gameTime = 0
+
+  globals.action = {
+    moveLeft: false,
+    moveRight: false,
+    moveUp: false,
+    moveDown: false,
+  }
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
@@ -86,6 +94,12 @@ function initSprites() {
   // initSkeletonNewGame()
 }
 
+function initEvents() {
+  // captura de eventos del teclado
+  window.addEventListener("keydown", keydownHandler, false)
+  window.addEventListener("keyup", keyupHandler, false)
+}
+
 function initForge() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const forgeSet = new ImageSet(19, 2, 64, 130, 64, 0, 0)
@@ -115,7 +129,7 @@ function initSkeleton() {
   const imageSet = new ImageSet(0, 4, 64, 64, 64, 0, 0)
 
   // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(9, 5)
+  const frames = new Frames(5, 5)
 
   // inicializamos physics
   const physics = new Physics(40)
@@ -129,13 +143,16 @@ function initSkeleton() {
 
 function initPlayer() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(8, 4, 64, 64, 64, 0, 0)
+  const imageSet = new ImageSet(8, 0, 64, 64, 64, 0, 0)
 
   // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(9)
+  const frames = new Frames(5, 5)
+
+  // inicializamos physics
+  const physics = new Physics(40)
 
   // crear nuestro sprite
-  const player = new Sprite(SpriteID.PLAYER, State.LEFT, 100, 198, imageSet, frames)
+  const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, physics)
 
   // añadir el player al array de sprites
   globals.sprites.push(player)
@@ -156,4 +173,5 @@ export {
   loadAssets,
   initSprites,
   initLevel,
+  initEvents
 }

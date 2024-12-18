@@ -44,5 +44,8 @@ export default {
   level: {},
 
   // tiempo de juego
-  gameTime: -1
+  gameTime: -1,
+
+  // estado de tecla
+  action: {}
 }

@@ -80,16 +80,53 @@ function updateSkeleton(sprite) {
 
   // actualizar sprite para la animación
   updateAnimationFrame(sprite)
+
+  // calcular colision con los bordes
+  const isCollision = calculateCollisionWithborders(sprite)
+
+  if (isCollision) {
+    swapDirection(sprite)
+  }
 }
 
 function updatePlayer(sprite) {
-  // actualizar el estado de las variables del pirata
-  sprite.xPos = 100
-  sprite.yPos = 200
+  // leer el teclado
+  readKeyboardAndAssignState(sprite)
 
-  sprite.state = State.RIGHT
+  switch (sprite.state) {
+    case State.UP:
+      // si se mueve hacia arriba asignamos vy (-)
+      sprite.physics.vx = 0
+      sprite.physics.vy = -sprite.physics.vLimit
+      break;
+    case State.DOWN:
+      // si se mueve hacia arriba asignamos vy (+)
+      sprite.physics.vx = 0
+      sprite.physics.vy = +sprite.physics.vLimit
+      break;
+    case State.RIGHT:
+      // si se mueve hacia arriba asignamos vx (+)
+      sprite.physics.vx = sprite.physics.vLimit
+      sprite.physics.vy = 0
+      break;
+    case State.LEFT:
+      // si se mueve hacia arriba asignamos vx (-)
+      sprite.physics.vx = -sprite.physics.vLimit
+      sprite.physics.vy = 0
+      break;
 
-  sprite.frames.frameCounter = 4
+    default:
+      sprite.physics.vx = 0
+      sprite.physics.vy = 0
+      break;
+  }
+
+  // calculamos la distancia
+  sprite.xPos += sprite.physics.vx * globals.deltaTime
+  sprite.yPos += sprite.physics.vy * globals.deltaTime
+
+  // actualizamo
+  updateAnimationFrame(sprite)
 }
 
 function playGame() {
@@ -135,21 +172,67 @@ function updateGameTime() {
   globals.gameTime += globals.deltaTime
 }
 
-
-
+// actualiza la animación
 function updateAnimationFrame(sprite) {
-  // aumentar el contador de tiempo entre frames
-  sprite.frames.frameChangeCounter++
 
-  // si hemos llegado al maximo de frames reiniciamos el contador (animación cíclica)
-  if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
-    // cambiar de frame y reseseamos el contador de cambio de frame
-    sprite.frames.frameCounter++
-    sprite.frames.frameChangeCounter = 0
+  switch (sprite.state) {
+    case State.STILL_UP:
+    case State.STILL_LEFT:
+    case State.STILL_DOWN:
+    case State.STILL_RIGHT:
+      sprite.frames.frameCounter = 0
+      sprite.frames.frameChangeCounter = 0
+      break;
+
+    default:
+      // aumentar el contador de tiempo entre frames
+      sprite.frames.frameChangeCounter++
+
+      // si hemos llegado al maximo de frames reiniciamos el contador (animación cíclica)
+      if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+        // cambiar de frame y reseseamos el contador de cambio de frame
+        sprite.frames.frameCounter++
+        sprite.frames.frameChangeCounter = 0
+      }
+
+      // si hemos llegado al máximo de frames reiniciamos el contador
+      if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
+        sprite.frames.frameCounter = 0
+      }
+      break;
   }
 
-  // si hemos llegado al máximo de frames reiniciamos el contador
-  if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
-    sprite.frames.frameCounter = 0
+
+}
+
+// cambio de dirección
+function swapDirection(sprite) {
+  sprite.state = sprite.state === State.RIGHT ? State.LEFT : State.RIGHT
+}
+
+// colision con los bordes de la pantalla
+function calculateCollisionWithborders(sprite) {
+
+  let isCollision = false
+
+  // colision con el borde de la pantalla
+  if (sprite.xPos + sprite.imageSet.xSize > globals.canvas.width) {
+    isCollision = true
+  } else if (sprite.xPos < 0) {
+    isCollision = true
   }
+  return isCollision
+}
+
+// teclado y movimiento
+function readKeyboardAndAssignState(sprite) {
+  sprite.state = globals.action.moveLeft ? State.LEFT :
+    globals.action.moveRight ? State.RIGHT :
+      globals.action.moveUp ? State.UP :
+        globals.action.moveDown ? State.DOWN :
+          sprite.state === State.LEFT ? State.STILL_LEFT :
+            sprite.state === State.RIGHT ? State.STILL_RIGHT :
+              sprite.state === State.UP ? State.STILL_UP :
+                sprite.state === State.DOWN ? State.STILL_DOWN :
+                  sprite.state
 }
