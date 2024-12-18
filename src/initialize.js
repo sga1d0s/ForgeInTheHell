@@ -115,7 +115,7 @@ function initSkeleton() {
   const imageSet = new ImageSet(0, 4, 64, 64, 64, 0, 0)
 
   // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(9)
+  const frames = new Frames(9, 5)
 
   // inicializamos physics
   const physics = new Physics(40)

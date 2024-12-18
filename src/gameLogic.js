@@ -135,9 +135,20 @@ function updateGameTime() {
   globals.gameTime += globals.deltaTime
 }
 
-function updateAnimationFrame(sprite) {
-  sprite.frames.frameCounter++
 
+
+function updateAnimationFrame(sprite) {
+  // aumentar el contador de tiempo entre frames
+  sprite.frames.frameChangeCounter++
+
+  // si hemos llegado al maximo de frames reiniciamos el contador (animación cíclica)
+  if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+    // cambiar de frame y reseseamos el contador de cambio de frame
+    sprite.frames.frameCounter++
+    sprite.frames.frameChangeCounter = 0
+  }
+
+  // si hemos llegado al máximo de frames reiniciamos el contador
   if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
     sprite.frames.frameCounter = 0
   }
