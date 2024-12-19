@@ -197,8 +197,6 @@ function updateAnimationFrame(sprite) {
       }
       break;
   }
-
-
 }
 
 // cambio de dirección
@@ -243,6 +241,10 @@ function readKeyboardAndAssignState(sprite) {
       sprite.state === State.RIGHT ? State.STILL_RIGHT :
         sprite.state === State.UP ? State.STILL_UP :
           sprite.state === State.DOWN ? State.STILL_DOWN :
-            sprite.state
+            sprite.state === State.DOWN_LEFT ? State.STILL_LEFT :
+              sprite.state === State.DOWN_RIGHT ? State.STILL_RIGHT :
+                sprite.state === State.UP_LEFT ? State.STILL_LEFT :
+                  sprite.state === State.UP_RIGHT ? State.STILL_RIGHT :
+                    sprite.state
   }
 }
