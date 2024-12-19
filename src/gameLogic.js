@@ -40,25 +40,9 @@ export default function update() {
 }
 
 function updateForge(sprite) {
-  // actualizar el estado de las variables del pirata
-  sprite.xPos = 50
-  sprite.yPos = -10
-
-  sprite.state = State.STILL
-
-  sprite.frames.frameCounter = 0
+  // actualizar sprite para la animación
+  updateAnimationFrame(sprite)
 }
-
-/* function updateSkeleton(sprite) {
-  // actualizar el estado de las variables del pirata
-  sprite.xPos = 300
-  sprite.yPos = 150
-
-  sprite.state = State.LEFT
-
-  sprite.frames.frameCounter = 4
-} */
-
 
 function updateSkeleton(sprite) {
   switch (sprite.state) {
@@ -89,43 +73,55 @@ function updateSkeleton(sprite) {
   }
 }
 
+// actualizar player
 function updatePlayer(sprite) {
-  // leer el teclado
+  // leer teclado
   readKeyboardAndAssignState(sprite)
 
   switch (sprite.state) {
     case State.UP:
-      // si se mueve hacia arriba asignamos vy (-)
       sprite.physics.vx = 0
       sprite.physics.vy = -sprite.physics.vLimit
-      break;
+      break
     case State.DOWN:
-      // si se mueve hacia arriba asignamos vy (+)
       sprite.physics.vx = 0
-      sprite.physics.vy = +sprite.physics.vLimit
-      break;
+      sprite.physics.vy = sprite.physics.vLimit
+      break
     case State.RIGHT:
-      // si se mueve hacia arriba asignamos vx (+)
       sprite.physics.vx = sprite.physics.vLimit
       sprite.physics.vy = 0
-      break;
+      break
     case State.LEFT:
-      // si se mueve hacia arriba asignamos vx (-)
       sprite.physics.vx = -sprite.physics.vLimit
       sprite.physics.vy = 0
-      break;
-
+      break
+    case State.UP_LEFT:
+      sprite.physics.vx = -sprite.physics.vLimit * Math.SQRT1_2
+      sprite.physics.vy = -sprite.physics.vLimit * Math.SQRT1_2
+      break
+    case State.UP_RIGHT:
+      sprite.physics.vx = sprite.physics.vLimit * Math.SQRT1_2
+      sprite.physics.vy = -sprite.physics.vLimit * Math.SQRT1_2
+      break
+    case State.DOWN_LEFT:
+      sprite.physics.vx = -sprite.physics.vLimit * Math.SQRT1_2
+      sprite.physics.vy = sprite.physics.vLimit * Math.SQRT1_2
+      break
+    case State.DOWN_RIGHT:
+      sprite.physics.vx = sprite.physics.vLimit * Math.SQRT1_2
+      sprite.physics.vy = sprite.physics.vLimit * Math.SQRT1_2
+      break
     default:
       sprite.physics.vx = 0
       sprite.physics.vy = 0
       break;
   }
 
-  // calculamos la distancia
+  // calcular la distancia
   sprite.xPos += sprite.physics.vx * globals.deltaTime
   sprite.yPos += sprite.physics.vy * globals.deltaTime
 
-  // actualizamo
+  // actualizar animación
   updateAnimationFrame(sprite)
 }
 
@@ -226,13 +222,27 @@ function calculateCollisionWithborders(sprite) {
 
 // teclado y movimiento
 function readKeyboardAndAssignState(sprite) {
-  sprite.state = globals.action.moveLeft ? State.LEFT :
-    globals.action.moveRight ? State.RIGHT :
-      globals.action.moveUp ? State.UP :
-        globals.action.moveDown ? State.DOWN :
-          sprite.state === State.LEFT ? State.STILL_LEFT :
-            sprite.state === State.RIGHT ? State.STILL_RIGHT :
-              sprite.state === State.UP ? State.STILL_UP :
-                sprite.state === State.DOWN ? State.STILL_DOWN :
-                  sprite.state
+  if (globals.action.moveLeft && globals.action.moveUp) {
+    sprite.state = State.UP_LEFT
+  } else if (globals.action.moveLeft && globals.action.moveDown) {
+    sprite.state = State.DOWN_LEFT
+  } else if (globals.action.moveRight && globals.action.moveUp) {
+    sprite.state = State.UP_RIGHT
+  } else if (globals.action.moveRight && globals.action.moveDown) {
+    sprite.state = State.DOWN_RIGHT
+  } else if (globals.action.moveLeft) {
+    sprite.state = State.LEFT
+  } else if (globals.action.moveRight) {
+    sprite.state = State.RIGHT
+  } else if (globals.action.moveUp) {
+    sprite.state = State.UP
+  } else if (globals.action.moveDown) {
+    sprite.state = State.DOWN
+  } else {
+    sprite.state = sprite.state === State.LEFT ? State.STILL_LEFT :
+      sprite.state === State.RIGHT ? State.STILL_RIGHT :
+        sprite.state === State.UP ? State.STILL_UP :
+          sprite.state === State.DOWN ? State.STILL_DOWN :
+            sprite.state
+  }
 }

@@ -62,7 +62,6 @@ export const SpriteID = {
 
 // identificador de estado de sprite (dirección)
 export const State = {
-  // estados PLAYER y ESQUELETO
   UP: 0,
   LEFT: 1,
   DOWN: 2,
@@ -71,10 +70,13 @@ export const State = {
   STILL_LEFT: 5,
   STILL_DOWN: 6,
   STILL_RIGHT: 7,
+  UP_LEFT: 16,
+  UP_RIGHT: 15,
+  DOWN_LEFT: 18,
+  DOWN_RIGHT: 17,
 
-  // estados TOOLS
-  STILL: 0,
-}
+  STILL: 0
+};
 
 // diferentes TileSets
 export const Tile = {
