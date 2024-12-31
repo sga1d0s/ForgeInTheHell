@@ -2,7 +2,6 @@ import globals from "./globals.js"
 import { Game, SpriteID, State } from "./constants.js"
 
 export default function update() {
-
   // change what the game is doing based on the game state
   switch (globals.gameState) {
 
