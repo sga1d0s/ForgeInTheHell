@@ -95,20 +95,20 @@ function updatePlayer(sprite) {
       sprite.physics.vy = 0
       break
     case State.UP_LEFT:
-      sprite.physics.vx = -sprite.physics.vLimit
-      sprite.physics.vy = -sprite.physics.vLimit
+      sprite.physics.vx = -sprite.physics.vLimit / Math.SQRT2
+      sprite.physics.vy = -sprite.physics.vLimit / Math.SQRT2
       break
     case State.UP_RIGHT:
-      sprite.physics.vx = sprite.physics.vLimit
-      sprite.physics.vy = -sprite.physics.vLimit
+      sprite.physics.vx = sprite.physics.vLimit / Math.SQRT2
+      sprite.physics.vy = -sprite.physics.vLimit / Math.SQRT2
       break
     case State.DOWN_LEFT:
-      sprite.physics.vx = -sprite.physics.vLimit
-      sprite.physics.vy = sprite.physics.vLimit
+      sprite.physics.vx = -sprite.physics.vLimit / Math.SQRT2
+      sprite.physics.vy = sprite.physics.vLimit / Math.SQRT2
       break
     case State.DOWN_RIGHT:
-      sprite.physics.vx = sprite.physics.vLimit
-      sprite.physics.vy = sprite.physics.vLimit
+      sprite.physics.vx = sprite.physics.vLimit / Math.SQRT2
+      sprite.physics.vy = sprite.physics.vLimit / Math.SQRT2
       break
     default:
       sprite.physics.vx = 0
