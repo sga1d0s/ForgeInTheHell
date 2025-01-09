@@ -101,7 +101,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
   const direction = player.state
 
   // ID del obstáculo
-  const obstacleId = Block.EMPTY
   const obstacleIdW = Block.WALL
   const obstacleIdWl = Block.WALL_LEFT
   const obstacleIdWr = Block.WALL_RIGHT
