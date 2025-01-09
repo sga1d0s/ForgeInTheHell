@@ -109,7 +109,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     case State.RIGHT:
       // posiciones hacia la derecha
       xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
-      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 9;
+      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
 
       // ternario para comprobar si player está en el límite derecho
       isColliding = (xPos > globals.canvas.width) ? true : false
@@ -127,7 +127,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     case State.LEFT:
       // posiones hacia la izquierda
       xPos = player.xPos + player.hitBox.xOffset - 1
-      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 9;
+      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
 
       // ternario para comprobar si player está en el límite iaquierdo
       isColliding = (xPos < 0) ? true : false

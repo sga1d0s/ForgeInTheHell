@@ -279,10 +279,10 @@ function renderHammer(value) {
   let x = 64 * value / 100
 
   // Dibuja el sprite en (sprite, sx, sy, sWidth, sHeight, displayX, displayY, displayWidth, displayHeight)
-  globals.ctxUHD.drawImage(spriteSheet, -2, 1359, 68, 68, 430, 0, 64, 64);
+  globals.ctxUHD.drawImage(spriteSheet, 0, 3920, 68, 68, 430, 0, 64, 64);
 
   // Dibuja el segundo sprite (siguiente en el eje X) en (120, 50)
-  globals.ctxUHD.drawImage(spriteSheet, 68, 1359, 68, 68, 430 + x / 2, 0, 64 - x, 64);
+  globals.ctxUHD.drawImage(spriteSheet, 70, 3920, 68, 68, 430 + x / 2, 0, 64 - x, 64);
 }
 
 function drawGameOver() {

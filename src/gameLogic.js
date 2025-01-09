@@ -95,22 +95,6 @@ function updatePlayer(sprite) {
       sprite.physics.vx = -sprite.physics.vLimit
       sprite.physics.vy = 0
       break
-    case State.UP_LEFT:
-      sprite.physics.vx = -sprite.physics.vLimit / Math.SQRT2
-      sprite.physics.vy = -sprite.physics.vLimit / Math.SQRT2
-      break
-    case State.UP_RIGHT:
-      sprite.physics.vx = sprite.physics.vLimit / Math.SQRT2
-      sprite.physics.vy = -sprite.physics.vLimit / Math.SQRT2
-      break
-    case State.DOWN_LEFT:
-      sprite.physics.vx = -sprite.physics.vLimit / Math.SQRT2
-      sprite.physics.vy = sprite.physics.vLimit / Math.SQRT2
-      break
-    case State.DOWN_RIGHT:
-      sprite.physics.vx = sprite.physics.vLimit / Math.SQRT2
-      sprite.physics.vy = sprite.physics.vLimit / Math.SQRT2
-      break
     default:
       sprite.physics.vx = 0
       sprite.physics.vy = 0
@@ -146,10 +130,10 @@ function updateSprites() {
 }
 
 // actualiza la vida por colision
-function updateLife(){
+function updateLife() {
   for (let i = 1; i < globals.sprites.length; i++) {
-    const sprite = globals.sprites[i]   
-    
+    const sprite = globals.sprites[i]
+
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
       globals.life = globals.life - 0.1
@@ -240,15 +224,7 @@ function calculateCollisionWithborders(sprite) {
 
 // teclado y movimiento
 function readKeyboardAndAssignState(sprite) {
-  if (globals.action.moveLeft && globals.action.moveUp) {
-    sprite.state = State.UP_LEFT
-  } else if (globals.action.moveLeft && globals.action.moveDown) {
-    sprite.state = State.DOWN_LEFT
-  } else if (globals.action.moveRight && globals.action.moveUp) {
-    sprite.state = State.UP_RIGHT
-  } else if (globals.action.moveRight && globals.action.moveDown) {
-    sprite.state = State.DOWN_RIGHT
-  } else if (globals.action.moveLeft) {
+  if (globals.action.moveLeft) {
     sprite.state = State.LEFT
   } else if (globals.action.moveRight) {
     sprite.state = State.RIGHT
@@ -261,10 +237,6 @@ function readKeyboardAndAssignState(sprite) {
       sprite.state === State.RIGHT ? State.STILL_RIGHT :
         sprite.state === State.UP ? State.STILL_UP :
           sprite.state === State.DOWN ? State.STILL_DOWN :
-            sprite.state === State.DOWN_LEFT ? State.STILL_LEFT :
-              sprite.state === State.DOWN_RIGHT ? State.STILL_RIGHT :
-                sprite.state === State.UP_LEFT ? State.STILL_LEFT :
-                  sprite.state === State.UP_RIGHT ? State.STILL_RIGHT :
-                    sprite.state
+            sprite.state
   }
 }
