@@ -108,11 +108,11 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
   switch (direction) {
     case State.RIGHT:
-      // primera colision en (xpos + xsize -1, ypos)
+      // posiciones hacia la derecha
       xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
       yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 9;
 
-      // colision con el borde de la pantalla
+      // ternario para comprobar si player está en el límite derecho
       isColliding = (xPos > globals.canvas.width) ? true : false
 
       if (isColliding) {
@@ -126,15 +126,15 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       break;
 
     case State.LEFT:
-      // primera colision en (xpos + xsize -1, ypos)
+      // posiones hacia la izquierda
       xPos = player.xPos + player.hitBox.xOffset - 1
       yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 9;
 
-      // colision con el borde de la pantalla
+      // ternario para comprobar si player está en el límite iaquierdo
       isColliding = (xPos < 0) ? true : false
 
       if (isColliding) {
-        // existe colision a la derecha
+        // existe colision a la izquierda
         player.isCollidingWithObstacleOnTheLeft = true
 
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
@@ -144,18 +144,12 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       break
 
     case State.DOWN:
-      // primera colisión en (xPos, yPos + ySize - 1)
+      // posiciones hacia abajo
       yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
-
       xPos = player.xPos + player.hitBox.xOffset;
-      isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleId);
 
-      // segunda colisión en (xPos + brickSize, yPos + ySize - 1)
-      xPos = player.xPos + brickSize - 3;
-      isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleId);
-
-      // habrá colisión si toca alguno de los 3 bloques
-      isColliding = isCollidingOnPos1 || isCollidingOnPos2;
+      // ternario para comprobar si player está en el límite inferior
+      isColliding = (yPos > globals.canvas.height) ? true : false
 
       if (isColliding) {
         // existe colisión hacia abajo
