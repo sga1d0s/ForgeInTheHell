@@ -87,13 +87,13 @@ export const Tile = {
 // id de bloque del mapa
 export const Block = {
   EMPTY: 0,
-  VINES: 1,
-  BROWN_1: 2,
-  BROWN_2: 3,
-  DARK_1: 4,
-  GRAY: 5,
-  CRYSTAL_1: 6,
-  CRYSTAL_2: 7,
+  WALL_LEFT: 1,
+  WALL: 2,
+  WALL_RIGHT: 3,
+  FLOOR_1: 4,
+  FLOOR_2: 5,
+  FLOOR_3: 6,
+  FLOOR_4: 7,
 }
 
 // Keyboard key codes

@@ -47,5 +47,8 @@ export default {
   gameTime: -1,
 
   // estado de tecla
-  action: {}
+  action: {},
+
+  // vida
+  life: 0
 }

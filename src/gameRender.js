@@ -185,7 +185,22 @@ function drawSprites() {
     // drawSpriteRectangle(sprite)
 
     renderSprite(sprite)
+
+    // TEST: dibuja el hitbox
+    drawHitBox(sprite)
   }
+}
+
+// dibujar el cuadrado rojo del hitbox
+function drawHitBox(sprite) {
+  // datos del sprite
+  const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.hitBox.xOffset);
+  const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.hitBox.yOffset);
+  const w1 = sprite.hitBox.xSize;
+  const h1 = sprite.hitBox.ySize;
+
+  globals.ctx.strokeStyle = "red";
+  globals.ctx.strokeRect(x1, y1, w1, h1);
 }
 
 // funcion para dibujar un rectangulo y así ajustar el sprite
@@ -206,7 +221,7 @@ function renderUHD() {
   // TEST: datos hardcodeados
   const score = 1500
   const highScore = 130000
-  const life = 50
+  const life = globals.life
   const time = 30
 
   const gridY = 26

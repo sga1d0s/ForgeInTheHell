@@ -6,6 +6,7 @@ import Frames from "./Frames.js"
 import { Level, level1 } from "./Level.js"
 import Physics from "./Physics.js"
 import { keydownHandler, keyupHandler } from "./events.js"
+import HitBox from "./HitBox.js"
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -40,6 +41,9 @@ function initVars() {
     moveUp: false,
     moveDown: false,
   }
+
+  // variable vida
+  globals.life = 100;
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
@@ -131,23 +135,6 @@ function initForge() {
   globals.sprites.push(table)
 }
 
-function initSkeleton() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(0, 4, 64, 64, 64, 0, 0)
-
-  // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(5, 5)
-
-  // inicializamos physics
-  const physics = new Physics(40)
-
-  // crear nuestro sprite *** con fisicas añadidas
-  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, physics)
-
-  // añadir el pirate al array de sprites
-  globals.sprites.push(skeleton)
-}
-
 function initPlayer() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(8, 0, 64, 64, 64, 0, 0)
@@ -158,11 +145,34 @@ function initPlayer() {
   // inicializamos physics
   const physics = new Physics(40)
 
+  // crear el HitBox(xSize, ySize, xOffset, yOffset)
+  const hitBox = new HitBox(20, 46, 22, 15)
+
   // crear nuestro sprite
-  const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, physics)
+  const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, physics, hitBox)
 
   // añadir el player al array de sprites
   globals.sprites.push(player)
+}
+
+function initSkeleton() {
+  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(0, 4, 64, 64, 64, 0, 0)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(5, 5)
+
+  // inicializamos physics
+  const physics = new Physics(40)
+
+  // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
+  const hitBox = new HitBox(18, 46, 21, 15)
+
+  // crear nuestro sprite *** con fisicas añadidas
+  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, physics, hitBox)
+
+  // añadir el esqueleto al array de sprites
+  globals.sprites.push(skeleton)
 }
 
 function initLevel() {

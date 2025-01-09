@@ -1,5 +1,6 @@
 import globals from "./globals.js"
 import { Game, SpriteID, State } from "./constants.js"
+import detectCollisions from "./collisions.js"
 
 export default function update() {
   // change what the game is doing based on the game state
@@ -126,13 +127,33 @@ function updatePlayer(sprite) {
 
 function playGame() {
   updateSprites()
+
+  // colisiones
+  detectCollisions()
+
+  // actualizar tiempo del juego
   updateGameTime()
+
+  // actualizar vida
+  updateLife()
 }
 
 function updateSprites() {
   for (let i = 0; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
     updateSprite(sprite)
+  }
+}
+
+// actualiza la vida por colision
+function updateLife(){
+  for (let i = 1; i < globals.sprites.length; i++) {
+    const sprite = globals.sprites[i]   
+    
+    // reducimos si hay colision
+    if (sprite.isCollidingWithPlayer) {
+      globals.life = globals.life - 0.1
+    }
   }
 }
 
