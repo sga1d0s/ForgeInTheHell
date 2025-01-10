@@ -74,9 +74,9 @@ export const State = {
   RIGHT: 12,
 
   ATTACK_UP: 13,
-  ATTACK_LEFT: 14,
+  ATTACK_LEFT: 16,
   ATTACK_DOWN: 15,
-  ATTACK_RIGHT: 16,
+  ATTACK_RIGHT: 14,
 
   UP_LEFT: 0,
   UP_RIGHT: 0,

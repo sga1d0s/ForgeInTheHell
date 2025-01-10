@@ -155,10 +155,10 @@ function initForge() {
 
 function initPlayer() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(20, 0, 64, 64, 64, 0, 0)
+  const imageSet = new ImageSet(20, 0, 64, 64, 64, 2, 0)
 
   // crear los datos de la animación. 9 frames / state
-  const frames = new Frames(6, 6)
+  const frames = new Frames(5, 5)
 
   // crear los frames de ataque
   const attackFrames = new Frames(9, 9)
@@ -167,7 +167,7 @@ function initPlayer() {
   const physics = new Physics(40)
 
   // crear el HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(20, 46, 22, 15)
+  const hitBox = new HitBox(20, 46, 20, 11)
 
   // crear nuestro sprite
   const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, attackFrames, physics, hitBox)

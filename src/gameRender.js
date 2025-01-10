@@ -182,7 +182,7 @@ function drawSprites() {
     const sprite = globals.sprites[i];
 
     // TEST: dibuja un rectangulo verde alrededor del sprite
-    // drawSpriteRectangle(sprite)
+    drawSpriteRectangle(sprite)
 
     renderSprite(sprite)
 

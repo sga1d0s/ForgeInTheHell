@@ -210,8 +210,6 @@ function updateAnimationFrame(sprite) {
       break;
 
     default:
-
-      console.log(sprite.state);
       // Animaciones cíclicas para otros estados en movimiento
       sprite.frames.frameChangeCounter++;
 
