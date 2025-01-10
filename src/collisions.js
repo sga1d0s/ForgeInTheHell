@@ -17,7 +17,7 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
   sprite.isCollidingWithPlayer = false
 
   // nuestro player está en la posición 0
-  const player = globals.sprites[2]
+  const player = globals.sprites[1]
 
   // datos del player
   const x1 = player.xPos + player.hitBox.xOffset
@@ -26,7 +26,7 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
   const h1 = player.hitBox.ySize
 
   // nuestro player está en la posición 0
-  const player2 = globals.sprites[3]
+  const player2 = globals.sprites[2]
 
   // datos del otro sprite
   const x2 = player2.xPos + player2.hitBox.xOffset
@@ -80,7 +80,7 @@ function isCollidingWithObstacleAt(xPos, yPos, obstacleId) {
 
 // calculo de colisiones con los bloques del mapa
 function detectCollisionBetweenPlayerAndMapObstacles() {
-  const player = globals.sprites[2]
+  const player = globals.sprites[1]
 
   // eset collision state
   player.isCollidingWithObstacleOnTheRight = false;

@@ -40,6 +40,7 @@ function initVars() {
     moveRight: false,
     moveUp: false,
     moveDown: false,
+    attack: false
   }
 
   // variable vida
@@ -93,7 +94,6 @@ function initSprites() {
   initForge()
   initPlayer()
   initSkeleton()
-  
 
   // initPlayerNewGame()
   // initSkeletonNewGame()Ñ
@@ -105,7 +105,7 @@ function initEvents() {
   window.addEventListener("keyup", keyupHandler, false)
 }
 
-function initForge() {
+/* function initForge() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const forgeSet = new ImageSet(19, 1, 64, 130, 64, 0, 0)
   // const toolSet = new ImageSet(16, 2, 65, 69, 64, -3, 0)
@@ -133,14 +133,35 @@ function initForge() {
   globals.sprites.push(forge)
   // globals.sprites.push(tools)
   globals.sprites.push(table)
+} */
+
+function initForge() {
+  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const forgeSet = new ImageSet(48, 1, 64, 130, 64, 16, 10)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(3, 9)
+
+  // inicializamos physics
+  const physics = new Physics(40)
+
+  // crear sprite de la forja
+  const forge = new Sprite(SpriteID.FORGE, State.STILL, 50, -10, forgeSet, frames, physics)
+
+  // añadir el player al array de sprites
+  globals.sprites.push(forge)
 }
+
 
 function initPlayer() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(29, 0, 64, 64, 64, 0, 0)
+  const imageSet = new ImageSet(20, 0, 64, 64, 64, 0, 0)
 
-  // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(5, 5)
+  // crear los datos de la animación. 9 frames / state
+  const frames = new Frames(6, 6)
+
+  // crear los frames de ataque
+  const attackFrames = new Frames(9, 9)
 
   // inicializamos physics
   const physics = new Physics(40)
@@ -149,7 +170,7 @@ function initPlayer() {
   const hitBox = new HitBox(20, 46, 22, 15)
 
   // crear nuestro sprite
-  const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, physics, hitBox)
+  const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, attackFrames, physics, hitBox)
 
   // añadir el player al array de sprites
   globals.sprites.push(player)

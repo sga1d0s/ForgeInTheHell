@@ -62,20 +62,28 @@ export const SpriteID = {
 
 // identificador de estado de sprite (dirección)
 export const State = {
-  UP: 0,
-  LEFT: 1,
-  DOWN: 2,
-  RIGHT: 3,
-  STILL_UP: 4,
-  STILL_LEFT: 5,
-  STILL_DOWN: 6,
-  STILL_RIGHT: 7,
-  UP_LEFT: 16,
-  UP_RIGHT: 15,
-  DOWN_LEFT: 18,
-  DOWN_RIGHT: 17,
 
-  STILL: 0
+  STILL_UP: 1,
+  STILL_LEFT: 2,
+  STILL_DOWN: 3,
+  STILL_RIGHT: 4,
+
+  UP: 9,
+  LEFT: 10,
+  DOWN: 11,
+  RIGHT: 12,
+
+  ATTACK_UP: 13,
+  ATTACK_LEFT: 14,
+  ATTACK_DOWN: 15,
+  ATTACK_RIGHT: 16,
+
+  UP_LEFT: 0,
+  UP_RIGHT: 0,
+  DOWN_LEFT: 0,
+  DOWN_RIGHT: 0,
+
+  STILL: 0,
 };
 
 // diferentes TileSets
@@ -98,8 +106,9 @@ export const Block = {
 
 // Keyboard key codes
 export const Key = {
-  UP: 38,
-  DOWN: 40,
-  RIGHT: 39,
   LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
+  SPACE: 32,
 }

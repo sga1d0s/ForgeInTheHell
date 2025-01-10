@@ -19,6 +19,10 @@ export function keydownHandler(event) {
       globals.action.moveRight = true
       break;
 
+    case Key.SPACE:
+      globals.action.attack = true
+      break;
+
     default:
       break;
   }
@@ -40,6 +44,10 @@ export function keyupHandler(event) {
 
     case Key.RIGHT:
       globals.action.moveRight = false
+      break;
+      
+    case Key.SPACE:
+      globals.action.attack = false
       break;
 
     default:

@@ -87,14 +87,15 @@ function updatePlayer(sprite) {
       sprite.physics.vx = 0
       sprite.physics.vy = sprite.physics.vLimit
       break
-    case State.RIGHT:
-      sprite.physics.vx = sprite.physics.vLimit
-      sprite.physics.vy = 0
-      break
     case State.LEFT:
       sprite.physics.vx = -sprite.physics.vLimit
       sprite.physics.vy = 0
       break
+    case State.RIGHT:
+      sprite.physics.vx = sprite.physics.vLimit
+      sprite.physics.vy = 0
+      break
+
     default:
       sprite.physics.vx = 0
       sprite.physics.vy = 0
@@ -174,30 +175,54 @@ function updateGameTime() {
 
 // actualiza la animación
 function updateAnimationFrame(sprite) {
-
   switch (sprite.state) {
     case State.STILL_UP:
     case State.STILL_LEFT:
     case State.STILL_DOWN:
     case State.STILL_RIGHT:
-      sprite.frames.frameCounter = 0
-      sprite.frames.frameChangeCounter = 0
+      // resetea el frame para estados 'still'
+      sprite.frames.frameCounter = 0;
+      sprite.frames.frameChangeCounter = 0;
+      break;
+
+    case State.ATTACK_LEFT:
+    case State.ATTACK_RIGHT:
+    case State.ATTACK_UP:
+    case State.ATTACK_DOWN:
+      // incrementar el contador de cambio de frame
+      sprite.frames.frameChangeCounter++;
+
+      // cambiar al siguiente frame si es momento
+      if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+        sprite.frames.frameCounter++;
+        sprite.frames.frameChangeCounter = 0;
+      }
+
+      // si llega al ultimo frame de ataque, mantener el último frame still
+      if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
+
+        sprite.state = sprite.state === State.ATTACK_LEFT ? State.STILL_LEFT :
+        sprite.state === State.ATTACK_RIGHT ? State.STILL_RIGHT :
+          sprite.state === State.ATTACK_UP ? State.STILL_UP :
+            sprite.state === State.ATTACK_DOWN ? State.STILL_DOWN :
+              sprite.state;
+      }
       break;
 
     default:
-      // aumentar el contador de tiempo entre frames
-      sprite.frames.frameChangeCounter++
 
-      // si hemos llegado al maximo de frames reiniciamos el contador (animación cíclica)
+      console.log(sprite.state);
+      // Animaciones cíclicas para otros estados en movimiento
+      sprite.frames.frameChangeCounter++;
+
       if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
-        // cambiar de frame y reseseamos el contador de cambio de frame
-        sprite.frames.frameCounter++
-        sprite.frames.frameChangeCounter = 0
+        sprite.frames.frameCounter++;
+        sprite.frames.frameChangeCounter = 0;
       }
 
-      // si hemos llegado al máximo de frames reiniciamos el contador
+      // Si llegamos al final de los frames, reiniciar la animación
       if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
-        sprite.frames.frameCounter = 0
+        sprite.frames.frameCounter = 0;
       }
       break;
   }
@@ -224,19 +249,26 @@ function calculateCollisionWithborders(sprite) {
 
 // teclado y movimiento
 function readKeyboardAndAssignState(sprite) {
-  if (globals.action.moveLeft) {
-    sprite.state = State.LEFT
+  if (globals.action.attack) {
+    // Determinar el estado de ataque basado en la dirección actual
+    sprite.state = sprite.state === State.LEFT || sprite.state === State.STILL_LEFT ? State.ATTACK_LEFT :
+      sprite.state === State.RIGHT || sprite.state === State.STILL_RIGHT ? State.ATTACK_RIGHT :
+        sprite.state === State.UP || sprite.state === State.STILL_UP ? State.ATTACK_UP :
+          sprite.state === State.DOWN || sprite.state === State.STILL_DOWN ? State.ATTACK_DOWN :
+            sprite.state
+  } else if (globals.action.moveLeft) {
+    sprite.state = State.LEFT;
   } else if (globals.action.moveRight) {
-    sprite.state = State.RIGHT
+    sprite.state = State.RIGHT;
   } else if (globals.action.moveUp) {
-    sprite.state = State.UP
+    sprite.state = State.UP;
   } else if (globals.action.moveDown) {
-    sprite.state = State.DOWN
+    sprite.state = State.DOWN;
   } else {
     sprite.state = sprite.state === State.LEFT ? State.STILL_LEFT :
       sprite.state === State.RIGHT ? State.STILL_RIGHT :
         sprite.state === State.UP ? State.STILL_UP :
           sprite.state === State.DOWN ? State.STILL_DOWN :
-            sprite.state
+            sprite.state;
   }
 }
