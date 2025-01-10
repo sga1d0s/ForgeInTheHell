@@ -178,7 +178,7 @@ function initPlayer() {
 
 function initSkeleton() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(8, 0, 64, 64, 64, 0, 0)
+  const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0)
 
   // crear los datos de la animación. 8 frames / state
   const frames = new Frames(5, 5)
@@ -190,7 +190,7 @@ function initSkeleton() {
   const hitBox = new HitBox(18, 46, 21, 15)
 
   // crear nuestro sprite *** con fisicas añadidas
-  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, physics, hitBox)
+  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, 6, physics, hitBox)
 
   // añadir el esqueleto al array de sprites
   globals.sprites.push(skeleton)
