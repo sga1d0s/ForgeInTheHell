@@ -169,8 +169,11 @@ function initPlayer() {
   // crear el HitBox(xSize, ySize, xOffset, yOffset)
   const hitBox = new HitBox(20, 46, 20, 11)
 
+  // crear el strokeBox(xSize, ySize, xOffset, yOffset)
+  const strokeBox = new HitBox(25, 30, 40, 10)
+
   // crear nuestro sprite
-  const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, attackFrames, physics, hitBox)
+  const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, attackFrames, physics, hitBox, strokeBox)
 
   // añadir el player al array de sprites
   globals.sprites.push(player)

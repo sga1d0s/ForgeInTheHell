@@ -188,6 +188,9 @@ function drawSprites() {
 
     // TEST: dibuja el hitbox
     drawHitBox(sprite)
+
+    // TEST: dibuja el hitbox del hacha
+    drawStrokeBox(sprite)
   }
 }
 
@@ -200,6 +203,18 @@ function drawHitBox(sprite) {
   const h1 = sprite.hitBox.ySize;
 
   globals.ctx.strokeStyle = "red";
+  globals.ctx.strokeRect(x1, y1, w1, h1);
+}
+
+// dibujar el cuadrado rojo del hitbox
+function drawStrokeBox(sprite) {
+  // datos del sprite
+  const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.strokeBox.xOffset);
+  const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.strokeBox.yOffset);
+  const w1 = sprite.strokeBox.xSize;
+  const h1 = sprite.strokeBox.ySize;
+
+  globals.ctx.strokeStyle = "blue";
   globals.ctx.strokeRect(x1, y1, w1, h1);
 }
 

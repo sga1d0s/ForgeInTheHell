@@ -1,15 +1,19 @@
 // clase gestora de los sprites
 export default class Sprite {
-  constructor(id, state, xPos, yPos, imageSet, frames, attackFrames = 0, physics, hitBox = { xOffset: 0, yOffset: 0, xSize: 0, ySize: 0 }) {
+  constructor(id, state, xPos, yPos, imageSet, frames, attackFrames = 0, physics,
+    hitBox = { xOffset: 0, yOffset: 0, xSize: 0, ySize: 0 },
+    strokeBox = { xOffset: 0, yOffset: 0, xSize: 0, ySize: 0 },
+  ) {
     this.id = id
     this.state = state
     this.xPos = xPos
     this.yPos = yPos
     this.imageSet = imageSet
     this.frames = frames
-    this.attackFrames = attackFrames;
+    this.attackFrames = attackFrames
     this.physics = physics
     this.hitBox = hitBox
+    this.strokeBox = strokeBox
     this.isCollidingWithPlayer = false
     this.isCollidingWithObstacleOnTheTop = false
     this.isCollidingWithObstacleOnTheLeft = false
