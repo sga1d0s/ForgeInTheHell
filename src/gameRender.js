@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, GameText, Tile } from "./constants.js"
+import { Game, GameText, Tile, State } from "./constants.js"
 
 // funcion que renderiza los graficos
 export default function render() {
@@ -182,7 +182,7 @@ function drawSprites() {
     const sprite = globals.sprites[i];
 
     // TEST: dibuja un rectangulo verde alrededor del sprite
-    drawSpriteRectangle(sprite)
+    // drawSpriteRectangle(sprite)
 
     renderSprite(sprite)
 
@@ -190,7 +190,7 @@ function drawSprites() {
     drawHitBox(sprite)
 
     // TEST: dibuja el hitbox del hacha
-    drawStrokeBox(sprite)
+    drawStrikeBox(sprite)
   }
 }
 
@@ -207,12 +207,12 @@ function drawHitBox(sprite) {
 }
 
 // dibujar el cuadrado rojo del hitbox
-function drawStrokeBox(sprite) {
+function drawStrikeBox(sprite) {
   // datos del sprite
-  const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.strokeBox.xOffset);
-  const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.strokeBox.yOffset);
-  const w1 = sprite.strokeBox.xSize;
-  const h1 = sprite.strokeBox.ySize;
+  const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.strikeBox[0].xOffset);
+  const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.strikeBox[0].yOffset);
+  const w1 = sprite.strikeBox[0].xSize;
+  const h1 = sprite.strikeBox[0].ySize;
 
   globals.ctx.strokeStyle = "blue";
   globals.ctx.strokeRect(x1, y1, w1, h1);
@@ -438,8 +438,8 @@ function drawScores() {
 
     // alinear a la derecha en función del nº de dígitos del score
     if (GameText.SCORES[i].score.toString().length < 5) {
-      n = 5 - GameText.SCORES[i].score.toString().length 
-    } 
+      n = 5 - GameText.SCORES[i].score.toString().length
+    }
 
     // imprimir el score alineado
     ctx.fillText((i + 1) + " " + GameText.SCORES[i].name, nameX, startY + i * lineHeight, 450)

@@ -2,7 +2,7 @@
 export default class Sprite {
   constructor(id, state, xPos, yPos, imageSet, frames, attackFrames = 0, physics,
     hitBox = { xOffset: 0, yOffset: 0, xSize: 0, ySize: 0 },
-    strokeBox = { xOffset: 0, yOffset: 0, xSize: 0, ySize: 0 },
+    strikeBox = [0,0,0,0],
   ) {
     this.id = id
     this.state = state
@@ -13,7 +13,7 @@ export default class Sprite {
     this.attackFrames = attackFrames
     this.physics = physics
     this.hitBox = hitBox
-    this.strokeBox = strokeBox
+    this.strikeBox = strikeBox
     this.isCollidingWithPlayer = false
     this.isCollidingWithObstacleOnTheTop = false
     this.isCollidingWithObstacleOnTheLeft = false
