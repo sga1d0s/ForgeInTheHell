@@ -209,10 +209,10 @@ function drawHitBox(sprite) {
 // dibujar el cuadrado rojo del hitbox
 function drawStrikeBox(sprite) {
   // datos del sprite
-  const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.strikeBox[0].xOffset);
-  const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.strikeBox[0].yOffset);
-  const w1 = sprite.strikeBox[0].xSize;
-  const h1 = sprite.strikeBox[0].ySize;
+  const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.strikeBox.xOffset);
+  const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.strikeBox.yOffset);
+  const w1 = sprite.strikeBox.xSize;
+  const h1 = sprite.strikeBox.ySize;
 
   globals.ctx.strokeStyle = "blue";
   globals.ctx.strokeRect(x1, y1, w1, h1);

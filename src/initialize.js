@@ -169,45 +169,7 @@ function initPlayer() {
   // crear el HitBox(xSize, ySize, xOffset, yOffset)
   const hitBox = new HitBox(20, 46, 20, 11)
 
-  // crear el strokeBox(xSize, ySize, xOffset, yOffset)
-  const strikeBox = [
-    { // NONE
-      xSize: 0,
-      ySize: 0,
-      xOffset: 0,
-      yOffset: 0
-    },
-    { // UP
-      xSize: 30,
-      ySize: 17,
-      xOffset: 10,
-      yOffset: 10
-    },
-    { // LEFT
-      xSize: 20,
-      ySize: 30,
-      xOffset: 0,
-      yOffset: 10
-    },
-    { // DOWN
-      xSize: 30,
-      ySize: 17,
-      xOffset: 10,
-      yOffset: 35
-    },
-    { // RIGHT
-      xSize: 25,
-      ySize: 30,
-      xOffset: 40,
-      yOffset: 10
-    },
-    { // NONE
-      xSize: 0,
-      ySize: 0,
-      xOffset: 0,
-      yOffset: 10
-    },
-  ]
+  const strikeBox = new HitBox(0, 0, 0, 0)
 
   // crear nuestro sprite
   const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, attackFrames, physics, hitBox, strikeBox)

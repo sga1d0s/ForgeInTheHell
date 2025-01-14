@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, SpriteID, State } from "./constants.js"
+import { Game, SpriteID, State, StrikeBox } from "./constants.js"
 import detectCollisions from "./collisions.js"
 
 export default function update() {
@@ -96,9 +96,24 @@ function updatePlayer(sprite) {
       sprite.physics.vy = 0
       break
 
+    // ataque
+    case State.ATTACK_LEFT:
+      sprite.strikeBox = StrikeBox[2]
+      break
+    case State.ATTACK_RIGHT:
+      sprite.strikeBox = StrikeBox[4]
+      break
+    case State.ATTACK_UP:
+      sprite.strikeBox = StrikeBox[1]
+      break
+    case State.ATTACK_DOWN:
+      sprite.strikeBox = StrikeBox[3]
+      break
+
     default:
       sprite.physics.vx = 0
       sprite.physics.vy = 0
+      sprite.strikeBox = 0
       break;
   }
 
@@ -202,14 +217,15 @@ function updateAnimationFrame(sprite) {
       if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
 
         sprite.state = sprite.state === State.ATTACK_LEFT ? State.STILL_LEFT :
-        sprite.state === State.ATTACK_RIGHT ? State.STILL_RIGHT :
-          sprite.state === State.ATTACK_UP ? State.STILL_UP :
-            sprite.state === State.ATTACK_DOWN ? State.STILL_DOWN :
-              sprite.state;
+          sprite.state === State.ATTACK_RIGHT ? State.STILL_RIGHT :
+            sprite.state === State.ATTACK_UP ? State.STILL_UP :
+              sprite.state === State.ATTACK_DOWN ? State.STILL_DOWN :
+                sprite.state;
       }
       break;
 
     default:
+
       // Animaciones cíclicas para otros estados en movimiento
       sprite.frames.frameChangeCounter++;
 
@@ -243,6 +259,28 @@ function calculateCollisionWithborders(sprite) {
     isCollision = true
   }
   return isCollision
+}
+
+// define el strikeBox en funcion del estado
+function defineStrikeBox(sprite) {
+  switch (sprite.state) {
+    case State.ATTACK_LEFT:
+      sprite.strikeBox = sprite.strikeBox[2]
+      break
+    case State.ATTACK_RIGHT:
+      sprite.strikeBox = sprite.strikeBox[4]
+      break
+    case State.ATTACK_UP:
+      sprite.strikeBox = sprite.strikeBox[1]
+      break
+    case State.ATTACK_DOWN:
+      sprite.strikeBox = sprite.strikeBox[3]
+      break
+
+    default:
+      sprite.strikeBox = sprite.strikeBox[0]
+      break
+  }
 }
 
 // teclado y movimiento
