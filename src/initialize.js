@@ -167,7 +167,7 @@ function initPlayer() {
   const physics = new Physics(40)
 
   // crear el HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(20, 46, 20, 11)
+  const hitBox = new HitBox(20, 20, 20, 36)
 
   const strikeBox = new HitBox(0, 0, 0, 0)
 
@@ -189,10 +189,10 @@ function initSkeleton() {
   const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(18, 46, 21, 15)
+  const hitBox = new HitBox(18, 20, 21, 40)
 
   // crear nuestro sprite *** con fisicas añadidas
-  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, 6, physics, hitBox)
+  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, 0, physics, hitBox)
 
   // añadir el esqueleto al array de sprites
   globals.sprites.push(skeleton)

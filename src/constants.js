@@ -137,7 +137,7 @@ export const Key = {
       xSize: 30,
       ySize: 17,
       xOffset: 10,
-      yOffset: 35
+      yOffset: 39
     },
     { // RIGHT
       xSize: 25,
