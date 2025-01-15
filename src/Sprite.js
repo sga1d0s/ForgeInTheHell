@@ -1,6 +1,7 @@
 // clase gestora de los sprites
 export default class Sprite {
-  constructor(id, state, xPos, yPos, imageSet, frames, attackFrames = 0, physics,
+  constructor(
+    id, state, xPos, yPos, imageSet, frames, attackFrames = 0, physics,
     hitBox = { xOffset: 0, yOffset: 0, xSize: 0, ySize: 0 },
     strikeBox = [0, 0, 0, 0],
   ) {

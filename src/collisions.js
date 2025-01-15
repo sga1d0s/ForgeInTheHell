@@ -6,10 +6,7 @@ export default function detectCollisions() {
   for (let i = 1; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
     detectCollisionBetweenPlayerAndSprite(sprite)
-  }
 
-  for (let i = 1; i < globals.sprites.length; i++) {
-    const sprite = globals.sprites[i]
     detectCollisionAttack(sprite)
   }
 
@@ -40,7 +37,6 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
   const h2 = skeleton.hitBox.ySize
 
   const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
-
   if (isOverlap) {
     // existe colisión
     sprite.isCollidingWithPlayer = true
@@ -49,7 +45,7 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
 
 function detectCollisionAttack(sprite) {
     // reset collision state
-    sprite.isAttackSuccessful = false
+    sprite.isAttackSuccsesfull = false
 
     // nuestro player está en la posición 1
     const player = globals.sprites[1]
@@ -70,12 +66,11 @@ function detectCollisionAttack(sprite) {
     const h2 = skeleton.hitBox.ySize
 
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
-
     if (isOverlap) {
       // existe colisión
-      sprite.isAttackSuccessful = true
+      sprite.isAttackSuccsesfull = true
 
-      // console.log("hit succsessfull");
+      console.log("hit succsesfull");
     }
 }
 

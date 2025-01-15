@@ -118,37 +118,37 @@ export const Key = {
     { // NONE
       xSize: 0,
       ySize: 0,
-      xOffset: 0,
-      yOffset: 0
+      xOffset: -1000,
+      yOffset: -1000,
     },
     { // UP
       xSize: 30,
       ySize: 17,
       xOffset: 10,
-      yOffset: 10
+      yOffset: 10,
     },
     { // LEFT
       xSize: 20,
       ySize: 30,
       xOffset: 0,
-      yOffset: 10
+      yOffset: 10,
     },
     { // DOWN
       xSize: 30,
       ySize: 17,
       xOffset: 10,
-      yOffset: 39
+      yOffset: 39,
     },
     { // RIGHT
       xSize: 25,
       ySize: 30,
       xOffset: 40,
-      yOffset: 10
+      yOffset: 10,
     },
     { // NONE
       xSize: 0,
       ySize: 0,
       xOffset: 0,
-      yOffset: 10
+      yOffset: 10,
     },
   ]

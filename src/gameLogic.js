@@ -75,55 +75,52 @@ function updateSkeleton(sprite) {
 
 // actualizar player
 function updatePlayer(sprite) {
-  // leer teclado
-  readKeyboardAndAssignState(sprite)
+  // Leer teclado y asignar estado
+  readKeyboardAndAssignState(sprite);
 
+  // Reset de velocidades
+  sprite.physics.vx = 0;
+  sprite.physics.vy = 0;
+
+  // Actualizar velocidad según el estado
   switch (sprite.state) {
     case State.UP:
-      sprite.physics.vx = 0
-      sprite.physics.vy = -sprite.physics.vLimit
-      break
+      sprite.physics.vy = -sprite.physics.vLimit;
+      break;
     case State.DOWN:
-      sprite.physics.vx = 0
-      sprite.physics.vy = sprite.physics.vLimit
-      break
+      sprite.physics.vy = sprite.physics.vLimit;
+      break;
     case State.LEFT:
-      sprite.physics.vx = -sprite.physics.vLimit
-      sprite.physics.vy = 0
-      break
+      sprite.physics.vx = -sprite.physics.vLimit;
+      break;
     case State.RIGHT:
-      sprite.physics.vx = sprite.physics.vLimit
-      sprite.physics.vy = 0
-      break
-
-    // ataque
-    case State.ATTACK_LEFT:
-      sprite.strikeBox = StrikeBox[2]
-      break
-    case State.ATTACK_RIGHT:
-      sprite.strikeBox = StrikeBox[4]
-      break
-    case State.ATTACK_UP:
-      sprite.strikeBox = StrikeBox[1]
-      break
-    case State.ATTACK_DOWN:
-      sprite.strikeBox = StrikeBox[3]
-      break
+      sprite.physics.vx = sprite.physics.vLimit;
+      break;
 
     default:
-      sprite.strikeBox = StrikeBox[3]
-      sprite.physics.vx = 0
-      sprite.physics.vy = 0
-      sprite.strikeBox = 0
       break;
   }
 
-  // calcular la distancia
-  sprite.xPos += sprite.physics.vx * globals.deltaTime
-  sprite.yPos += sprite.physics.vy * globals.deltaTime
+  // Actualizar el cuadro de ataque (strikeBox) en función del estado del jugador
+  if (sprite.state === State.ATTACK_LEFT) {
+    sprite.strikeBox = StrikeBox[2];
+  } else if (sprite.state === State.ATTACK_RIGHT) {
+    sprite.strikeBox = StrikeBox[4];
+  } else if (sprite.state === State.ATTACK_UP) {
+    sprite.strikeBox = StrikeBox[1];
+  } else if (sprite.state === State.ATTACK_DOWN) {
+    sprite.strikeBox = StrikeBox[3];
+  } else {
+    // Si no está atacando, reiniciar el strikeBox
+    sprite.strikeBox = StrikeBox[0]
+  }
 
-  // actualizar animación
-  updateAnimationFrame(sprite)
+  // Calcular nueva posición
+  sprite.xPos += sprite.physics.vx * globals.deltaTime;
+  sprite.yPos += sprite.physics.vy * globals.deltaTime;
+
+  // Actualizar animación
+  updateAnimationFrame(sprite);
 }
 
 function playGame() {
