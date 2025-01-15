@@ -1,11 +1,11 @@
 import globals from "./globals.js"
-import { Block, State } from "./constants.js"
+import { Block, SpriteID, State } from "./constants.js"
 
 export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites
   for (let i = 1; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
-    detectCollisionBetweenPlayerAndEnemys(sprite)
+    detectCollisionBetweenPlayerAndSprites(sprite)
 
     // detecta la colisión entre hacha y enemigo
     detectCollisionAttack(sprite)
@@ -16,12 +16,12 @@ export default function detectCollisions() {
 }
 
 // detecta la colisión entre player y enemigos
-function detectCollisionBetweenPlayerAndEnemys(sprite) {
+function detectCollisionBetweenPlayerAndSprites(sprite) {
   // reset collision state
   sprite.isCollidingWithPlayer = false
 
   // nuestro player está en la posición 1
-  const player = globals.sprites[1]
+  const player = globals.sprites[0]
 
   // datos del player
   const x1 = player.xPos + player.hitBox.xOffset
@@ -29,17 +29,15 @@ function detectCollisionBetweenPlayerAndEnemys(sprite) {
   const w1 = player.hitBox.xSize
   const h1 = player.hitBox.ySize
 
-  // nuestro player está en la posición 2
-  const skeleton = globals.sprites[2]
-
   // datos del otro sprite
-  const x2 = skeleton.xPos + skeleton.hitBox.xOffset
-  const y2 = skeleton.yPos + skeleton.hitBox.yOffset
-  const w2 = skeleton.hitBox.xSize
-  const h2 = skeleton.hitBox.ySize
+  const x2 = sprite.xPos + sprite.hitBox.xOffset
+  const y2 = sprite.yPos + sprite.hitBox.yOffset
+  const w2 = sprite.hitBox.xSize
+  const h2 = sprite.hitBox.ySize
 
   const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
-  if (isOverlap) {
+
+  if (isOverlap && sprite.id === SpriteID.SKELETON) {
     // existe colisión
     sprite.isCollidingWithPlayer = true
   }
@@ -48,10 +46,7 @@ function detectCollisionBetweenPlayerAndEnemys(sprite) {
 // calculo de colisiones con los bloques del mapa
 function detectCollisionBetweenPlayerAndMapObstacles() {
   // player
-  const player = globals.sprites[1]
-
-  // forja
-  const forge = globals.sprites[0]
+  const player = globals.sprites[0]
 
   // eset collision state
   player.isCollidingWithObstacleOnTheRight = false;
@@ -160,34 +155,31 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
 // detecta colision entre hacha y enemigos
 function detectCollisionAttack(sprite) {
-    // reset collision state
-    sprite.isAttackSuccsesfull = false
+  // reset collision state
+  sprite.isAttackSuccsesfull = false
 
-    // nuestro player está en la posición 1
-    const player = globals.sprites[1]
-  
-    // datos del player
-    const x1 = player.xPos + player.strikeBox.xOffset
-    const y1 = player.yPos + player.strikeBox.yOffset
-    const w1 = player.strikeBox.xSize
-    const h1 = player.strikeBox.ySize
-  
-    // nuestro player está en la posición 2
-    const skeleton = globals.sprites[2]
-  
-    // datos del otro sprite
-    const x2 = skeleton.xPos + skeleton.hitBox.xOffset
-    const y2 = skeleton.yPos + skeleton.hitBox.yOffset
-    const w2 = skeleton.hitBox.xSize
-    const h2 = skeleton.hitBox.ySize
+  // nuestro player está en la posición 1
+  const player = globals.sprites[0]
 
-    const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
-    if (isOverlap) {
-      // existe colisión
-      sprite.isAttackSuccsesfull = true
+  // datos del player
+  const x1 = player.xPos + player.strikeBox.xOffset
+  const y1 = player.yPos + player.strikeBox.yOffset
+  const w1 = player.strikeBox.xSize
+  const h1 = player.strikeBox.ySize
 
-      console.log("hit succsesfull");
-    }
+  // datos del otro sprite
+  const x2 = sprite.xPos + sprite.hitBox.xOffset
+  const y2 = sprite.yPos + sprite.hitBox.yOffset
+  const w2 = sprite.hitBox.xSize
+  const h2 = sprite.hitBox.ySize
+
+  const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
+  if (isOverlap && sprite.id === SpriteID.SKELETON) {
+    // existe colisión
+    sprite.isAttackSuccsesfull = true
+
+    console.log("hit succsesfull");
+  }
 }
 
 // funcion que calcula si 2 rectangulos interseccionan

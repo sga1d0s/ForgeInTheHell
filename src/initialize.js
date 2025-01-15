@@ -91,9 +91,11 @@ function loadHandler() {
 }
 
 function initSprites() {
-  initForge()
+
   initPlayer()
   initSkeleton()
+
+  initForge()
 
   // initPlayerNewGame()
   // initSkeletonNewGame()Ñ
@@ -135,26 +137,10 @@ function initEvents() {
   globals.sprites.push(table)
 } */
 
-function initForge() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const forgeSet = new ImageSet(48, 1, 64, 130, 64, 16, 10)
-
-  // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(3, 9)
-
-  // inicializamos physics
-  const physics = new Physics(40)
-
-  // crear sprite de la forja
-  const forge = new Sprite(SpriteID.FORGE, State.STILL, 50, -10, forgeSet, frames, physics)
-
-  // añadir el player al array de sprites
-  globals.sprites.push(forge)
-}
-
 // PLAYER
 function initPlayer() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  // crear las propiedades de las imagenes: 
+  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(20, 0, 64, 64, 64, 2, 0)
 
   // crear los datos de la animación. 9 frames / state
@@ -172,7 +158,16 @@ function initPlayer() {
   const strikeBox = new HitBox(0, 0, 0, 0)
 
   // crear nuestro sprite
-  const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 100, 198, imageSet, frames, attackFrames, physics, hitBox, strikeBox)
+  const player = new Sprite(
+    SpriteID.PLAYER,
+    State.STILL_DOWN,
+    100, 198,
+    imageSet,
+    frames,
+    attackFrames,
+    physics,
+    hitBox,
+    strikeBox)
 
   // añadir el player al array de sprites
   globals.sprites.push(player)
@@ -180,7 +175,8 @@ function initPlayer() {
 
 // SKELETON
 function initSkeleton() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  // crear las propiedades de las imagenes: 
+  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0)
 
   // crear los datos de la animación. 8 frames / state
@@ -193,14 +189,55 @@ function initSkeleton() {
   const hitBox = new HitBox(18, 20, 21, 40)
 
   // crear nuestro sprite *** con fisicas añadidas
-  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, 0, physics, hitBox, 0)
+  const skeleton = new Sprite(
+    SpriteID.SKELETON,
+    State.LEFT,
+    300, 150,
+    imageSet,
+    frames,
+    /* attackFrames */ 0,
+    physics,
+    hitBox,
+    /* strikeBox */ 0)
 
   // añadir el esqueleto al array de sprites
   globals.sprites.push(skeleton)
 }
 
+// FORJA
+function initForge() {
+  // crear las propiedades de las imagenes: 
+  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(48, 1, 64, 130, 64, 16, 10)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(3, 9)
+
+  // inicializamos physics
+  const physics = new Physics(40)
+
+  // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
+  const hitBox = new HitBox(64, 64, 0, 64)
+
+  // crear sprite de la forja
+  const forge = new Sprite(
+    SpriteID.FORGE,
+    State.STILL,
+    50, -10,
+    imageSet,
+    frames,
+    /* attackFrames */ 0,
+    physics,
+    hitBox,
+    /* strikeBox */ 0)
+
+  // añadir el player al array de sprites
+  globals.sprites.push(forge)
+}
+
 function initLevel() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  // crear las propiedades de las imagenes: 
+  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(0, 0, 32, 32, 32, 0, 0)
 
   // creamos y guardamos nuestro nivel
