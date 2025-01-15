@@ -111,6 +111,7 @@ function updatePlayer(sprite) {
       break
 
     default:
+      sprite.strikeBox = StrikeBox[0]
       sprite.physics.vx = 0
       sprite.physics.vy = 0
       sprite.strikeBox = 0
@@ -136,6 +137,9 @@ function playGame() {
 
   // actualizar vida
   updateLife()
+
+  // actualizar el score
+  updateScore()
 }
 
 function updateSprites() {
@@ -153,6 +157,18 @@ function updateLife() {
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
       globals.life = globals.life - 0.1
+    }
+  }
+}
+
+// actualiza la vida por colision
+function updateScore() {
+  for (let i = 1; i < globals.sprites.length; i++) {
+    const sprite = globals.sprites[i]
+
+    // reducimos si hay colision
+    if (sprite.isAttakSuccsesfull) {
+      globals.score = globals.score + 1
     }
   }
 }
@@ -259,28 +275,6 @@ function calculateCollisionWithborders(sprite) {
     isCollision = true
   }
   return isCollision
-}
-
-// define el strikeBox en funcion del estado
-function defineStrikeBox(sprite) {
-  switch (sprite.state) {
-    case State.ATTACK_LEFT:
-      sprite.strikeBox = sprite.strikeBox[2]
-      break
-    case State.ATTACK_RIGHT:
-      sprite.strikeBox = sprite.strikeBox[4]
-      break
-    case State.ATTACK_UP:
-      sprite.strikeBox = sprite.strikeBox[1]
-      break
-    case State.ATTACK_DOWN:
-      sprite.strikeBox = sprite.strikeBox[3]
-      break
-
-    default:
-      sprite.strikeBox = sprite.strikeBox[0]
-      break
-  }
 }
 
 // teclado y movimiento

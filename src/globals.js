@@ -50,5 +50,8 @@ export default {
   action: {},
 
   // vida
-  life: 0
+  life: 0,
+
+  // score
+  score: 0,
 }

@@ -152,7 +152,7 @@ function initForge() {
   globals.sprites.push(forge)
 }
 
-
+// PLAYER
 function initPlayer() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(20, 0, 64, 64, 64, 2, 0)
@@ -178,6 +178,7 @@ function initPlayer() {
   globals.sprites.push(player)
 }
 
+// SKELETON
 function initSkeleton() {
   // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0)
@@ -192,7 +193,7 @@ function initSkeleton() {
   const hitBox = new HitBox(18, 20, 21, 40)
 
   // crear nuestro sprite *** con fisicas añadidas
-  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, 0, physics, hitBox)
+  const skeleton = new Sprite(SpriteID.SKELETON, State.LEFT, 300, 150, imageSet, frames, 0, physics, hitBox, 0)
 
   // añadir el esqueleto al array de sprites
   globals.sprites.push(skeleton)

@@ -45,7 +45,7 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
 
 function detectCollisionAttack(sprite) {
     // reset collision state
-    sprite.isCollidingWithPlayer = false
+    sprite.isAttackSuccsesfull = false
 
     // nuestro player está en la posición 1
     const player = globals.sprites[1]
@@ -68,7 +68,7 @@ function detectCollisionAttack(sprite) {
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
     if (isOverlap) {
       // existe colisión
-      // sprite.isCollidingWithPlayer = true
+      sprite.isAttackSuccsesfull = true
 
       console.log("hit succsesfull");
     }
