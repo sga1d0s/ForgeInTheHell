@@ -5,8 +5,9 @@ export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites
   for (let i = 1; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
-    detectCollisionBetweenPlayerAndSprite(sprite)
+    detectCollisionBetweenPlayerAndEnemys(sprite)
 
+    // detecta la colisión entre hacha y enemigo
     detectCollisionAttack(sprite)
   }
 
@@ -14,7 +15,8 @@ export default function detectCollisions() {
   detectCollisionBetweenPlayerAndMapObstacles()
 }
 
-function detectCollisionBetweenPlayerAndSprite(sprite) {
+// detecta la colisión entre player y enemigos
+function detectCollisionBetweenPlayerAndEnemys(sprite) {
   // reset collision state
   sprite.isCollidingWithPlayer = false
 
@@ -43,77 +45,13 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
   }
 }
 
-function detectCollisionAttack(sprite) {
-    // reset collision state
-    sprite.isAttackSuccsesfull = false
-
-    // nuestro player está en la posición 1
-    const player = globals.sprites[1]
-  
-    // datos del player
-    const x1 = player.xPos + player.strikeBox.xOffset
-    const y1 = player.yPos + player.strikeBox.yOffset
-    const w1 = player.strikeBox.xSize
-    const h1 = player.strikeBox.ySize
-  
-    // nuestro player está en la posición 2
-    const skeleton = globals.sprites[2]
-  
-    // datos del otro sprite
-    const x2 = skeleton.xPos + skeleton.hitBox.xOffset
-    const y2 = skeleton.yPos + skeleton.hitBox.yOffset
-    const w2 = skeleton.hitBox.xSize
-    const h2 = skeleton.hitBox.ySize
-
-    const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
-    if (isOverlap) {
-      // existe colisión
-      sprite.isAttackSuccsesfull = true
-
-      console.log("hit succsesfull");
-    }
-}
-
-// funcion que calcula si 2 rectangulos interseccionan
-function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
-  let isOverlap
-
-  // check x and y for overlap
-  if (x2 > w1 + x1 || x1 > w2 + x2 || y2 > h1 + y1 || y1 > h2 + y2) {
-    isOverlap = false
-  } else
-    isOverlap = true
-  return isOverlap
-}
-
-// devuelve el id del tile del mapa para las coordenadas xpos e ypos
-function getMapTileId(xPos, yPos) {
-  const brickSize = globals.level.imageSet.gridSize
-  const levelData = globals.level.data
-
-  const fil = Math.floor(yPos / brickSize)
-  const col = Math.floor(xPos / brickSize)
-
-  return levelData[fil][col]
-}
-
-// devuelve true si hay colision con un obstáculo determinado
-function isCollidingWithObstacleAt(xPos, yPos, obstacleId) {
-
-  let isColliding
-
-  const id = getMapTileId(xPos, yPos)
-
-  // calcular la colision con bloque de cristal
-  if (id === obstacleId) {
-    isColliding = true
-  } else isColliding = false
-  return isColliding
-}
-
 // calculo de colisiones con los bloques del mapa
 function detectCollisionBetweenPlayerAndMapObstacles() {
+  // player
   const player = globals.sprites[1]
+
+  // forja
+  const forge = globals.sprites[0]
 
   // eset collision state
   player.isCollidingWithObstacleOnTheRight = false;
@@ -218,4 +156,73 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     default:
       break;
   }
+}
+
+// detecta colision entre hacha y enemigos
+function detectCollisionAttack(sprite) {
+    // reset collision state
+    sprite.isAttackSuccsesfull = false
+
+    // nuestro player está en la posición 1
+    const player = globals.sprites[1]
+  
+    // datos del player
+    const x1 = player.xPos + player.strikeBox.xOffset
+    const y1 = player.yPos + player.strikeBox.yOffset
+    const w1 = player.strikeBox.xSize
+    const h1 = player.strikeBox.ySize
+  
+    // nuestro player está en la posición 2
+    const skeleton = globals.sprites[2]
+  
+    // datos del otro sprite
+    const x2 = skeleton.xPos + skeleton.hitBox.xOffset
+    const y2 = skeleton.yPos + skeleton.hitBox.yOffset
+    const w2 = skeleton.hitBox.xSize
+    const h2 = skeleton.hitBox.ySize
+
+    const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
+    if (isOverlap) {
+      // existe colisión
+      sprite.isAttackSuccsesfull = true
+
+      console.log("hit succsesfull");
+    }
+}
+
+// funcion que calcula si 2 rectangulos interseccionan
+function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
+  let isOverlap
+
+  // check x and y for overlap
+  if (x2 > w1 + x1 || x1 > w2 + x2 || y2 > h1 + y1 || y1 > h2 + y2) {
+    isOverlap = false
+  } else
+    isOverlap = true
+  return isOverlap
+}
+
+// devuelve el id del tile del mapa para las coordenadas xpos e ypos
+function getMapTileId(xPos, yPos) {
+  const brickSize = globals.level.imageSet.gridSize
+  const levelData = globals.level.data
+
+  const fil = Math.floor(yPos / brickSize)
+  const col = Math.floor(xPos / brickSize)
+
+  return levelData[fil][col]
+}
+
+// devuelve true si hay colision con un obstáculo determinado
+function isCollidingWithObstacleAt(xPos, yPos, obstacleId) {
+
+  let isColliding
+
+  const id = getMapTileId(xPos, yPos)
+
+  // calcular la colision con bloque de cristal
+  if (id === obstacleId) {
+    isColliding = true
+  } else isColliding = false
+  return isColliding
 }
