@@ -111,7 +111,7 @@ function updatePlayer(sprite) {
       break
 
     default:
-      sprite.strikeBox = StrikeBox[0]
+      sprite.strikeBox = StrikeBox[3]
       sprite.physics.vx = 0
       sprite.physics.vy = 0
       sprite.strikeBox = 0
