@@ -3,11 +3,14 @@ import { Game, SpriteID, State, StrikeBox } from "./constants.js"
 import detectCollisions from "./collisions.js"
 
 export default function update() {
+
   // change what the game is doing based on the game state
   switch (globals.gameState) {
-
     case Game.LOADING:
       console.log("Loading assets...")
+      setTimeout(() => {
+        globals.gameState = Game.NEW_GAME
+      }, 1000);
       break
 
     case Game.PLAYING:
@@ -16,22 +19,85 @@ export default function update() {
 
     case Game.OVER:
       // 
+      if (globals.action.moveLeft) {
+        globals.gameState = Game.SCORES;
+      }
+      if (globals.action.moveRight) {
+        globals.gameState = Game.NEW_GAME;
+      }
+      if (globals.action.moveUp) {
+        globals.gameState = Game.OVER;
+      }
+      if (globals.action.moveDown) {
+        globals.gameState = Game.OVER;
+      }
       break
 
     case Game.NEW_GAME:
-      //
+      // 
+      if (globals.action.moveLeft) {
+        globals.gameState = Game.SCORES;
+      }
+      if (globals.action.moveRight) {
+        globals.gameState = Game.NEW_GAME;
+      }
+      if (globals.action.moveUp) {
+        globals.gameState = Game.CONTROLS;
+      }
+      if (globals.action.moveDown) {
+        globals.gameState = Game.NEW_GAME;
+      }
+      if (globals.action.enter) {
+        globals.gameState = Game.PLAYING;
+      }
       break
 
     case Game.STORY:
-      //
+      // 
+      if (globals.action.moveLeft) {
+        globals.gameState = Game.STORY;
+      }
+      if (globals.action.moveRight) {
+        globals.gameState = Game.CONTROLS;
+      }
+      if (globals.action.moveUp) {
+        globals.gameState = Game.STORY;
+      }
+      if (globals.action.moveDown) {
+        globals.gameState = Game.SCORES;
+      }
       break
 
     case Game.CONTROLS:
-      //
+      // 
+      if (globals.action.moveLeft) {
+        globals.gameState = Game.STORY;
+      }
+      if (globals.action.moveRight) {
+        globals.gameState = Game.CONTROLS;
+      }
+      if (globals.action.moveUp) {
+        globals.gameState = Game.CONTROLS;
+      }
+      if (globals.action.moveDown) {
+        globals.gameState = Game.NEW_GAME;
+      }
       break
 
     case Game.SCORES:
-      //
+      // 
+      if (globals.action.moveLeft) {
+        globals.gameState = Game.SCORES;
+      }
+      if (globals.action.moveRight) {
+        globals.gameState = Game.NEW_GAME;
+      }
+      if (globals.action.moveUp) {
+        globals.gameState = Game.STORY;
+      }
+      if (globals.action.moveDown) {
+        globals.gameState = Game.SCORES;
+      }
       break
 
     default:

@@ -23,6 +23,10 @@ export function keydownHandler(event) {
       globals.action.attack = true
       break;
 
+      case Key.ENTER:
+        globals.action.enter = true
+        break;
+
     default:
       break;
   }

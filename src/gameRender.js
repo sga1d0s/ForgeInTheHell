@@ -8,7 +8,9 @@ export default function render() {
   switch (globals.gameState) {
 
     case Game.LOADING:
-      // draw loading spinner
+      // TODO ***** 
+      // spinner image
+
       break
 
     case Game.PLAYING:
@@ -40,59 +42,6 @@ export default function render() {
   }
 }
 
-// dibujar textos y cuadrados de las esquinas
-function drawCorners() {
-
-  // globals
-  let ctx = globals.ctx
-  let black = "black"
-  let blue = "lightblue"
-
-  // CTX 
-  ctx.fillStyle = black
-  // ctx.fillRect(x, y, width, height);
-  ctx.fillRect(0, 0, 512, 384)
-
-  // UP LEFT
-  ctx.fillStyle = blue
-  ctx.fillRect(0, 0, 10, 64)
-
-  // text up left
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = blue
-  ctx.fillText(GameText.GAME_STORY, 5, 40, 70)
-
-  // UP RIGHT
-  ctx.fillStyle = blue
-  ctx.fillRect(502, 0, 10, 64)
-
-  // text up right
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = blue
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
-
-  // DOWN LEFT
-  ctx.fillStyle = blue
-  ctx.fillRect(0, 320, 10, 64)
-
-  // print down left
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = blue
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
-
-  // DOWN RIGHT
-  ctx.fillStyle = blue
-  ctx.fillRect(367, 320, 145, 64)
-
-  // print down right
-  ctx.font = '22px emulogic'
-  ctx.fillStyle = black
-  // context.fillText(text, x, y [, maxWidth])
-  ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
-}
-
 // dibujar atajos de teclado
 function keyboardShortcuts() {
   let uhd = globals.ctxUHD
@@ -109,7 +58,6 @@ function drawGame() {
   // borramos la pantalla entera y UHD
   globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
   globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
-  //globals.ctxHammer.clearRect(0, 0, globals.canvasHammer.width, globals.canvasHammer.height)
 
   // dibujar el mapa (nivel)
   renderMap()
@@ -302,7 +250,7 @@ function renderHammer(value) {
 
 function drawGameOver() {
 
-  drawCorners()
+  drawCorners(Game.OVER)
 
   // globals
   let ctx = globals.ctx
@@ -340,8 +288,23 @@ function drawNewGame() {
   ctx.font = '30px emulogic'
   ctx.fillStyle = 'red'
   ctx.fillText(text, 50, 215, 400)
+  ctx.font = '15px emulogic'
+  ctx.fillText("(pres ENTER to start)", 85, 250, 400)
 
-  drawSprites()
+  // ****** TODO 
+  // drawNewGameSprites()
+
+  // pintar inverso el nombre
+
+  // DOWN RIGHT
+  ctx.fillStyle = "lightblue"
+  ctx.fillRect(367, 320, 145, 64)
+
+  // print down right
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = "black"
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
 
   keyboardShortcuts()
 }
@@ -371,6 +334,15 @@ function drawStory() {
     ctx.fillText(GameText.GAME_STORY_TEXT[i], startX, startY + i * lineHeight, 450)
   }
 
+    // UP LEFT
+    ctx.fillStyle = "lightblue"
+    ctx.fillRect(0, 0, 84, 64)
+  
+    // text up left
+    ctx.font = '22px emulogic'
+    ctx.fillStyle = "black"
+    ctx.fillText(GameText.GAME_STORY, 5, 40, 70)
+
   keyboardShortcuts()
 }
 
@@ -399,6 +371,16 @@ function drawControls() {
     ctx.fillText(GameText.GAME_CONTROLS_TEXT[i], startX, startY + i * lineHeight, 450)
   }
 
+    // UP RIGHT
+    ctx.fillStyle = "lightblue"
+    ctx.fillRect(375, 0, 137, 64)
+  
+    // text up right
+    ctx.font = '22px emulogic'
+    ctx.fillStyle = "black"
+    // context.fillText(text, x, y [, maxWidth])
+    ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
+    
   keyboardShortcuts()
 }
 
@@ -446,6 +428,16 @@ function drawScores() {
     ctx.fillText((space.repeat(n)) + GameText.SCORES[i].score, scoreX, startY + i * lineHeight, 450)
   }
 
+    // DOWN LEFT
+    ctx.fillStyle = "lightblue"
+    ctx.fillRect(0, 320, 162, 64)
+  
+    // print down left
+    ctx.font = '22px emulogic'
+    ctx.fillStyle = "black"
+    // context.fillText(text, x, y [, maxWidth])
+    ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
+
   keyboardShortcuts()
 }
 
@@ -462,4 +454,57 @@ function orderByscore(array) {
     }
   }
   return array
+}
+
+// dibujar textos y cuadrados de las esquinas
+function drawCorners() {
+
+  // globals
+  let ctx = globals.ctx
+  let black = "black"
+  let blue = "lightblue"
+
+  // CTX 
+  ctx.fillStyle = black
+  // ctx.fillRect(x, y, width, height);
+  ctx.fillRect(0, 0, 512, 384)
+
+  // UP LEFT
+  ctx.fillStyle = blue
+  ctx.fillRect(0, 0, 10, 64)
+
+  // text up left
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = blue
+  ctx.fillText(GameText.GAME_STORY, 5, 40, 70)
+
+  // UP RIGHT
+  ctx.fillStyle = blue
+  ctx.fillRect(502, 0, 10, 64)
+
+  // text up right
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = blue
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
+
+  // DOWN LEFT
+  ctx.fillStyle = blue
+  ctx.fillRect(0, 320, 10, 64)
+
+  // print down left
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = blue
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
+
+  // DOWN RIGHT
+  ctx.fillStyle = blue
+  ctx.fillRect(502, 320, 10, 64)
+
+  // print down right
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = blue
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
 }
