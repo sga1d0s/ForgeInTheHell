@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, SpriteID, State, StrikeBox } from "./constants.js"
+import { Game, SpriteID, State, StrikeBox, FPS } from "./constants.js"
 import detectCollisions from "./collisions.js"
 
 export default function update() {
@@ -18,19 +18,15 @@ export default function update() {
       break
 
     case Game.OVER:
-      // teclado en GAME OVER
-      if (globals.action.moveLeft) {
-        globals.gameState = Game.SCORES;
-      }
-      if (globals.action.moveRight) {
-        globals.gameState = Game.NEW_GAME;
-      }
-      if (globals.action.moveUp) {
-        globals.gameState = Game.OVER;
-      }
-      if (globals.action.moveDown) {
-        globals.gameState = Game.OVER;
-      }
+      setTimeout(() => {
+        // teclado en GAME OVER
+        if (globals.action.moveLeft) {
+          globals.gameState = Game.SCORES;
+        }
+        if (globals.action.moveRight) {
+          globals.gameState = Game.LOADING;
+        }
+      }, 5000);
       break
 
     case Game.NEW_GAME:
@@ -219,7 +215,11 @@ function updateLife() {
 
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
-      globals.life = globals.life - 0.1
+      globals.life--
+    }
+    if (globals.life === 0) {
+      reload()
+      globals.gameState = Game.OVER
     }
   }
 }
@@ -231,7 +231,7 @@ function updateScore() {
 
     // aumentamos si hay strike
     if (sprite.isAttackSuccsesfull) {
-      globals.score ++
+      globals.score++
     }
   }
 }
@@ -364,4 +364,22 @@ function readKeyboardAndAssignState(sprite) {
           sprite.state === State.DOWN ? State.STILL_DOWN :
             sprite.state;
   }
+}
+
+function reload() {
+  // borramos la pantalla entera y UHD
+  globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
+  globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
+
+  // inicializar las variables de gestión de tiempo
+  globals.previousCycleMilliseconds = 0
+  globals.deltaTime = 0
+  globals.frameTimeObj = 1 / FPS // frame time in seconds
+
+  // iniciamos el contador
+  globals.gameTime = 0
+
+  // reiniciar variables de juego
+  globals.life = 100
+  globals.score = 0
 }
