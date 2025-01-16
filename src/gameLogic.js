@@ -18,7 +18,7 @@ export default function update() {
       break
 
     case Game.OVER:
-      // 
+      // teclado en GAME OVER
       if (globals.action.moveLeft) {
         globals.gameState = Game.SCORES;
       }
@@ -34,7 +34,7 @@ export default function update() {
       break
 
     case Game.NEW_GAME:
-      // 
+      // teclado en NEW GAME
       if (globals.action.moveLeft) {
         globals.gameState = Game.SCORES;
       }
@@ -53,7 +53,7 @@ export default function update() {
       break
 
     case Game.STORY:
-      // 
+      // teclado en STORY
       if (globals.action.moveLeft) {
         globals.gameState = Game.STORY;
       }
@@ -85,7 +85,7 @@ export default function update() {
       break
 
     case Game.SCORES:
-      // 
+      // teclado en SCORES
       if (globals.action.moveLeft) {
         globals.gameState = Game.SCORES;
       }
@@ -229,7 +229,7 @@ function updateScore() {
   for (let i = 1; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
 
-    // reducimos si hay colision
+    // aumentamos si hay strike
     if (sprite.isAttakSuccsesfull) {
       globals.score = globals.score + 1
     }

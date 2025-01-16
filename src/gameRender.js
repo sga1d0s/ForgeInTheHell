@@ -9,7 +9,7 @@ export default function render() {
 
     case Game.LOADING:
       // TODO ***** 
-      // spinner image
+      drawSpinner()
 
       break
 
@@ -334,14 +334,14 @@ function drawStory() {
     ctx.fillText(GameText.GAME_STORY_TEXT[i], startX, startY + i * lineHeight, 450)
   }
 
-    // UP LEFT
-    ctx.fillStyle = "lightblue"
-    ctx.fillRect(0, 0, 84, 64)
-  
-    // text up left
-    ctx.font = '22px emulogic'
-    ctx.fillStyle = "black"
-    ctx.fillText(GameText.GAME_STORY, 5, 40, 70)
+  // UP LEFT
+  ctx.fillStyle = "lightblue"
+  ctx.fillRect(0, 0, 84, 64)
+
+  // text up left
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = "black"
+  ctx.fillText(GameText.GAME_STORY, 5, 40, 70)
 
   keyboardShortcuts()
 }
@@ -371,16 +371,16 @@ function drawControls() {
     ctx.fillText(GameText.GAME_CONTROLS_TEXT[i], startX, startY + i * lineHeight, 450)
   }
 
-    // UP RIGHT
-    ctx.fillStyle = "lightblue"
-    ctx.fillRect(375, 0, 137, 64)
-  
-    // text up right
-    ctx.font = '22px emulogic'
-    ctx.fillStyle = "black"
-    // context.fillText(text, x, y [, maxWidth])
-    ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
-    
+  // UP RIGHT
+  ctx.fillStyle = "lightblue"
+  ctx.fillRect(375, 0, 137, 64)
+
+  // text up right
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = "black"
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
+
   keyboardShortcuts()
 }
 
@@ -428,15 +428,15 @@ function drawScores() {
     ctx.fillText((space.repeat(n)) + GameText.SCORES[i].score, scoreX, startY + i * lineHeight, 450)
   }
 
-    // DOWN LEFT
-    ctx.fillStyle = "lightblue"
-    ctx.fillRect(0, 320, 162, 64)
-  
-    // print down left
-    ctx.font = '22px emulogic'
-    ctx.fillStyle = "black"
-    // context.fillText(text, x, y [, maxWidth])
-    ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
+  // DOWN LEFT
+  ctx.fillStyle = "lightblue"
+  ctx.fillRect(0, 320, 162, 64)
+
+  // print down left
+  ctx.font = '22px emulogic'
+  ctx.fillStyle = "black"
+  // context.fillText(text, x, y [, maxWidth])
+  ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
 
   keyboardShortcuts()
 }
@@ -507,4 +507,25 @@ function drawCorners() {
   ctx.fillStyle = blue
   // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
+}
+
+function drawSpinner() {
+
+  // globals
+  let ctx = globals.ctx
+  let black = "black"
+
+  // CTX 
+  ctx.fillStyle = black
+  // ctx.fillRect(x, y, width, height);
+  ctx.fillRect(0, 0, 512, 384)
+
+
+  // TEXT LOADING
+  const text = "LOADING..."
+
+  // TITTLE
+  ctx.font = '40px emulogic'
+  ctx.fillStyle = 'red'
+  ctx.fillText(text, 80, 215)
 }
