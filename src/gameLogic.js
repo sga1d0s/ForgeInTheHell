@@ -230,8 +230,8 @@ function updateScore() {
     const sprite = globals.sprites[i]
 
     // aumentamos si hay strike
-    if (sprite.isAttakSuccsesfull) {
-      globals.score = globals.score + 1
+    if (sprite.isAttackSuccsesfull) {
+      globals.score ++
     }
   }
 }

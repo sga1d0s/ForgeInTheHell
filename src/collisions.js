@@ -265,6 +265,7 @@ function detectCollisionAttack(sprite) {
     sprite.isAttackSuccsesfull = true
 
     console.log("hit succsesfull");
+
   }
 }
 

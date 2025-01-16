@@ -183,7 +183,7 @@ function drawSpriteRectangle(sprite) {
 function renderUHD() {
   // TEST: datos hardcodeados
   const score = 1500
-  const highScore = 130000
+  const highScore = globals.score
   const life = globals.life
   const time = 30
 
