@@ -47,6 +47,9 @@ export default function update() {
       if (globals.action.moveDown) {
         globals.gameState = Game.NEW_GAME;
       }
+      if (globals.action.enter) {
+        globals.gameState = Game.PLAYING;
+      }
       break
 
     case Game.STORY:
