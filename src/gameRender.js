@@ -182,8 +182,8 @@ function drawSpriteRectangle(sprite) {
 // funcion para dibujar los elementos del UHD
 function renderUHD() {
   // TEST: datos hardcodeados
-  const score = 1500
-  const highScore = globals.score
+  const score = globals.score
+  const highScore = 130000
   const life = globals.life
   const time = 30
 
