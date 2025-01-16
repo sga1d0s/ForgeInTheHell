@@ -96,6 +96,8 @@ function initSprites() {
   initSkeleton()
 
   initForge()
+  initOven()
+  initMelted()
 
   // initPlayerNewGame()
   // initSkeletonNewGame()Ñ
@@ -229,6 +231,68 @@ function initForge() {
     /* attackFrames */ 0,
     physics,
     hitBox,
+    /* strikeBox */ 0)
+
+  // añadir el player al array de sprites
+  globals.sprites.push(forge)
+}
+
+// OVEN  
+function initOven() {
+  // crear las propiedades de las imagenes: 
+  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(56, 1, 64, 80, 64, 15, 0)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(3, 9)
+
+  // inicializamos physics
+  const physics = new Physics(40)
+
+  // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
+  const hitBox = new HitBox(64, 40, 0, 24)
+
+  // crear sprite de la forja
+  const forge = new Sprite(
+    /* ID */ SpriteID.FORGE,
+    /* STATE */ State.STILL,
+    /* XPOS, YPOS */ 205, 115,
+    /* IMAGESET */ imageSet,
+    /* FRAMES */ frames,
+    /* attackFrames */ 0,
+    /* PHYSICS */ physics,
+    /* HITBOX */ hitBox,
+    /* strikeBox */ 0)
+
+  // añadir el player al array de sprites
+  globals.sprites.push(forge)
+}
+
+// MELTED  
+function initMelted() {
+  // crear las propiedades de las imagenes: 
+  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(57, 1, 64, 80, 64, 15, 1)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(3, 9)
+
+  // inicializamos physics
+  const physics = new Physics(40)
+
+  // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
+  const hitBox = new HitBox(64, 32, 0, 32)
+
+  // crear sprite de la forja
+  const forge = new Sprite(
+    /* ID */ SpriteID.FORGE,
+    /* STATE */ State.STILL,
+    /* XPOS, YPOS */ 15, 225,
+    /* IMAGESET */ imageSet,
+    /* FRAMES */ frames,
+    /* attackFrames */ 0,
+    /* PHYSICS */ physics,
+    /* HITBOX */ hitBox,
     /* strikeBox */ 0)
 
   // añadir el player al array de sprites
