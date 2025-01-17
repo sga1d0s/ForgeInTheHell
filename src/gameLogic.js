@@ -26,7 +26,7 @@ export default function update() {
         if (globals.action.moveRight) {
           globals.gameState = Game.LOADING;
         }
-      }, 5000);
+      }, 3000);
       break
 
     case Game.NEW_GAME:
