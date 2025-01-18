@@ -100,7 +100,7 @@ function initSprites() {
   initMelted()
 
   // initPlayerNewGame()
-  // initSkeletonNewGame()Ñ
+  // initSkeletonNewGame()
 }
 
 function initEvents() {
