@@ -92,6 +92,8 @@ function loadHandler() {
 
 function initSprites() {
 
+  initOven2()
+
   initPlayer()
   initSkeleton()
 
@@ -104,6 +106,7 @@ function initSprites() {
 }
 
 function initSpritesForge() {
+  initOven2()
 
   initPlayer()
   initSkeleton()
@@ -232,7 +235,7 @@ function initForge() {
 function initOven() {
   // crear las propiedades de las imagenes: 
   // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(56, 1, 64, 80, 64, 15, 0)
+  const imageSet = new ImageSet(56, 1, 64, 40, 64, 15, 0)
 
   // crear los datos de la animación. 8 frames / state
   const frames = new Frames(3, 9)
@@ -248,6 +251,37 @@ function initOven() {
     /* ID */ SpriteID.FORGE,
     /* STATE */ State.STILL,
     /* XPOS, YPOS */ 205, 115,
+    /* IMAGESET */ imageSet,
+    /* FRAMES */ frames,
+    /* attackFrames */ 0,
+    /* PHYSICS */ physics,
+    /* HITBOX */ hitBox,
+    /* strikeBox */ 0)
+
+  // añadir el player al array de sprites
+  globals.sprites.push(forge)
+}
+
+// OVEN  
+function initOven2() {
+  // crear las propiedades de las imagenes: 
+  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(56, 1, 64, 40, 64, 15, 40)
+
+  // crear los datos de la animación. 8 frames / state
+  const frames = new Frames(3, 9)
+
+  // inicializamos physics
+  const physics = new Physics(40)
+
+  // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
+  const hitBox = new HitBox(0, 0, 0, 0)
+
+  // crear sprite de la forja
+  const forge = new Sprite(
+    /* ID */ SpriteID.FORGE,
+    /* STATE */ State.STILL,
+    /* XPOS, YPOS */ 205, 155,
     /* IMAGESET */ imageSet,
     /* FRAMES */ frames,
     /* attackFrames */ 0,

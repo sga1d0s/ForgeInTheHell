@@ -3,7 +3,7 @@ import { Block, SpriteID, State } from "./constants.js"
 
 export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites
-  for (let i = 1; i < globals.sprites.length; i++) {
+  for (let i = 2; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
     detectCollisionBetweenPlayerAndSprites(sprite)
 
@@ -21,7 +21,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
   sprite.isCollidingWithPlayer = false
 
   // nuestro player está en la posición 1
-  const player = globals.sprites[0]
+  const player = globals.sprites[1]
 
   // datos del player
   const x1 = player.xPos + player.hitBox.xOffset
@@ -132,7 +132,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
 // calculo de colisiones con los bloques del mapa
 function detectCollisionBetweenPlayerAndMapObstacles() {
   // player
-  const player = globals.sprites[0]
+  const player = globals.sprites[1]
 
   // eset collision state
   player.isCollidingWithObstacleOnTheRight = false;
@@ -245,7 +245,7 @@ function detectCollisionAttack(sprite) {
   sprite.isAttackSuccsesfull = false
 
   // nuestro player está en la posición 1
-  const player = globals.sprites[0]
+  const player = globals.sprites[1]
 
   // datos del player
   const x1 = player.xPos + player.strikeBox.xOffset
