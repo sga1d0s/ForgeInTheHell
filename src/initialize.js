@@ -162,6 +162,8 @@ function initSkeleton() {
   // Posición Y aleatoria entre 100 y 384
   const randomY = Math.floor(Math.random() * (50 - 320 + 1)) + 320;
 
+  const randomState = Math.floor(Math.random() * (12 - 9)) + 9
+
   // Crear las propiedades de las imágenes
   const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0);
 
@@ -177,7 +179,7 @@ function initSkeleton() {
   // Crear el sprite del esqueleto con la posición inicial
   const skeleton = new Sprite(
     SpriteID.SKELETON,
-    State.LEFT,
+    /* State */ randomState,
     randomX, randomY,  // X fijo (100 o 448), Y aleatorio (100-448)
     imageSet,
     frames,

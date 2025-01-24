@@ -108,13 +108,18 @@ function updateForge(sprite) {
 
 function updateSkeleton(sprite) {
   switch (sprite.state) {
-    case State.RIGHT:
-      sprite.physics.vx = sprite.physics.vLimit
-      break
-
+    case State.UP:
+      sprite.physics.vy = -sprite.physics.vLimit;
+      break;
+    case State.DOWN:
+      sprite.physics.vy = sprite.physics.vLimit;
+      break;
     case State.LEFT:
-      sprite.physics.vx = -sprite.physics.vLimit
-      break
+      sprite.physics.vx = -sprite.physics.vLimit;
+      break;
+    case State.RIGHT:
+      sprite.physics.vx = sprite.physics.vLimit;
+      break;
 
     default:
       console.log("ERROR: State invalid");
@@ -123,6 +128,7 @@ function updateSkeleton(sprite) {
 
   // calcular la distancia que se mueve
   sprite.xPos += sprite.physics.vx * globals.deltaTime
+  sprite.yPos += sprite.physics.vy * globals.deltaTime
 
   // actualizar sprite para la animación
   updateAnimationFrame(sprite)
@@ -308,7 +314,15 @@ function updateAnimationFrame(sprite) {
 
 // cambio de dirección
 function swapDirection(sprite) {
-  sprite.state = sprite.state === State.RIGHT ? State.LEFT : State.RIGHT
+  if (sprite.state === State.RIGHT) {
+    sprite.state = State.LEFT;
+  } else if (sprite.state === State.LEFT) {
+    sprite.state = State.RIGHT;
+  } else if (sprite.state === State.DOWN) {
+    sprite.state = State.UP;
+  } else if (sprite.state === State.UP) {
+    sprite.state = State.DOWN;
+  }
 }
 
 // colision con los bordes de la pantalla
@@ -317,9 +331,9 @@ function calculateCollisionWithborders(sprite) {
   let isCollision = false
 
   // colision con el borde de la pantalla
-  if (sprite.xPos + sprite.imageSet.xSize > globals.canvas.width) {
+  if (sprite.xPos + sprite.imageSet.xSize > globals.canvas.width || sprite.yPos + sprite.imageSet.ySize > globals.canvas.height ) {
     isCollision = true
-  } else if (sprite.xPos < 0) {
+  } else if (sprite.xPos < 0|| sprite.yPos < 50) {
     isCollision = true
   }
   return isCollision
