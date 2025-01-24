@@ -20,7 +20,7 @@ export default function render() {
 
     case Game.OVER:
       globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
-  globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
+      globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
       drawGameOver()
 
       break
@@ -139,10 +139,10 @@ function drawSprites() {
     renderSprite(sprite)
 
     // TEST: dibuja el hitbox
-    // drawHitBox(sprite)
+    drawHitBox(sprite)
 
     // TEST: dibuja el hitbox del hacha
-    // drawStrikeBox(sprite)
+    drawStrikeBox(sprite)
   }
 }
 

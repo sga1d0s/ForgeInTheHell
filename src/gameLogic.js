@@ -204,7 +204,8 @@ function playGame() {
   // actualizar vida
   updateLife()
 
-  gameOverTime() 
+  // TEST: tiempo limitado para la prueba
+  // gameOverTime() 
 }
 
 function updateSprites() {
