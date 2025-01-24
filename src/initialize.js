@@ -103,41 +103,24 @@ function initSprites() {
   // initSkeletonNewGame()
 }
 
+function initSpritesForge() {
+
+  initPlayer()
+  initSkeleton()
+
+  initForge()
+  initOven()
+  initMelted()
+
+  // initPlayerNewGame()
+  // initSkeletonNewGame()
+}
+
 function initEvents() {
   // captura de eventos del teclado
   window.addEventListener("keydown", keydownHandler, false)
   window.addEventListener("keyup", keyupHandler, false)
 }
-
-/* function initForge() {
-  // crear las propiedades de las imagenes: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const forgeSet = new ImageSet(19, 1, 64, 130, 64, 0, 0)
-  // const toolSet = new ImageSet(16, 2, 65, 69, 64, -3, 0)
-  const tableSet = new ImageSet(16, 0, 69, 69, 64, -5, 0)
-
-  // crear los datos de la animación. 8 frames / state
-  const frames = new Frames(3, 9)
-  const framesTable = new Frames(2, 20)
-
-   // inicializamos physics
-   const physics = new Physics(40)
-
-   const physicsTable = new Physics(40)
-
-  // crear sprite de la forja
-  const forge = new Sprite(SpriteID.FORGE, State.STILL, 50, -10, forgeSet, frames, physics)
-
-  // crear sprite de las herramientas
-  // const tools = new Sprite(SpriteID.TOOLS, State.STILL, 10, 200, toolSet, frames)
-
-  // crear sprite de la mesa
-  const table = new Sprite(SpriteID.FORGE, State.STILL, 195, 120, tableSet, framesTable, physicsTable)
-
-  // añadir el player al array de sprites
-  globals.sprites.push(forge)
-  // globals.sprites.push(tools)
-  globals.sprites.push(table)
-} */
 
 // PLAYER
 function initPlayer() {
