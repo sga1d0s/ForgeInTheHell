@@ -1,20 +1,21 @@
 import globals from "./globals.js"
-import { Game, SpriteID, State, StrikeBox, FPS } from "./constants.js"
+import { Game, SpriteID, State, StrikeBox, FPS, } from "./constants.js"
 import detectCollisions from "./collisions.js"
+import { gameOverTime } from "./initialize.js"
 
 export default function update() {
 
   // change what the game is doing based on the game state
   switch (globals.gameState) {
     case Game.LOADING:
-/*       console.log("Loading assets...")
+      console.log("Loading assets...")
       setTimeout(() => {
         globals.gameState = Game.NEW_GAME
-      }, 1000); */
+      }, 1000);
       break
 
     case Game.PLAYING:
-      playGame()
+        playGame()
       break
 
     case Game.OVER:
@@ -202,6 +203,8 @@ function playGame() {
 
   // actualizar vida
   updateLife()
+
+  gameOverTime() 
 }
 
 function updateSprites() {
@@ -218,10 +221,9 @@ function updateLife() {
 
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
-      globals.life--
+      globals.life = globals.life-10
     }
     if (globals.life === 0) {
-      reload()
       globals.gameState = Game.OVER
     }
   }

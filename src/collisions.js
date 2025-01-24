@@ -7,6 +7,8 @@ export default function detectCollisions() {
     const sprite = globals.sprites[i]
     detectCollisionBetweenPlayerAndSprites(sprite)
 
+    detectCollisionBetweenSkeletonAndSprites(sprite)
+
     // detecta la colisión entre hacha y enemigo
     detectCollisionAttack(sprite)
   }
@@ -22,6 +24,12 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
 
   // nuestro player está en la posición 1
   const player = globals.sprites[3]
+
+  // reset collision state
+  player.isCollidingWithObstacleOnTheRight = false;
+  player.isCollidingWithObstacleOnTheLeft = false;
+  player.isCollidingWithObstacleOnTheTop = false;
+  player.isCollidingWithObstacleOnTheBottom = false;
 
   // datos del player
   const x1 = player.xPos + player.hitBox.xOffset
@@ -41,12 +49,6 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
     // existe colisión
     sprite.isCollidingWithPlayer = true
   }
-
-  // eset collision state
-  player.isCollidingWithObstacleOnTheRight = false;
-  player.isCollidingWithObstacleOnTheLeft = false;
-  player.isCollidingWithObstacleOnTheTop = false;
-  player.isCollidingWithObstacleOnTheBottom = false;
 
   // variables to use
   let xPos
@@ -128,6 +130,80 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
   }
 
 }
+
+// detecta la colisión entre player y enemigos
+function detectCollisionBetweenSkeletonAndSprites(sprite) {
+  // Resetear el estado de colisión del esqueleto
+  sprite.isCollidingWithAnySprite = false;
+
+  // Obtener todos los demás sprites
+  const otherSprites = [];
+  for (let i = 0; i < globals.sprites.length; i++) {
+    if (globals.sprites[i] !== sprite) {
+      otherSprites.push(globals.sprites[i]);
+    }
+  }
+
+  // Iterar sobre los otros sprites
+  for (const otherSprite of otherSprites) {
+    // Datos del sprite en cuestión
+    const x1 = sprite.xPos + sprite.hitBox.xOffset;
+    const y1 = sprite.yPos + sprite.hitBox.yOffset;
+    const w1 = sprite.hitBox.xSize;
+    const h1 = sprite.hitBox.ySize;
+
+    // Datos del otro sprite
+    const x2 = otherSprite.xPos + otherSprite.hitBox.xOffset;
+    const y2 = otherSprite.yPos + otherSprite.hitBox.yOffset;
+    const w2 = otherSprite.hitBox.xSize;
+    const h2 = otherSprite.hitBox.ySize;
+
+    // Verificar si hay intersección
+    const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
+
+    if (isOverlap) {
+      sprite.isCollidingWithAnySprite = true;
+
+      // Si es una colisión con el jugador
+      if (otherSprite.id === SpriteID.PLAYER) {
+        sprite.isCollidingWithPlayer = true;
+      }
+
+      // Ajustar la posición del esqueleto y cambiar su dirección
+      let overlap;
+      switch (sprite.state) {
+        case State.RIGHT:
+          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 5;
+          sprite.xPos -= overlap;
+          sprite.state = State.LEFT
+          break;
+
+        case State.LEFT:
+          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 1;
+          sprite.xPos += overlap;
+          sprite.state = State.RIGHT; // Cambiar dirección a la derecha
+          break;
+
+        case State.UP:
+          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 1;
+          sprite.yPos += overlap;
+          sprite.state = State.DOWN; // Cambiar dirección hacia abajo
+          break;
+
+        case State.DOWN:
+          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 1;
+          sprite.yPos -= overlap;
+          sprite.state = State.UP; // Cambiar dirección hacia arriba
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+}
+
+
 
 // calculo de colisiones con los bloques del mapa
 function detectCollisionBetweenPlayerAndMapObstacles() {

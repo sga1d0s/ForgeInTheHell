@@ -83,7 +83,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    globals.gameState = Game.PLAYING
+    // globals.gameState = Game.PLAYING
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
@@ -95,7 +95,6 @@ function initSprites() {
   // sprites de la forja
   initOven2()
   initForge2()
-
   initMelted2()
 
   initPlayer()
@@ -157,30 +156,30 @@ function initPlayer() {
 
 // SKELETON
 function initSkeleton() {
-  // Generar coordenadas aleatorias dentro de un rango
-  const randomX = Math.floor(Math.random() * globals.canvas.width);
-  // Posición Y aleatoria entre 100 y 384
-  const randomY = Math.floor(Math.random() * (50 - 320 + 1)) + 320;
+  // generar coordenadas aleatorias dentro de un rango
+  const randomX =  Math.floor(Math.random() * (450 - 50 + 1)) + 50
+  // posición Y aleatoria entre 100 y 384
+  const randomY = Math.floor(Math.random() * (50 - 320 + 1)) + 320
 
   const randomState = Math.floor(Math.random() * (12 - 9)) + 9
 
-  // Crear las propiedades de las imágenes
+  // crear las propiedades de las imágenes
   const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0);
 
-  // Crear los datos de la animación (8 frames / estado)
+  // crear los datos de la animación (8 frames / estado)
   const frames = new Frames(5, 5);
 
-  // Inicializamos physics
+  // inicializamos physics
   const physics = new Physics(40);
 
-  // Crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
+  // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
   const hitBox = new HitBox(18, 20, 21, 40);
 
-  // Crear el sprite del esqueleto con la posición inicial
+  // crear el sprite del esqueleto con la posición inicial
   const skeleton = new Sprite(
     SpriteID.SKELETON,
     /* State */ randomState,
-    randomX, randomY,  // X fijo (100 o 448), Y aleatorio (100-448)
+    randomX, randomY,
     imageSet,
     frames,
     /* attackFrames */ 0,
@@ -190,7 +189,7 @@ function initSkeleton() {
   );
 
   // Agregar el nuevo esqueleto al array de sprites
-  globals.sprites.push(skeleton);
+  globals.sprites.splice(4, 0, skeleton);
 }
 
 // FORJA
@@ -388,6 +387,12 @@ function initLevel() {
   globals.level = new Level(level1, imageSet)
 }
 
+function gameOverTime() {
+  setTimeout(() => {
+    globals.gameState = Game.OVER
+  }, 180000)
+}
+
 // exportar funciones
 export {
   initHTMLElements,
@@ -395,5 +400,6 @@ export {
   loadAssets,
   initSprites,
   initLevel,
-  initEvents
+  initEvents,
+  gameOverTime
 }

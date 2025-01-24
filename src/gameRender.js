@@ -1,5 +1,6 @@
 import globals from "./globals.js"
 import { Game, GameText, Tile, State } from "./constants.js"
+import { initVars } from "./initialize.js"
 
 // funcion que renderiza los graficos
 export default function render() {
@@ -18,7 +19,10 @@ export default function render() {
       break
 
     case Game.OVER:
+      globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
+  globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
       drawGameOver()
+
       break
 
     case Game.NEW_GAME:
