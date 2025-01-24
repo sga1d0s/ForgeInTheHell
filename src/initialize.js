@@ -120,6 +120,10 @@ function initEvents() {
   // captura de eventos del teclado
   window.addEventListener("keydown", keydownHandler, false)
   window.addEventListener("keyup", keyupHandler, false)
+
+
+  // Generar un nuevo esqueleto cada minuto
+  setInterval(initSkeleton, 6000);
 }
 
 // PLAYER
@@ -160,6 +164,10 @@ function initPlayer() {
 
 // SKELETON
 function initSkeleton() {
+  // Generar coordenadas aleatorias dentro de un rango
+  const randomX = Math.floor(Math.random() * globals.canvas.width);
+  const randomY = Math.floor(Math.random() * globals.canvas.height);
+
   // crear las propiedades de las imagenes: 
   // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0)
@@ -177,7 +185,7 @@ function initSkeleton() {
   const skeleton = new Sprite(
     SpriteID.SKELETON,
     State.LEFT,
-    300, 150,
+    randomX, randomY,
     imageSet,
     frames,
     /* attackFrames */ 0,
