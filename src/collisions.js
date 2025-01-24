@@ -266,6 +266,13 @@ function detectCollisionAttack(sprite) {
 
     console.log("hit succsesfull");
 
+    // Eliminar el esqueleto de la lista de sprites
+    const index = globals.sprites.indexOf(sprite);
+    if (index !== -1) {
+      globals.score++
+      globals.sprites.splice(index, 1);
+    }
+
   }
 }
 

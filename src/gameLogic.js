@@ -196,9 +196,6 @@ function playGame() {
 
   // actualizar vida
   updateLife()
-
-  // actualizar el score
-  updateScore()
 }
 
 function updateSprites() {
@@ -220,18 +217,6 @@ function updateLife() {
     if (globals.life === 0) {
       reload()
       globals.gameState = Game.OVER
-    }
-  }
-}
-
-// actualiza la vida por colision
-function updateScore() {
-  for (let i = 1; i < globals.sprites.length; i++) {
-    const sprite = globals.sprites[i]
-
-    // aumentamos si hay strike
-    if (sprite.isAttackSuccsesfull) {
-      globals.score++
     }
   }
 }
