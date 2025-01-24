@@ -83,7 +83,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    // globals.gameState = Game.OVER
+    globals.gameState = Game.PLAYING
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //

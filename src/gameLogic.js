@@ -7,10 +7,10 @@ export default function update() {
   // change what the game is doing based on the game state
   switch (globals.gameState) {
     case Game.LOADING:
-      console.log("Loading assets...")
+/*       console.log("Loading assets...")
       setTimeout(() => {
         globals.gameState = Game.NEW_GAME
-      }, 1000);
+      }, 1000); */
       break
 
     case Game.PLAYING:
