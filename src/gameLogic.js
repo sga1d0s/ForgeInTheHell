@@ -15,7 +15,7 @@ export default function update() {
       break
 
     case Game.PLAYING:
-        playGame()
+      playGame()
       break
 
     case Game.OVER:
@@ -205,7 +205,7 @@ function playGame() {
   updateLife()
 
   // TEST: tiempo limitado para la prueba
-  // gameOverTime() 
+  gameOverTime() 
 }
 
 function updateSprites() {
@@ -273,15 +273,16 @@ function updateAnimationFrame(sprite) {
       sprite.frames.frameChangeCounter = 0;
       break;
 
+
+    // ************************* DEATH
     case State.DEATH:
+      // cambiar al siguiente frame si es momento
+      if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+        sprite.frames.frameCounter++;
+        sprite.frames.frameChangeCounter = 0;
+      }
+    // ************************* DEATH
 
-
-            // cambiar al siguiente frame si es momento
-            if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
-              sprite.frames.frameCounter++;
-              sprite.frames.frameChangeCounter = 0;
-            }
-            
 
     case State.ATTACK_LEFT:
     case State.ATTACK_RIGHT:
@@ -344,9 +345,9 @@ function calculateCollisionWithborders(sprite) {
   let isCollision = false
 
   // colision con el borde de la pantalla
-  if (sprite.xPos + sprite.imageSet.xSize > globals.canvas.width || sprite.yPos + sprite.imageSet.ySize > globals.canvas.height ) {
+  if (sprite.xPos + sprite.imageSet.xSize > globals.canvas.width || sprite.yPos + sprite.imageSet.ySize > globals.canvas.height) {
     isCollision = true
-  } else if (sprite.xPos < 0|| sprite.yPos < 50) {
+  } else if (sprite.xPos < 0 || sprite.yPos < 50) {
     isCollision = true
   }
   return isCollision
