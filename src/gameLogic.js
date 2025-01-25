@@ -273,6 +273,16 @@ function updateAnimationFrame(sprite) {
       sprite.frames.frameChangeCounter = 0;
       break;
 
+    case State.DEATH:
+
+
+            // cambiar al siguiente frame si es momento
+            if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+              sprite.frames.frameCounter++;
+              sprite.frames.frameChangeCounter = 0;
+            }
+            
+
     case State.ATTACK_LEFT:
     case State.ATTACK_RIGHT:
     case State.ATTACK_UP:
