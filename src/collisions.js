@@ -53,16 +53,10 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
   // variables to use
   let xPos
   let yPos
-  let isCollidingOnPos1
-  let isCollidingOnPos2
-  let isCollidingOnPos3
-  let isColliding
   let overlap
 
-  const brickSize = globals.level.imageSet.gridSize
   const direction = player.state
-
-  //   
+  
   switch (direction) {
     case State.RIGHT:
       // posiciones de PLAYER hacia la derecha
@@ -87,14 +81,13 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
         player.isCollidingWithObstacleOnTheLeft = true
 
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
-        overlap = Math.floor(xPos) % player.hitBox.xSize + 1
+        overlap = Math.floor(xPos) % player.hitBox.xSize + 5
         player.xPos += overlap
       }
       break
 
     case State.UP:
       // primera colisión en (xPos, yPos)
-      // yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
       yPos = player.yPos
 
       if (isOverlap) {
@@ -102,25 +95,21 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
         player.isCollidingWithObstacleOnTheTop = true;
 
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
-        overlap = Math.floor(yPos) % player.hitBox.ySize + 1;
+        overlap = Math.floor(yPos) % player.hitBox.ySize + 5;
         player.yPos += overlap;
       }
       break;
 
     case State.DOWN:
       // primera colisión en (xPos, yPos)
-      // yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
       yPos = player.yPos
-
-      // habrá colisión si toca alguno de los 3 bloques
-      isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
 
       if (isOverlap) {
         // existe colisión hacia arriba
         player.isCollidingWithObstacleOnTheTop = true;
 
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
-        overlap = Math.floor(yPos) % player.hitBox.ySize + 1;
+        overlap = Math.floor(yPos) % player.hitBox.ySize + 5;
         player.yPos -= overlap;
       }
       break;
@@ -133,8 +122,6 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
 
 // detecta la colisión entre player y enemigos
 function detectCollisionBetweenSkeletonAndSprites(sprite) {
-  // Resetear el estado de colisión del esqueleto
-  sprite.isCollidingWithAnySprite = false;
 
   // Obtener todos los demás sprites
   const otherSprites = [];
@@ -162,13 +149,6 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
 
     if (isOverlap) {
-      sprite.isCollidingWithAnySprite = true;
-
-      // Si es una colisión con el jugador
-      if (otherSprite.id === SpriteID.PLAYER) {
-        sprite.isCollidingWithPlayer = true;
-      }
-
       // Ajustar la posición del esqueleto y cambiar su dirección
       let overlap;
       switch (sprite.state) {
@@ -179,19 +159,19 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
           break;
 
         case State.LEFT:
-          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 1;
+          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 5;
           sprite.xPos += overlap;
           sprite.state = State.RIGHT; // Cambiar dirección a la derecha
           break;
 
         case State.UP:
-          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 1;
-          sprite.yPos += overlap;
+          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 5;
+          sprite.yPos -= overlap;
           sprite.state = State.DOWN; // Cambiar dirección hacia abajo
           break;
 
         case State.DOWN:
-          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 1;
+          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 5;
           sprite.yPos -= overlap;
           sprite.state = State.UP; // Cambiar dirección hacia arriba
           break;

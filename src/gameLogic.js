@@ -222,7 +222,7 @@ function updateLife() {
 
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
-      globals.life = globals.life-10
+      globals.life--
     }
     if (globals.life === 0) {
       globals.gameState = Game.OVER
