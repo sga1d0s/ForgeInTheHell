@@ -56,7 +56,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
   let overlap
 
   const direction = player.state
-  
+
   switch (direction) {
     case State.RIGHT:
       // posiciones de PLAYER hacia la derecha
@@ -125,6 +125,7 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
 
   // Obtener todos los demás sprites
   const otherSprites = [];
+
   for (let i = 0; i < globals.sprites.length; i++) {
     if (globals.sprites[i] !== sprite) {
       otherSprites.push(globals.sprites[i]);
@@ -166,7 +167,7 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
 
         case State.UP:
           overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 5;
-          sprite.yPos -= overlap;
+          sprite.yPos += overlap;
           sprite.state = State.DOWN; // Cambiar dirección hacia abajo
           break;
 
