@@ -154,25 +154,25 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
       let overlap;
       switch (sprite.state) {
         case State.RIGHT:
-          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 5;
+          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
           sprite.xPos -= overlap;
           sprite.state = State.LEFT
           break;
 
         case State.LEFT:
-          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 5;
+          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
           sprite.xPos += overlap;
           sprite.state = State.RIGHT; // Cambiar dirección a la derecha
           break;
 
         case State.UP:
-          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 5;
+          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
           sprite.yPos += overlap;
           sprite.state = State.DOWN; // Cambiar dirección hacia abajo
           break;
 
         case State.DOWN:
-          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 5;
+          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
           sprite.yPos -= overlap;
           sprite.state = State.UP; // Cambiar dirección hacia arriba
           break;
