@@ -72,4 +72,5 @@ function gameLoop(timeStamp) {
     globals.cycleRealTime -= globals.frameTimeObj
     globals.deltaTime = 0
   }
+
 }

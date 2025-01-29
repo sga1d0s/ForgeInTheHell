@@ -254,7 +254,7 @@ function renderHammer(value) {
 
 function drawGameOver() {
 
-  drawCorners(Game.OVER)
+  drawCorners()
 
   // globals
   let ctx = globals.ctx

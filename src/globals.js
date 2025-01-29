@@ -55,6 +55,8 @@ export default {
   // score
   score: 0,
 
-  //
-  skeletonSpawnInterval: null
+  // setSkeleton
+  skeletonSpawnInterval: false,
+  lastSkeletonSpawn: 0,
+  skeletonSpawn: 0
 }

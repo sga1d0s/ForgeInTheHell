@@ -1,7 +1,8 @@
 import globals from "./globals.js"
 import { Game, SpriteID, State, StrikeBox, FPS, } from "./constants.js"
 import detectCollisions from "./collisions.js"
-import { gameOverTime, initSkeleton } from "./initialize.js"
+import { gameOverTime, initSkeleton, initSprites, initLevel, initVars, initEvents } from "./initialize.js"
+import Timer from "./Timer.js"
 
 export default function update() {
 
@@ -9,25 +10,16 @@ export default function update() {
   switch (globals.gameState) {
     case Game.LOADING:
       console.log("Loading assets...")
-      setTimeout(() => {
-        globals.gameState = Game.NEW_GAME
-      }, 1000);
+      setLoading()
       break
 
     case Game.PLAYING:
-      if (!globals.skeletonSpawnInterval) {
-        // Inicia un intervalo cada 10 segundos solo si no existe ya uno
-        globals.skeletonSpawnInterval = setInterval(initSkeleton, 10000);
-      }
+      setSkeleton()
       playGame()
       break
 
     case Game.OVER:
-      // Detiene el intervalo cuando el juego termina
-  if (globals.skeletonSpawnInterval) {
-    clearInterval(globals.skeletonSpawnInterval);
-    globals.skeletonSpawnInterval = null; // Reseteamos para permitir reiniciar el juego sin problemas
-  }
+      setGameOver()
       break
 
     case Game.NEW_GAME:
@@ -209,7 +201,7 @@ function playGame() {
   updateLife()
 
   // TEST: tiempo limitado para la prueba
-  gameOverTime() 
+  gameOverTime()
 }
 
 function updateSprites() {
@@ -226,7 +218,7 @@ function updateLife() {
 
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
-      globals.life--
+      globals.life = globals.life-100
     }
     if (globals.life === 0) {
       globals.gameState = Game.OVER
@@ -383,20 +375,80 @@ function readKeyboardAndAssignState(sprite) {
   }
 }
 
+function setSkeleton(){
+  if (!globals.skeletonSpawnInterval) {
+    // inicia un intervalo cada 10 segundos solo si no existe ya uno
+    globals.skeletonSpawnInterval = setInterval(initSkeleton, 5000);
+  }
+}
+
+
+function setLoading(){
+  globals.gameState = Game.NEW_GAME
+/*   setTimeout(() => {
+  }, 1000); */
+}
+
 function reload() {
   // borramos la pantalla entera y UHD
   globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
   globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
 
-  // inicializar las variables de gestión de tiempo
-  globals.previousCycleMilliseconds = 0
-  globals.deltaTime = 0
-  globals.frameTimeObj = 1 / FPS // frame time in seconds
+  globals.sprites = []
+  // iniciar los sprites
+  initSprites()
+
+  // inicializamos las variables de gestión de tiempo
+  // globals.previousCycleMilliseconds = 0
+  // globals.deltaTime = 0
+  // globals.frameTimeObj = 1 / FPS // frame time in seconds
 
   // iniciamos el contador
   globals.gameTime = 0
 
-  // reiniciar variables de juego
-  globals.life = 100
-  globals.score = 0
+  globals.action = {
+    moveLeft: false,
+    moveRight: false,
+    moveUp: false,
+    moveDown: false,
+    attack: false
+  }
+
+  // variable vida
+  globals.life = 100;  
+  // inicialización del mapa del juego
+  initLevel()
+
+  // eventos de teclado
+  // initEvents()
+}
+
+function setGameOver(){
+  if (globals.skeletonSpawnInterval) {
+    clearInterval(globals.skeletonSpawnInterval);
+    // resetear reiniciar el juego
+    globals.skeletonSpawnInterval = null
+    reload()
+  }
+
+  const TIMER_NEW_GAME = 30
+
+  let timer = globals.deltaTime + TIMER_NEW_GAME
+
+    // Verificamos si han pasado 10 segundos desde el último spawn
+    if (timer > globals.deltaTime ) {
+      globals.gameState = Game.LOADING
+
+      
+    }
+
+  if (globals.action.moveLeft) {
+    globals.gameState = Game.SCORES;
+  }
+  if(globals.action.moveRight){
+    if(globals.action.enter){
+      globals.gameState = Game.LOADING
+    }
+  }
+
 }

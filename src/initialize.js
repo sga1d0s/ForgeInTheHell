@@ -83,7 +83,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    // globals.gameState = Game.PLAYING
+    // globals.gameState = Game.OVER
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
@@ -112,10 +112,6 @@ function initEvents() {
   // captura de eventos del teclado
   window.addEventListener("keydown", keydownHandler, false)
   window.addEventListener("keyup", keyupHandler, false)
-
-
-  // Generar un nuevo esqueleto cada minuto
-  // setInterval(initSkeleton, 10000);
 }
 
 // PLAYER
@@ -393,6 +389,12 @@ function gameOverTime() {
   }, 180000)
 }
 
+function initTimersSkeleton() {
+  // creamos timer de valor 200, con cambios cada 0.5 segundos
+  globals.skeletonSpawn = new Timer(200, 1)
+}
+
+
 // exportar funciones
 export {
   initHTMLElements,
@@ -402,5 +404,6 @@ export {
   initLevel,
   initEvents,
   gameOverTime,
-  initSkeleton
+  initSkeleton,
+  initTimersSkeleton
 }
