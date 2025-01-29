@@ -218,9 +218,9 @@ function updateLife() {
 
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
-      globals.life = globals.life-100
+      globals.life = globals.life-30
     }
-    if (globals.life === 0) {
+    if (globals.life <= 10) {
       globals.gameState = Game.OVER
     }
   }
@@ -414,6 +414,8 @@ function reload() {
     attack: false
   }
 
+  // reiniciar score
+  globals.score = 0
   // variable vida
   globals.life = 100;  
   // inicialización del mapa del juego
@@ -430,17 +432,6 @@ function setGameOver(){
     globals.skeletonSpawnInterval = null
     reload()
   }
-
-  const TIMER_NEW_GAME = 30
-
-  let timer = globals.deltaTime + TIMER_NEW_GAME
-
-    // Verificamos si han pasado 10 segundos desde el último spawn
-    if (timer > globals.deltaTime ) {
-      globals.gameState = Game.LOADING
-
-      
-    }
 
   if (globals.action.moveLeft) {
     globals.gameState = Game.SCORES;
