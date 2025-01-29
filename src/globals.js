@@ -54,4 +54,7 @@ export default {
 
   // score
   score: 0,
+
+  //
+  skeletonSpawnInterval: null
 }

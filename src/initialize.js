@@ -115,7 +115,7 @@ function initEvents() {
 
 
   // Generar un nuevo esqueleto cada minuto
-  setInterval(initSkeleton, 10000);
+  // setInterval(initSkeleton, 10000);
 }
 
 // PLAYER
@@ -401,5 +401,6 @@ export {
   initSprites,
   initLevel,
   initEvents,
-  gameOverTime
+  gameOverTime,
+  initSkeleton
 }

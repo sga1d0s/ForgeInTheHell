@@ -1,7 +1,7 @@
 import globals from "./globals.js"
 import { Game, SpriteID, State, StrikeBox, FPS, } from "./constants.js"
 import detectCollisions from "./collisions.js"
-import { gameOverTime } from "./initialize.js"
+import { gameOverTime, initSkeleton } from "./initialize.js"
 
 export default function update() {
 
@@ -15,19 +15,19 @@ export default function update() {
       break
 
     case Game.PLAYING:
+      if (!globals.skeletonSpawnInterval) {
+        // Inicia un intervalo cada 10 segundos solo si no existe ya uno
+        globals.skeletonSpawnInterval = setInterval(initSkeleton, 10000);
+      }
       playGame()
       break
 
     case Game.OVER:
-      setTimeout(() => {
-        // teclado en GAME OVER
-        if (globals.action.moveLeft) {
-          globals.gameState = Game.SCORES;
-        }
-        if (globals.action.moveRight) {
-          globals.gameState = Game.LOADING;
-        }
-      }, 3000);
+      // Detiene el intervalo cuando el juego termina
+  if (globals.skeletonSpawnInterval) {
+    clearInterval(globals.skeletonSpawnInterval);
+    globals.skeletonSpawnInterval = null; // Reseteamos para permitir reiniciar el juego sin problemas
+  }
       break
 
     case Game.NEW_GAME:
@@ -121,6 +121,10 @@ function updateSkeleton(sprite) {
     case State.RIGHT:
       sprite.physics.vx = sprite.physics.vLimit;
       break;
+    case State.DEATH:
+      sprite.physics.vx = 0
+      sprite.physics.vx = 0
+      break
 
     default:
       console.log("ERROR: State invalid");
