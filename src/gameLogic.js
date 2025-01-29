@@ -115,7 +115,7 @@ function updateSkeleton(sprite) {
       break;
     case State.DEATH:
       sprite.physics.vx = 0
-      sprite.physics.vx = 0
+      sprite.physics.vy = 0
       break
 
     default:
