@@ -45,7 +45,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
 
   const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
 
-  if (isOverlap && sprite.id === SpriteID.SKELETON) {
+  if (isOverlap && sprite.id === SpriteID.SKELETON && sprite.state !== State.DEATH) {
     // existe colisión
     sprite.isCollidingWithPlayer = true
   }
@@ -57,66 +57,70 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
 
   const direction = player.state
 
-  switch (direction) {
-    case State.RIGHT:
-      // posiciones de PLAYER hacia la derecha
-      xPos = player.xPos
-
-      if (isOverlap) {
-        // existe colision a la derecha
-        player.isCollidingWithObstacleOnTheRight = true
-
-        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
-        overlap = Math.floor(xPos) % player.hitBox.xSize + 5
-        player.xPos -= overlap
-      }
-      break;
-
-    case State.LEFT:
-      // posiones de PLAYER hacia la izquierda
-      xPos = player.xPos
-
-      if (isOverlap) {
-        // existe colision a la izquierda]]
-        player.isCollidingWithObstacleOnTheLeft = true
-
-        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
-        overlap = Math.floor(xPos) % player.hitBox.xSize + 5
-        player.xPos += overlap
-      }
-      break
-
-    case State.UP:
-      // primera colisión en (xPos, yPos)
-      yPos = player.yPos
-
-      if (isOverlap) {
-        // existe colisión hacia arriba
-        player.isCollidingWithObstacleOnTheTop = true;
-
-        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
-        overlap = Math.floor(yPos) % player.hitBox.ySize + 5;
-        player.yPos += overlap;
-      }
-      break;
-
-    case State.DOWN:
-      // primera colisión en (xPos, yPos)
-      yPos = player.yPos
-
-      if (isOverlap) {
-        // existe colisión hacia arriba
-        player.isCollidingWithObstacleOnTheTop = true;
-
-        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
-        overlap = Math.floor(yPos) % player.hitBox.ySize + 5;
-        player.yPos -= overlap;
-      }
-      break;
-
-    default:
-      break
+  if (sprite.state !== State.DEATH){
+    switch (direction) {
+      case State.RIGHT:
+        // posiciones de PLAYER hacia la derecha
+        xPos = player.xPos
+  
+        if (isOverlap) {
+          // existe colision a la derecha
+          player.isCollidingWithObstacleOnTheRight = true
+  
+          // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+          overlap = Math.floor(xPos) % player.hitBox.xSize + 5
+          player.xPos -= overlap
+        }
+        break;
+  
+      case State.LEFT:
+        // posiones de PLAYER hacia la izquierda
+        xPos = player.xPos
+  
+        if (isOverlap) {
+          // existe colision a la izquierda]]
+          player.isCollidingWithObstacleOnTheLeft = true
+  
+          // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+          overlap = Math.floor(xPos) % player.hitBox.xSize + 5
+          player.xPos += overlap
+        }
+        break
+  
+      case State.UP:
+        // primera colisión en (xPos, yPos)
+        yPos = player.yPos
+  
+        if (isOverlap) {
+          // existe colisión hacia arriba
+          player.isCollidingWithObstacleOnTheTop = true;
+  
+          // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+          overlap = Math.floor(yPos) % player.hitBox.ySize + 5;
+          player.yPos += overlap;
+        }
+        break;
+  
+      case State.DOWN:
+        // primera colisión en (xPos, yPos)
+        yPos = player.yPos
+  
+        if (isOverlap) {
+          // existe colisión hacia arriba
+          player.isCollidingWithObstacleOnTheTop = true;
+  
+          // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+          overlap = Math.floor(yPos) % player.hitBox.ySize + 5;
+          player.yPos -= overlap;
+        }
+        break;
+  
+      default:
+        break
+    }
   }
+
+
 
 }
 
@@ -148,6 +152,10 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
 
     // Verificar si hay intersección
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
+
+    if (sprite.id !== SpriteID.SKELETON){
+      
+    }
 
     if (isOverlap) {
       // Ajustar la posición del esqueleto y cambiar su dirección
@@ -328,7 +336,6 @@ function detectCollisionAttack(sprite) {
       // globals.sprites.splice(index, 1);
       globals.sprites[index].state = State.DEATH;
     }
-
   }
 }
 
