@@ -148,37 +148,36 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
     const w2 = otherSprite.hitBox.xSize;
     const h2 = otherSprite.hitBox.ySize;
 
-    // Verificar si hay intersección
+    // verificar si hay intersección
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
 
-    if (sprite.state !== State.DEATH) {
 
-      if (isOverlap) {
-        // Ajustar la posición del esqueleto y cambiar su dirección
+      if (isOverlap && otherSprite.id != SpriteID.SKELETON) {
+        // ajustar la posición del esqueleto y cambiar su dirección
         let overlap;
         switch (sprite.state) {
           case State.RIGHT:
             overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
-            sprite.xPos -= overlap;
+            sprite.xPos -= overlap
             sprite.state = State.LEFT
             break;
 
           case State.LEFT:
             overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
-            sprite.xPos += overlap;
-            sprite.state = State.RIGHT; // Cambiar dirección a la derecha
+            sprite.xPos += overlap
+            sprite.state = State.RIGHT
             break;
 
           case State.UP:
             overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
-            sprite.yPos += overlap;
-            sprite.state = State.DOWN; // Cambiar dirección hacia abajo
+            sprite.yPos += overlap
+            sprite.state = State.DOWN
             break;
 
           case State.DOWN:
             overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
-            sprite.yPos -= overlap;
-            sprite.state = State.UP; // Cambiar dirección hacia arriba
+            sprite.yPos -= overlap
+            sprite.state = State.UP
             break;
 
           default:
@@ -186,7 +185,7 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
         }
       }
     }
-  }
+  
 }
 
 
