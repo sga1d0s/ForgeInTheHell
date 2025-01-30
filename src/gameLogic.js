@@ -30,7 +30,7 @@ export default function update() {
       if (globals.action.moveRight) {
         globals.gameState = Game.NEW_GAME;
       }
-      if (globals.action.moveUp) {
+      if (globals.action.moveUp ) {
         globals.gameState = Game.CONTROLS;
       }
       if (globals.action.moveDown) {
@@ -59,16 +59,16 @@ export default function update() {
 
     case Game.CONTROLS:
       // 
-      if (globals.action.moveLeft) {
+      if (globals.action.moveLeft || globals.action.moveLeftA) {
         globals.gameState = Game.STORY;
       }
-      if (globals.action.moveRight) {
+      if (globals.action.moveRight || globals.action.moveRightD) {
         globals.gameState = Game.CONTROLS;
       }
-      if (globals.action.moveUp) {
+      if (globals.action.moveUp || globals.action.moveUpW) {
         globals.gameState = Game.CONTROLS;
       }
-      if (globals.action.moveDown) {
+      if (globals.action.moveDown || globals.action.moveDownS) {
         globals.gameState = Game.NEW_GAME;
       }
       break
