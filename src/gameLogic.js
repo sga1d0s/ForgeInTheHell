@@ -413,13 +413,13 @@ function readKeyboardAndAssignState(sprite) {
             sprite.state
   }
 }
+
 function setSkeleton() {
   if (!globals.skeletonSpawnInterval) {
     // inicia un intervalo cada 10 segundos solo si no existe ya uno
     globals.skeletonSpawnInterval = setInterval(initSkeleton, 5000);
   }
 }
-
 
 function setLoading() {
   globals.gameState = Game.NEW_GAME

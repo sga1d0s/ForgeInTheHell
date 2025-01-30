@@ -6,8 +6,10 @@ export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites
   for (let i = 4; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
+    // colision entre player y sprites
     detectCollisionBetweenPlayerAndSprites(sprite)
 
+    // colision entre skeleton y sprites
     detectCollisionBetweenSkeletonAndSprites(sprite)
 
     // detecta la colisión entre hacha y enemigo
@@ -152,43 +154,41 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
 
 
-      if (isOverlap && otherSprite.id != SpriteID.SKELETON) {
-        // ajustar la posición del esqueleto y cambiar su dirección
-        let overlap;
-        switch (sprite.state) {
-          case State.RIGHT:
-            overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
-            sprite.xPos -= overlap
-            sprite.state = State.LEFT
-            break;
+    if (isOverlap && otherSprite.id != SpriteID.SKELETON) {
+      // ajustar la posición del esqueleto y cambiar su dirección
+      let overlap;
+      switch (sprite.state) {
+        case State.RIGHT:
+          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
+          sprite.xPos -= overlap
+          sprite.state = State.LEFT
+          break;
 
-          case State.LEFT:
-            overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
-            sprite.xPos += overlap
-            sprite.state = State.RIGHT
-            break;
+        case State.LEFT:
+          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
+          sprite.xPos += overlap
+          sprite.state = State.RIGHT
+          break;
 
-          case State.UP:
-            overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
-            sprite.yPos += overlap
-            sprite.state = State.DOWN
-            break;
+        case State.UP:
+          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
+          sprite.yPos += overlap
+          sprite.state = State.DOWN
+          break;
 
-          case State.DOWN:
-            overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
-            sprite.yPos -= overlap
-            sprite.state = State.UP
-            break;
+        case State.DOWN:
+          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
+          sprite.yPos -= overlap
+          sprite.state = State.UP
+          break;
 
-          default:
-            break;
-        }
+        default:
+          break;
       }
     }
-  
+  }
+
 }
-
-
 
 // calculo de colisiones con los bloques del mapa
 function detectCollisionBetweenPlayerAndMapObstacles() {
@@ -321,7 +321,7 @@ function detectCollisionAttack(sprite) {
   const h2 = sprite.hitBox.ySize
 
   const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
-  if (isOverlap && sprite.id === SpriteID.SKELETON ) {
+  if (isOverlap && sprite.id === SpriteID.SKELETON) {
     // existe colisión
     sprite.isAttackSuccsesfull = true
 
