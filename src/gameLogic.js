@@ -30,7 +30,7 @@ export default function update() {
       if (globals.action.moveRight) {
         globals.gameState = Game.NEW_GAME;
       }
-      if (globals.action.moveUp ) {
+      if (globals.action.moveUp) {
         globals.gameState = Game.CONTROLS;
       }
       if (globals.action.moveDown) {
@@ -162,6 +162,22 @@ function updatePlayer(sprite) {
       sprite.physics.vx = sprite.physics.vLimit;
       break;
 
+    case State.UP_LEFT:
+      sprite.physics.vx = -sprite.physics.vLimit * Math.SQRT1_2
+      sprite.physics.vy = -sprite.physics.vLimit * Math.SQRT1_2
+      break
+    case State.UP_RIGHT:
+      sprite.physics.vx = sprite.physics.vLimit * Math.SQRT1_2
+      sprite.physics.vy = -sprite.physics.vLimit * Math.SQRT1_2
+      break
+    case State.DOWN_LEFT:
+      sprite.physics.vx = -sprite.physics.vLimit * Math.SQRT1_2
+      sprite.physics.vy = sprite.physics.vLimit * Math.SQRT1_2
+      break
+    case State.DOWN_RIGHT:
+      sprite.physics.vx = sprite.physics.vLimit * Math.SQRT1_2
+      sprite.physics.vy = sprite.physics.vLimit * Math.SQRT1_2
+      break
     default:
       break;
   }
@@ -218,7 +234,7 @@ function updateLife() {
 
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
-      globals.life = globals.life-30
+      globals.life = globals.life - 30
     }
     if (globals.life <= 10) {
       globals.gameState = Game.OVER
@@ -373,9 +389,31 @@ function readKeyboardAndAssignState(sprite) {
           sprite.state === State.DOWN ? State.STILL_DOWN :
             sprite.state;
   }
+  if (globals.action.moveLeft && globals.action.moveUp) {
+    sprite.state = State.UP_LEFT
+  } else if (globals.action.moveLeft && globals.action.moveDown) {
+    sprite.state = State.DOWN_LEFT
+  } else if (globals.action.moveRight && globals.action.moveUp) {
+    sprite.state = State.UP_RIGHT
+  } else if (globals.action.moveRight && globals.action.moveDown) {
+    sprite.state = State.DOWN_RIGHT
+  } else if (globals.action.moveLeft) {
+    sprite.state = State.LEFT
+  } else if (globals.action.moveRight) {
+    sprite.state = State.RIGHT
+  } else if (globals.action.moveUp) {
+    sprite.state = State.UP
+  } else if (globals.action.moveDown) {
+    sprite.state = State.DOWN
+  } else {
+    sprite.state = sprite.state === State.LEFT ? State.STILL_LEFT :
+      sprite.state === State.RIGHT ? State.STILL_RIGHT :
+        sprite.state === State.UP ? State.STILL_UP :
+          sprite.state === State.DOWN ? State.STILL_DOWN :
+            sprite.state
+  }
 }
-
-function setSkeleton(){
+function setSkeleton() {
   if (!globals.skeletonSpawnInterval) {
     // inicia un intervalo cada 10 segundos solo si no existe ya uno
     globals.skeletonSpawnInterval = setInterval(initSkeleton, 5000);
@@ -383,10 +421,10 @@ function setSkeleton(){
 }
 
 
-function setLoading(){
+function setLoading() {
   globals.gameState = Game.NEW_GAME
-/*   setTimeout(() => {
-  }, 1000); */
+  /*   setTimeout(() => {
+    }, 1000); */
 }
 
 function reload() {
@@ -417,7 +455,7 @@ function reload() {
   // reiniciar score
   globals.score = 0
   // variable vida
-  globals.life = 100;  
+  globals.life = 100;
   // inicialización del mapa del juego
   initLevel()
 
@@ -425,7 +463,7 @@ function reload() {
   // initEvents()
 }
 
-function setGameOver(){
+function setGameOver() {
   if (globals.skeletonSpawnInterval) {
     clearInterval(globals.skeletonSpawnInterval);
     // resetear reiniciar el juego
@@ -436,8 +474,8 @@ function setGameOver(){
   if (globals.action.moveLeft) {
     globals.gameState = Game.SCORES;
   }
-  if(globals.action.moveRight){
-    if(globals.action.enter){
+  if (globals.action.moveRight) {
+    if (globals.action.enter) {
       globals.gameState = Game.LOADING
     }
   }

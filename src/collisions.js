@@ -330,10 +330,7 @@ function detectCollisionAttack(sprite) {
     if (index !== -1) {
       globals.score++
       globals.sprites[index].state = State.DEATH;
-      // globals.sprites.splice(index, 1)
-      if (globals.sprites[index].frameChangeCounter === 0){
-        globals.sprites.splice(index, 1)
-      }
+      globals.sprites.splice(index, 1)
     }
   }
 }

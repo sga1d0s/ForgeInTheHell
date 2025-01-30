@@ -69,6 +69,11 @@ export const State = {
   STILL_DOWN: 3,
   STILL_RIGHT: 4,
 
+  UP_LEFT: 7,
+  UP_RIGHT: 5,
+  DOWN_LEFT: 6,
+  DOWN_RIGHT: 8,
+
   UP: 9,
   LEFT: 10,
   DOWN: 11,
@@ -80,11 +85,6 @@ export const State = {
   ATTACK_RIGHT: 14,
 
   DEATH: 21,
-
-  UP_LEFT: 0,
-  UP_RIGHT: 0,
-  DOWN_LEFT: 0,
-  DOWN_RIGHT: 0,
 
   STILL: 0,
 };
