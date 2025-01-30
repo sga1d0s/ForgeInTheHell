@@ -218,7 +218,7 @@ function updateLife() {
 
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
-      globals.life = globals.life-30
+      globals.life = globals.life - 30
     }
     if (globals.life <= 10) {
       globals.gameState = Game.OVER
@@ -375,18 +375,23 @@ function readKeyboardAndAssignState(sprite) {
   }
 }
 
-function setSkeleton(){
-  if (!globals.skeletonSpawnInterval) {
-    // inicia un intervalo cada 10 segundos solo si no existe ya uno
-    globals.skeletonSpawnInterval = setInterval(initSkeleton, 5000);
+function setSkeleton() {
+  // definir el tiempo de espera en segundos
+  const TIMER_SKELETON = 20;
+  let timer = globals.gameTime
+
+  // Verificamos si han pasado 10 segundos desde el último spawn
+  if (timer - globals.lastSkeletonSpawn >= TIMER_SKELETON) {
+    initSkeleton(); // Generar nuevo esqueleto
+    globals.lastSkeletonSpawn = timer; // Reiniciar temporizador
   }
 }
 
 
-function setLoading(){
+function setLoading() {
   globals.gameState = Game.NEW_GAME
-/*   setTimeout(() => {
-  }, 1000); */
+  /*   setTimeout(() => {
+    }, 1000); */
 }
 
 function reload() {
@@ -417,7 +422,7 @@ function reload() {
   // reiniciar score
   globals.score = 0
   // variable vida
-  globals.life = 100;  
+  globals.life = 100;
   // inicialización del mapa del juego
   initLevel()
 
@@ -425,7 +430,7 @@ function reload() {
   // initEvents()
 }
 
-function setGameOver(){
+function setGameOver() {
   if (globals.skeletonSpawnInterval) {
     clearInterval(globals.skeletonSpawnInterval);
     // resetear reiniciar el juego
@@ -436,8 +441,8 @@ function setGameOver(){
   if (globals.action.moveLeft) {
     globals.gameState = Game.SCORES;
   }
-  if(globals.action.moveRight){
-    if(globals.action.enter){
+  if (globals.action.moveRight) {
+    if (globals.action.enter) {
       globals.gameState = Game.LOADING
     }
   }

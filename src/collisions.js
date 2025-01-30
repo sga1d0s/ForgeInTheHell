@@ -152,10 +152,10 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
 
 
-      if (isOverlap && otherSprite.id != SpriteID.SKELETON) {
+      if (isOverlap && otherSprite.id) {
         // ajustar la posición del esqueleto y cambiar su dirección
         let overlap;
-        switch (sprite.state) {
+        switch (sprite.state || otherSprite.state) {
           case State.RIGHT:
             overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
             sprite.xPos -= overlap
@@ -187,8 +187,6 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
     }
   
 }
-
-
 
 // calculo de colisiones con los bloques del mapa
 function detectCollisionBetweenPlayerAndMapObstacles() {
@@ -329,6 +327,7 @@ function detectCollisionAttack(sprite) {
     const index = globals.sprites.indexOf(sprite);
     if (index !== -1) {
       globals.score++
+      // TODO: no se muestra el sprite DEATH porqu elo elimina del array
       globals.sprites[index].state = State.DEATH;
       globals.sprites.splice(index, 1)
     }
