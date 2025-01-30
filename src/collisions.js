@@ -321,7 +321,7 @@ function detectCollisionAttack(sprite) {
   const h2 = sprite.hitBox.ySize
 
   const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
-  if (isOverlap && sprite.id === SpriteID.SKELETON) {
+  if (isOverlap && sprite.id === SpriteID.SKELETON ) {
     // existe colisión
     sprite.isAttackSuccsesfull = true
 
@@ -330,7 +330,10 @@ function detectCollisionAttack(sprite) {
     if (index !== -1) {
       globals.score++
       globals.sprites[index].state = State.DEATH;
-      globals.sprites.splice(index, 1)
+      // globals.sprites.splice(index, 1)
+      if (globals.sprites[index].frameChangeCounter === 0){
+        globals.sprites.splice(index, 1)
+      }
     }
   }
 }
