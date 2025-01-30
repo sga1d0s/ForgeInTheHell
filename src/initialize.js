@@ -138,7 +138,7 @@ function initPlayer() {
   const player = new Sprite(
     SpriteID.PLAYER,
     State.STILL_DOWN,
-    100, 198,
+    40, 100,
     imageSet,
     frames,
     attackFrames,
@@ -152,10 +152,17 @@ function initPlayer() {
 
 // SKELETON
 function initSkeleton() {
-  // generar coordenadas aleatorias dentro de un rango
-  const randomX =  Math.floor(Math.random() * (450 - 50 + 1)) + 50
-  // posición Y aleatoria entre 100 y 384
-  const randomY = Math.floor(Math.random() * (50 - 320 + 1)) + 320
+  let randomX = 0
+  do {
+    // generar coordenadas aleatorias dentro de un rango
+    randomX = Math.floor(Math.random() * (450 - 50 + 1)) + 50
+  } while (randomX < 65);
+
+  let randomY = 0
+  do {
+    // posición Y aleatoria entre 100 y 384
+    randomY = Math.floor(Math.random() * (50 - 320 + 1)) + 320
+  } while (randomY < 150);
 
   const randomState = Math.floor(Math.random() * (12 - 9)) + 9
 
