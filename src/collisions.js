@@ -237,7 +237,43 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       }
       break;
 
+      case State.UP_RIGHT:
+        // posiciones hacia la derecha
+        xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
+        yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
+  
+        // ternario para comprobar si player está en el límite derecho
+        isColliding = (xPos > globals.canvas.width) ? true : false
+  
+        if (isColliding) {
+          // existe colision a la derecha
+          player.isCollidingWithObstacleOnTheRight = true
+  
+          // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+          overlap = Math.floor(xPos) % brickSize + 1
+          player.xPos -= overlap
+        }
+        break;
+
     case State.LEFT:
+      // posiones hacia la izquierda
+      xPos = player.xPos + player.hitBox.xOffset - 1
+      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
+
+      // ternario para comprobar si player está en el límite iaquierdo
+      isColliding = (xPos < 0) ? true : false
+
+      if (isColliding) {
+        // existe colision a la izquierda
+        player.isCollidingWithObstacleOnTheLeft = true
+
+        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+        overlap = Math.floor(xPos) % brickSize + 1
+        player.xPos -= overlap
+      }
+      break
+
+    case State.UP_LEFT:
       // posiones hacia la izquierda
       xPos = player.xPos + player.hitBox.xOffset - 1
       yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
