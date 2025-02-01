@@ -208,6 +208,10 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
   let isCollidingOnPos2
   let isCollidingOnPos3
   let isColliding
+  let isCollidingLeft
+  let isCollidingRight
+  let isCollidingUp
+  let isCollidingDown
   let overlap
 
   const brickSize = globals.level.imageSet.gridSize
@@ -237,23 +241,41 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       }
       break;
 
-      case State.UP_RIGHT:
-        // posiciones hacia la derecha
-        xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
-        yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
-  
-        // ternario para comprobar si player está en el límite derecho
-        isColliding = (xPos > globals.canvas.width) ? true : false
-  
-        if (isColliding) {
-          // existe colision a la derecha
-          player.isCollidingWithObstacleOnTheRight = true
-  
-          // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
-          overlap = Math.floor(xPos) % brickSize + 1
-          player.xPos -= overlap
-        }
-        break;
+    case State.UP_RIGHT:
+      // posiciones hacia la derecha
+      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
+      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
+
+      // ternario para comprobar si player está en el límite derecho
+      isColliding = (xPos > globals.canvas.width) ? true : false
+
+      if (isColliding) {
+        // existe colision a la derecha
+        player.isCollidingWithObstacleOnTheRight = true
+
+        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+        overlap = Math.floor(xPos) % brickSize + 1
+        player.xPos -= overlap
+      }
+      break;
+
+    case State.DOWN_RIGHT:
+      // posiciones hacia la derecha
+      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
+      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
+
+      // ternario para comprobar si player está en el límite derecho
+      isColliding = (xPos > globals.canvas.width) ? true : false
+
+      if (isColliding) {
+        // existe colision a la derecha
+        player.isCollidingWithObstacleOnTheRight = true
+
+        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+        overlap = Math.floor(xPos) % brickSize + 1
+        player.xPos -= overlap
+      }
+      break;
 
     case State.LEFT:
       // posiones hacia la izquierda
@@ -274,6 +296,51 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       break
 
     case State.UP_LEFT:
+      // posiones hacia la izquierda
+      xPos = player.xPos + player.hitBox.xOffset - 1
+      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
+
+      // ternario para comprobar si player está en el límite iaquierdo
+      isCollidingLeft = (xPos < 1
+        
+      ) ? true : false
+
+      isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdW);
+      isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdWl);
+      isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdWr);
+
+      // habrá colisión si toca alguno de los 3 bloques
+      isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
+
+      if (isCollidingLeft) {
+        // existe colision a la izquierda
+        player.isCollidingWithObstacleOnTheLeft = true
+
+        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+        overlap = Math.floor(xPos) % brickSize + 1
+        player.xPos -= overlap
+      } if (isColliding) {
+        // existe colisión hacia arriba
+        player.isCollidingWithObstacleOnTheTop = true;
+
+        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+        overlap = Math.floor(yPos) % brickSize + 1;
+        player.yPos -= overlap - brickSize;
+      }
+      if (isCollidingLeft && isColliding) {
+        // existe colisión hacia arriba
+        player.isCollidingWithObstacleOnTheTop = true;
+        // existe colision a la izquierda
+        player.isCollidingWithObstacleOnTheLeft = true
+
+        let overlapX = Math.floor(xPos) % brickSize + 1
+        let overlapY = Math.floor(yPos) % brickSize + 1;
+        player.yPos -= overlap - brickSize;
+        player.xPos -= overlapX;
+      }
+      break
+
+    case State.DOWN_LEFT:
       // posiones hacia la izquierda
       xPos = player.xPos + player.hitBox.xOffset - 1
       yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
