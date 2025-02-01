@@ -60,7 +60,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
 
   const direction = player.state
 
-  if (sprite.state !== State.DEATH) {
+  if (sprite.state !== State.DEATH && sprite.id !== SpriteID.SKELETON) {
     switch (direction) {
       case State.RIGHT:
         // posiciones de PLAYER hacia la derecha
