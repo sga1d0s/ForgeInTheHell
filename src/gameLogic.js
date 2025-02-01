@@ -443,6 +443,9 @@ function reload() {
 
   // iniciamos el contador
   globals.gameTime = 0
+  globals.levelTime = {}
+  globals.spritesNewGame = []
+  globals.sprites = []
 
   globals.action = {
     moveLeft: false,
