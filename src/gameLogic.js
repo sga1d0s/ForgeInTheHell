@@ -15,8 +15,8 @@ export default function update() {
 
     case Game.PLAYING:
       playGame()
-      setSkeleton()
-      // setSkeletonTimer()
+      // setSkeleton()
+      setSkeletonTimer()
       break
 
     case Game.OVER:
@@ -452,19 +452,18 @@ function reload() {
   globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
 
   globals.sprites = []
-  // iniciar los sprites
-  initSprites()
 
   // inicializamos las variables de gestión de tiempo
-  // globals.previousCycleMilliseconds = 0
-  // globals.deltaTime = 0
-  // globals.frameTimeObj = 1 / FPS // frame time in seconds
+/*   globals.previousCycleMilliseconds = 0
+  globals.deltaTime = 0
+  globals.frameTimeObj = 1 / FPS // frame time in seconds */
 
   // iniciamos el contador
   globals.gameTime = 0
   globals.levelTime = {}
-  //globals.spritesNewGame = []
-  //globals.sprites = []
+
+  globals.spritesNewGame = []
+  globals.sprites = []
 
   globals.action = {
     moveLeft: false,
@@ -473,30 +472,20 @@ function reload() {
     moveDown: false,
     attack: false
   }
-  
+
   // reiniciar score
   globals.score = 0
   // variable vida
   globals.life = 100;
+
+  // iniciar los sprites
+  initSprites()
+
   // inicialización del mapa del juego
   initLevel()
 }
 
 function setGameOver() {
-  if (globals.skeletonSpawnInterval) {
-    clearInterval(globals.skeletonSpawnInterval);
-    // resetear reiniciar el juego
-    globals.skeletonSpawnInterval = null
-    reload()
-  }
-
-  /* if (globals.levelTime) {
-    // clearInterval(globals.skeletonSpawnInterval);
-    // resetear reiniciar el juego
-    globals.levelTime = 0
-    globals.skeletonSpawnInterval = null
-    reload()
-  } */
 
   if (globals.action.moveLeft) {
     globals.gameState = Game.SCORES;
@@ -506,5 +495,22 @@ function setGameOver() {
       globals.gameState = Game.LOADING
     }
   }
+  
+/*   if (globals.skeletonSpawnInterval) {
+    clearInterval(globals.skeletonSpawnInterval);
+    // resetear reiniciar el juego
+    globals.skeletonSpawnInterval = null
+    reload()
+  } */
+  reload()
+  /* if (globals.levelTime) {
+    // clearInterval(globals.skeletonSpawnInterval);
+    // resetear reiniciar el juego
+    globals.levelTime = 0
+    globals.skeletonSpawnInterval = null
+    reload()
+  } */
+
+
 
 }
