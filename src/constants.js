@@ -120,7 +120,6 @@ export const Key = {
   S: 83,
   A: 65,
   D: 68,
-
 }
 
 // crear el strikeBox(xSize, ySize, xOffset, yOffset)

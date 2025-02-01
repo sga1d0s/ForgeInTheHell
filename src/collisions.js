@@ -1,6 +1,5 @@
 import globals from "./globals.js"
 import { Block, SpriteID, State } from "./constants.js"
-import Sprite from "./Sprite.js"
 
 export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites

@@ -41,13 +41,19 @@ export default {
   cycleRealTime: 0,
 
   // datos de nivel de esqueleto
-   level: {},
+  level: {},
 
   // tiempo de juego
   gameTime: -1,
 
-  // temporizador de nivel
-  levelTime: {},
+  // temporizador esqueleto
+  skeletonTime: {},
+
+  // temporizador loading
+  loadingTime: {},
+
+  // temporizador BETA 180 seg
+  gameOverTime: {},
 
   // estado de tecla
   action: {},
@@ -57,9 +63,4 @@ export default {
 
   // score
   score: 0,
-
-  // setSkeleton
-  skeletonSpawnInterval: false,
-  lastSkeletonSpawn: 0,
-  skeletonSpawn: 0
 }

@@ -1,8 +1,7 @@
 import globals from "./globals.js"
-import { Game, SpriteID, State, StrikeBox, FPS, } from "./constants.js"
+import { Game, SpriteID, State, StrikeBox } from "./constants.js"
 import detectCollisions from "./collisions.js"
-import { gameOverTime, initSkeleton, initSprites, initLevel, initVars, initEvents } from "./initialize.js"
-import Timer from "./Timer.js"
+import { initSkeleton, initSprites, initLevel } from "./initialize.js"
 
 export default function update() {
 
@@ -10,13 +9,12 @@ export default function update() {
   switch (globals.gameState) {
     case Game.LOADING:
       console.log("Loading assets...")
-      setLoading()
+      loadingTime()
       break
 
     case Game.PLAYING:
       playGame()
-      // setSkeleton()
-      setSkeletonTimer()
+      skeletonTime()
       break
 
     case Game.OVER:
@@ -206,6 +204,7 @@ function updatePlayer(sprite) {
 }
 
 function playGame() {
+  // actualiza sprite
   updateSprites()
 
   // colisiones
@@ -221,6 +220,7 @@ function playGame() {
   gameOverTime()
 }
 
+// actualiza sprites
 function updateSprites() {
   for (let i = 0; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
@@ -415,35 +415,50 @@ function readKeyboardAndAssignState(sprite) {
   }
 }
 
-function setSkeleton() {
-  if (!globals.skeletonSpawnInterval) {
-    // inicia un intervalo cada 10 segundos solo si no existe ya uno
-    globals.skeletonSpawnInterval = setInterval(initSkeleton, 10000);
-  }
-}
-
-// actualizadión del timer
-function setSkeletonTimer() {
+// set esqueleto
+function skeletonTime() {
   // incrementamos el contador de cambio de valor
-  globals.levelTime.timeChangeCounter += globals.deltaTime
+  globals.skeletonTime.timeChangeCounter += globals.deltaTime
 
   // si ha pasado el tiempo necesario, cambiamos el valor del timer
-  if (globals.levelTime.timeChangeCounter > globals.levelTime.timeChangeValue) {
-    // globals.levelTime.value--
-
-    console.log("Esqueleto!");
+  if (globals.skeletonTime.timeChangeCounter > globals.skeletonTime.timeChangeValue) {
 
     initSkeleton()
-
+    console.log("esqueleto");
     // restear timeChangecounter
-    globals.levelTime.timeChangeCounter = 0
+    globals.skeletonTime.timeChangeCounter = 0
   }
 }
 
-function setLoading() {
-  globals.gameState = Game.NEW_GAME
-  /*   setTimeout(() => {
-    }, 1000); */
+// tiempo de loading
+function loadingTime() {
+  // incrementamos el contador de cambio de valor
+  globals.loadingTime.timeChangeCounter += globals.deltaTime
+
+  // si ha pasado el tiempo necesario, cambiamos el valor del timer
+  if (globals.loadingTime.timeChangeCounter > globals.loadingTime.timeChangeValue) {
+
+    globals.gameState = Game.NEW_GAME
+    console.log("loading time");
+    // restear timeChangecounter
+    globals.loadingTime.timeChangeCounter = 0
+  }
+}
+
+// tiempo para gameOver
+function gameOverTime() {
+
+  // incrementamos el contador de cambio de valor
+  globals.gameOverTime.timeChangeCounter += globals.deltaTime
+
+  // si ha pasado el tiempo necesario, cambiamos el valor del timer
+  if (globals.gameOverTime.timeChangeCounter > globals.gameOverTime.timeChangeValue) {
+
+    globals.gameState = Game.OVER
+    console.log("gameover");
+    // restear timeChangecounter
+    globals.gameOverTime.timeChangeCounter = 0
+  }
 }
 
 function reload() {
@@ -453,14 +468,13 @@ function reload() {
 
   globals.sprites = []
 
-  // inicializamos las variables de gestión de tiempo
-/*   globals.previousCycleMilliseconds = 0
-  globals.deltaTime = 0
-  globals.frameTimeObj = 1 / FPS // frame time in seconds */
-
   // iniciamos el contador
   globals.gameTime = 0
-  globals.levelTime = {}
+
+  // reiniciamos timers
+  globals.skeletonTime = {}
+  globals.loadingTime = {}
+  globals.gameOverTime = {}
 
   globals.spritesNewGame = []
   globals.sprites = []
@@ -495,22 +509,6 @@ function setGameOver() {
       globals.gameState = Game.LOADING
     }
   }
-  
-/*   if (globals.skeletonSpawnInterval) {
-    clearInterval(globals.skeletonSpawnInterval);
-    // resetear reiniciar el juego
-    globals.skeletonSpawnInterval = null
-    reload()
-  } */
+
   reload()
-  /* if (globals.levelTime) {
-    // clearInterval(globals.skeletonSpawnInterval);
-    // resetear reiniciar el juego
-    globals.levelTime = 0
-    globals.skeletonSpawnInterval = null
-    reload()
-  } */
-
-
-
 }

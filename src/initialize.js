@@ -227,7 +227,7 @@ function initForge() {
   globals.sprites.push(forge)
 }
 
-// FORJA
+// FORJA 2
 function initForge2() {
   // crear las propiedades de las imagenes: 
   // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
@@ -289,7 +289,7 @@ function initOven() {
   globals.sprites.push(forge)
 }
 
-// OVEN  
+// OVEN 2
 function initOven2() {
   // crear las propiedades de las imagenes: 
   // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
@@ -351,7 +351,7 @@ function initMelted() {
   globals.sprites.push(forge)
 }
 
-// MELTED  
+// MELTED 2
 function initMelted2() {
   // crear las propiedades de las imagenes: 
   // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
@@ -384,28 +384,28 @@ function initMelted2() {
 
 function initLevel() {
   // crear las propiedades de las imagenes: 
-  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(0, 0, 32, 32, 32, 0, 0)
+  const imageSet = new ImageSet(
+    /* initFil */ 0,
+    /* initCol */ 0,
+    /* xSize */ 32, 
+    /* ySize */ 32,
+    /* gridSize */ 32,
+    /* xOffset */ 0,
+    /* yOffset */ 0
+  )
 
   // creamos y guardamos nuestro nivel
   globals.level = new Level(level1, imageSet)
 }
 
-function gameOverTime() {
-  setTimeout(() => {
-    globals.gameState = Game.OVER
-  }, 180000)
-}
-
-function initTimersSkeleton() {
-  // creamos timer de valor 200, con cambios cada 0.5 segundos
-  globals.skeletonSpawn = new Timer(200, 1)
-}
-
-
 function initTimers() {
   // creamos timer de valor 200, con cambios cada 0.5 segundos
-  globals.levelTime = new Timer(200, 5)
+  globals.skeletonTime = new Timer(20000, 5)
+  globals.loadingTime = new Timer(200, 2)
+
+  // timer game over BETA 180 sg
+  globals.gameOverTime = new Timer(360, 360)
+
   console.log("initTimers");
 }
 
@@ -417,8 +417,6 @@ export {
   initSprites,
   initLevel,
   initEvents,
-  gameOverTime,
   initSkeleton,
-  initTimersSkeleton,
   initTimers
 }
