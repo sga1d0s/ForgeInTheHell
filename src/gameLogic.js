@@ -235,7 +235,7 @@ function updateLife() {
 
     // reducimos si hay colision
     if (sprite.isCollidingWithPlayer) {
-      globals.life = globals.life - 30
+      globals.life = globals.life - 10
     }
     if (globals.life <= 10) {
       globals.gameState = Game.OVER
@@ -418,7 +418,7 @@ function readKeyboardAndAssignState(sprite) {
 function setSkeleton() {
   if (!globals.skeletonSpawnInterval) {
     // inicia un intervalo cada 10 segundos solo si no existe ya uno
-    globals.skeletonSpawnInterval = setInterval(initSkeleton, 5000);
+    globals.skeletonSpawnInterval = setInterval(initSkeleton, 10000);
   }
 }
 
