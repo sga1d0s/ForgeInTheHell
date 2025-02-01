@@ -312,8 +312,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       // habrá colisión si toca alguno de los 3 bloques
       isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
 
-      let isCollidingAll = isColliding && isCollidingLeft
-
       if (isCollidingLeft && isColliding) {
         // existe colisión hacia arriba
         player.isCollidingWithObstacleOnTheTop = true;
@@ -351,7 +349,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
         console.log("UP");
       }
-
       break
 
     case State.DOWN_LEFT:
