@@ -14,8 +14,9 @@ export default function update() {
       break
 
     case Game.PLAYING:
-      setSkeleton()
       playGame()
+      setSkeleton()
+      // setSkeletonTimer()
       break
 
     case Game.OVER:
@@ -421,6 +422,24 @@ function setSkeleton() {
   }
 }
 
+// actualizadión del timer
+function setSkeletonTimer() {
+  // incrementamos el contador de cambio de valor
+  globals.levelTime.timeChangeCounter += globals.deltaTime
+
+  // si ha pasado el tiempo necesario, cambiamos el valor del timer
+  if (globals.levelTime.timeChangeCounter > globals.levelTime.timeChangeValue) {
+    // globals.levelTime.value--
+
+    console.log("Esqueleto!");
+
+    initSkeleton()
+
+    // restear timeChangecounter
+    globals.levelTime.timeChangeCounter = 0
+  }
+}
+
 function setLoading() {
   globals.gameState = Game.NEW_GAME
   /*   setTimeout(() => {
@@ -444,8 +463,8 @@ function reload() {
   // iniciamos el contador
   globals.gameTime = 0
   globals.levelTime = {}
-  globals.spritesNewGame = []
-  globals.sprites = []
+  //globals.spritesNewGame = []
+  //globals.sprites = []
 
   globals.action = {
     moveLeft: false,
@@ -454,16 +473,13 @@ function reload() {
     moveDown: false,
     attack: false
   }
-
+  
   // reiniciar score
   globals.score = 0
   // variable vida
   globals.life = 100;
   // inicialización del mapa del juego
   initLevel()
-
-  // eventos de teclado
-  // initEvents()
 }
 
 function setGameOver() {
@@ -473,6 +489,14 @@ function setGameOver() {
     globals.skeletonSpawnInterval = null
     reload()
   }
+
+  /* if (globals.levelTime) {
+    // clearInterval(globals.skeletonSpawnInterval);
+    // resetear reiniciar el juego
+    globals.levelTime = 0
+    globals.skeletonSpawnInterval = null
+    reload()
+  } */
 
   if (globals.action.moveLeft) {
     globals.gameState = Game.SCORES;

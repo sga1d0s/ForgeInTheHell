@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { initHTMLElements, initVars, loadAssets, initSprites, initLevel, initEvents, initSkeleton } from "./initialize.js"
+import { initHTMLElements, initVars, loadAssets, initSprites, initLevel, initEvents, initSkeleton, initTimers } from "./initialize.js"
 import update from "./gameLogic.js"
 import updateSprite from "./gameLogic.js"
 import render from "./gameRender.js"
@@ -26,6 +26,9 @@ function init() {
 
   // inicialización del mapa del juego
   initLevel()
+
+  // iniciamos el timer
+  initTimers()
 
   // eventos de teclado
   initEvents()

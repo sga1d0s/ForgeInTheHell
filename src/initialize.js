@@ -7,6 +7,7 @@ import { Level, level1 } from "./Level.js"
 import Physics from "./Physics.js"
 import { keydownHandler, keyupHandler } from "./events.js"
 import HitBox from "./HitBox.js"
+import Timer from "./Timer.js"
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -402,6 +403,12 @@ function initTimersSkeleton() {
 }
 
 
+function initTimers() {
+  // creamos timer de valor 200, con cambios cada 0.5 segundos
+  globals.levelTime = new Timer(200, 5)
+  console.log("initTimers");
+}
+
 // exportar funciones
 export {
   initHTMLElements,
@@ -412,5 +419,6 @@ export {
   initEvents,
   gameOverTime,
   initSkeleton,
-  initTimersSkeleton
+  initTimersSkeleton,
+  initTimers
 }

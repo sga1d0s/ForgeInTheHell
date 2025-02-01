@@ -40,11 +40,14 @@ export default {
 
   cycleRealTime: 0,
 
-  // datos de nivel
-  level: {},
+  // datos de nivel de esqueleto
+   level: {},
 
   // tiempo de juego
   gameTime: -1,
+
+  // temporizador de nivel
+  levelTime: {},
 
   // estado de tecla
   action: {},
