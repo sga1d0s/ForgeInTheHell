@@ -63,7 +63,6 @@ export const SpriteID = {
 
 // identificador de estado de sprite (dirección)
 export const State = {
-
   STILL_UP: 1,
   STILL_LEFT: 2,
   STILL_DOWN: 3,

@@ -6,6 +6,7 @@ export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites
   for (let i = 4; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
+    
     // colision entre player y sprites
     detectCollisionBetweenPlayerAndSprites(sprite)
 
