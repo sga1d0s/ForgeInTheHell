@@ -174,7 +174,7 @@ function playGame() {
   updateGameTime()
 
   // actualizar vida
-  //updateLife()
+  updateLife()
 
   // TEST: tiempo limitado para la prueba
   gameOverTime()
@@ -368,7 +368,7 @@ function updateAnimationFrame(sprite) {
 }
 
 // cambio de dirección
-function swapDirection(sprite) {
+export function swapDirection(sprite) {
   if (sprite.state === State.RIGHT) {
     sprite.state = State.LEFT;
   } else if (sprite.state === State.LEFT) {

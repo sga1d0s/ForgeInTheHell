@@ -1,5 +1,6 @@
 import globals from "./globals.js"
 import { Block, SpriteID, State } from "./constants.js"
+import { swapDirection } from "./gameLogic.js"
 
 export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites
@@ -61,6 +62,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
 
   if (sprite.state !== State.DEATH && sprite.id !== SpriteID.SKELETON) {
     switch (direction) {
+
       case State.RIGHT:
         // posiciones de PLAYER hacia la derecha
         xPos = player.xPos
@@ -73,8 +75,8 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
           overlap = Math.floor(xPos) % player.hitBox.xSize
           player.xPos -= overlap
         }
-
         break;
+
 
       case State.LEFT:
         // posiones de PLAYER hacia la izquierda
@@ -91,6 +93,8 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
         break
 
       case State.UP:
+      case State.UP_LEFT:
+      case State.UP_RIGHT:
         // primera colisión en (xPos, yPos)
         yPos = player.yPos
 
@@ -105,6 +109,8 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
         break;
 
       case State.DOWN:
+      case State.DOWN_LEFT:
+      case State.DOWN_RIGHT:
         // primera colisión en (xPos, yPos)
         yPos = player.yPos
 
@@ -163,6 +169,7 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
           overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
           sprite.yPos += overlap
           sprite.state = State.DOWN
+          // swapDirection(sprite)
           console.log("UP");
           break
         // ESQELETO
@@ -185,7 +192,7 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
               overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
               sprite.yPos -= overlap
               sprite.state = State.UP
-              console.log("DOWM");
+              console.log("DOWN");
               break
           }
           break
@@ -479,7 +486,7 @@ function detectCollisionAttack(sprite) {
     // Eliminar el esqueleto de la lista de sprites
     const index = globals.sprites.indexOf(sprite);
     if (index !== -1) {
-      globals.score++
+      globals.score = globals.score +10
       globals.sprites[index].state = State.DEATH;
       globals.sprites.splice(index, 1)
     }
