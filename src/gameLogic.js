@@ -17,100 +17,59 @@ export default function update() {
       skeletonTime()
       break
 
-    case Game.OVER:
-      setGameOver()
-      break
-
     case Game.NEW_GAME:
       // teclado en NEW GAME
-      if (globals.action.moveLeft) {
-        globals.gameState = Game.SCORES;
-      }
-      if (globals.action.moveRight) {
-        globals.gameState = Game.NEW_GAME;
-      }
-      if (globals.action.moveUp) {
-        globals.gameState = Game.CONTROLS;
-      }
-      if (globals.action.moveDown) {
-        globals.gameState = Game.NEW_GAME;
-      }
-      if (globals.action.enter) {
-        globals.gameState = Game.PLAYING;
-      }
+      newGame()
       break
 
     case Game.STORY:
       // teclado en STORY
-      if (globals.action.moveLeft) {
-        globals.gameState = Game.STORY;
-      }
-      if (globals.action.moveRight) {
-        globals.gameState = Game.CONTROLS;
-      }
-      if (globals.action.moveUp) {
-        globals.gameState = Game.STORY;
-      }
-      if (globals.action.moveDown) {
-        globals.gameState = Game.SCORES;
-      }
+      story()
       break
 
     case Game.CONTROLS:
-      // 
-      if (globals.action.moveLeft || globals.action.moveLeftA) {
-        globals.gameState = Game.STORY;
-      }
-      if (globals.action.moveRight || globals.action.moveRightD) {
-        globals.gameState = Game.CONTROLS;
-      }
-      if (globals.action.moveUp || globals.action.moveUpW) {
-        globals.gameState = Game.CONTROLS;
-      }
-      if (globals.action.moveDown || globals.action.moveDownS) {
-        globals.gameState = Game.NEW_GAME;
-      }
+      // teclado en CONTROLS
+      controls()
       break
 
     case Game.SCORES:
       // teclado en SCORES
-      if (globals.action.moveLeft) {
-        globals.gameState = Game.SCORES;
-      }
-      if (globals.action.moveRight) {
-        globals.gameState = Game.NEW_GAME;
-      }
-      if (globals.action.moveUp) {
-        globals.gameState = Game.STORY;
-      }
-      if (globals.action.moveDown) {
-        globals.gameState = Game.SCORES;
-      }
+      scores()
       break
 
+    case Game.OVER:
+      gameOver()
+      break
+      
     default:
       console.error("Error: Game State invalid")
   }
 }
 
+// actualiza forja
 function updateForge(sprite) {
   // actualizar sprite para la animación
   updateAnimationFrame(sprite)
 }
 
+// actualizar skeleton
 function updateSkeleton(sprite) {
   switch (sprite.state) {
     case State.UP:
       sprite.physics.vy = -sprite.physics.vLimit;
+      sprite.physics.vx = 0
       break;
     case State.DOWN:
       sprite.physics.vy = sprite.physics.vLimit;
+      sprite.physics.vx = 0
       break;
     case State.LEFT:
       sprite.physics.vx = -sprite.physics.vLimit;
+      sprite.physics.vy = 0
       break;
     case State.RIGHT:
       sprite.physics.vx = sprite.physics.vLimit;
+      sprite.physics.vy = 0
       break;
     case State.DEATH:
       sprite.physics.vx = 0
@@ -203,6 +162,7 @@ function updatePlayer(sprite) {
   updateAnimationFrame(sprite);
 }
 
+// funcion principal playGame
 function playGame() {
   // actualiza sprite
   updateSprites()
@@ -214,10 +174,77 @@ function playGame() {
   updateGameTime()
 
   // actualizar vida
-  updateLife()
+  //updateLife()
 
   // TEST: tiempo limitado para la prueba
   gameOverTime()
+}
+
+// estado NEW_GAME
+function newGame() {
+  if (globals.action.moveLeft) {
+    globals.gameState = Game.SCORES;
+  }
+  if (globals.action.moveRight) {
+    globals.gameState = Game.NEW_GAME;
+  }
+  if (globals.action.moveUp) {
+    globals.gameState = Game.CONTROLS;
+  }
+  if (globals.action.moveDown) {
+    globals.gameState = Game.NEW_GAME;
+  }
+  if (globals.action.enter) {
+    globals.gameState = Game.PLAYING;
+  }
+}
+
+// estado STORY
+function story() {
+  if (globals.action.moveLeft) {
+    globals.gameState = Game.STORY;
+  }
+  if (globals.action.moveRight) {
+    globals.gameState = Game.CONTROLS;
+  }
+  if (globals.action.moveUp) {
+    globals.gameState = Game.STORY;
+  }
+  if (globals.action.moveDown) {
+    globals.gameState = Game.SCORES;
+  }
+}
+
+// estado CONTROLS
+function controls() {
+  if (globals.action.moveLeft || globals.action.moveLeftA) {
+    globals.gameState = Game.STORY;
+  }
+  if (globals.action.moveRight || globals.action.moveRightD) {
+    globals.gameState = Game.CONTROLS;
+  }
+  if (globals.action.moveUp || globals.action.moveUpW) {
+    globals.gameState = Game.CONTROLS;
+  }
+  if (globals.action.moveDown || globals.action.moveDownS) {
+    globals.gameState = Game.NEW_GAME;
+  }
+}
+
+// estado SCORES
+function scores() {
+  if (globals.action.moveLeft) {
+    globals.gameState = Game.SCORES;
+  }
+  if (globals.action.moveRight) {
+    globals.gameState = Game.NEW_GAME;
+  }
+  if (globals.action.moveUp) {
+    globals.gameState = Game.STORY;
+  }
+  if (globals.action.moveDown) {
+    globals.gameState = Game.SCORES;
+  }
 }
 
 // actualiza sprites
@@ -270,6 +297,7 @@ function updateSprite(sprite) {
   }
 }
 
+// actualiza gameTime
 function updateGameTime() {
   globals.gameTime += globals.deltaTime
 }
@@ -424,7 +452,6 @@ function skeletonTime() {
   if (globals.skeletonTime.timeChangeCounter > globals.skeletonTime.timeChangeValue) {
 
     initSkeleton()
-    console.log("esqueleto");
     // restear timeChangecounter
     globals.skeletonTime.timeChangeCounter = 0
   }
@@ -466,15 +493,16 @@ function reload() {
   globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
   globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
 
-  globals.sprites = []
-
   // iniciamos el contador
   globals.gameTime = 0
-
+  globals.deltaTime = 0
+  // globals.cycleRealTime = 0
+  
   // reiniciamos timers
-  globals.skeletonTime = {}
-  globals.loadingTime = {}
-  globals.gameOverTime = {}
+  // globals.skeletonTime = {}
+  // globals.loadingTime = {}
+  // globals.gameOverTime = {}
+  // globals.level = {}
 
   globals.spritesNewGame = []
   globals.sprites = []
@@ -499,14 +527,13 @@ function reload() {
   initLevel()
 }
 
-function setGameOver() {
-
+function gameOver() {
   if (globals.action.moveLeft) {
     globals.gameState = Game.SCORES;
   }
   if (globals.action.moveRight) {
     if (globals.action.enter) {
-      globals.gameState = Game.LOADING
+      globals.gameState = Game.NEW_GAME
     }
   }
 

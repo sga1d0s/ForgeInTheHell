@@ -73,6 +73,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
           overlap = Math.floor(xPos) % player.hitBox.xSize
           player.xPos -= overlap
         }
+
         break;
 
       case State.LEFT:
@@ -152,37 +153,73 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
     // verificar si hay intersección
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
 
-
     if (isOverlap && otherSprite.id != SpriteID.SKELETON) {
       // ajustar la posición del esqueleto y cambiar su dirección
       let overlap;
+      // ESQUELETO
       switch (sprite.state) {
-        case State.RIGHT:
-          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
-          sprite.xPos -= overlap
-          sprite.state = State.LEFT
-          break;
-
-        case State.LEFT:
-          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
-          sprite.xPos += overlap
-          sprite.state = State.RIGHT
-          break;
-
+        // ESQUELETO
         case State.UP:
           overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
           sprite.yPos += overlap
           sprite.state = State.DOWN
-          break;
-
+          console.log("UP");
+          break
+        // ESQELETO
         case State.DOWN:
-          overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
-          sprite.yPos -= overlap
-          sprite.state = State.UP
+          switch (otherSprite.state) {
+            // PLAYER
+            case State.RIGHT:
+              overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
+              sprite.xPos += overlap
+              sprite.state = State.RIGHT
+              break;
+            // PLAYER
+            case State.LEFT:
+              overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
+              sprite.xPos -= overlap
+              sprite.state = State.LEFT
+              break;
+            // DEFAULT
+            default:
+              overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
+              sprite.yPos -= overlap
+              sprite.state = State.UP
+              console.log("DOWM");
+              break
+          }
+          break
+        // ESQUELETO
+        case State.LEFT:
+          overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
+          sprite.xPos += overlap
+          sprite.state = State.RIGHT
+          console.log("LEFT");
           break;
-
-        default:
-          break;
+        // ESQUELETO
+        case State.RIGHT:
+          switch (otherSprite.state) {
+            // PLAYER
+            case State.UP:
+              overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
+              sprite.yPos -= overlap
+              sprite.state = State.UP
+              break;
+            // PLAYER
+            case State.DOWN:
+              overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
+              sprite.yPos += overlap
+              sprite.state = State.DOWN
+              break;
+            // DEFAULT
+            default:
+              overlap = Math.floor(sprite.xPos) % sprite.hitBox.xSize + 10;
+              sprite.xPos -= overlap
+              sprite.state = State.LEFT
+              console.log("RIGHT");
+              break
+          }
+          break
       }
     }
   }

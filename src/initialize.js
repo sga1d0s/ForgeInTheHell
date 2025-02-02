@@ -382,6 +382,7 @@ function initMelted2() {
   globals.sprites.push(forge)
 }
 
+// init LEVEL
 function initLevel() {
   // crear las propiedades de las imagenes: 
   const imageSet = new ImageSet(
@@ -400,8 +401,8 @@ function initLevel() {
 
 function initTimers() {
   // creamos timer de valor 200, con cambios cada 0.5 segundos
-  globals.skeletonTime = new Timer(20000, 5)
-  globals.loadingTime = new Timer(200, 1)
+  globals.skeletonTime = new Timer(360, 20)
+  globals.loadingTime = new Timer(360, 1)
 
   // timer game over BETA 180 sg
   globals.gameOverTime = new Timer(360, 360)
