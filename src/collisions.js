@@ -1,12 +1,11 @@
 import globals from "./globals.js"
 import { Block, SpriteID, State } from "./constants.js"
-import { swapDirection } from "./gameLogic.js"
 
 export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites
   for (let i = 4; i < globals.sprites.length; i++) {
     const sprite = globals.sprites[i]
-    
+
     // colision entre player y sprites
     detectCollisionBetweenPlayerAndSprites(sprite)
 
@@ -268,15 +267,26 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
   const obstacleIdW = Block.WALL
   const obstacleIdWl = Block.WALL_LEFT
   const obstacleIdWr = Block.WALL_RIGHT
+  const obstacleIdFl = Block.FLOOR_2
 
   switch (direction) {
-    case State.RIGHT:
-      // posiciones hacia la derecha
-      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
-      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
 
-      // ternario para comprobar si player está en el límite derecho
-      isColliding = (xPos > globals.canvas.width) ? true : false
+    case State.RIGHT:
+      // primera colision en (xpos + xsize -1, ypos)
+      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 16
+      yPos = player.yPos + player.hitBox.yOffset + 16
+      isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
+
+      // segunda colision en (xpos + xsize -1, ypos + bricksize)
+      /* yPos = player.yPos + player.hitBox.yOffset + brickSize
+      isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdW) */
+
+      // ultima colision en (xpos + xsize - 1, ypos + ysize -1)
+      /* yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1
+      isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdW) */
+
+      // habrá colision si toca alguno de los 3 bloques
+      isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3
 
       if (isColliding) {
         // existe colision a la derecha
@@ -286,8 +296,8 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         overlap = Math.floor(xPos) % brickSize + 1
         player.xPos -= overlap
       }
-      break;
 
+      break;
     case State.UP_RIGHT:
       // posiciones hacia la derecha
       xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
@@ -305,7 +315,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         player.xPos -= overlap
       }
       break;
-
     case State.DOWN_RIGHT:
       // posiciones hacia la derecha
       xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
@@ -326,8 +335,9 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
     case State.LEFT:
       // posiones hacia la izquierda
-      xPos = player.xPos + player.hitBox.xOffset - 1
-      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
+      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 16
+      yPos = player.yPos + player.hitBox.yOffset - 16;
+      isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
 
       // ternario para comprobar si player está en el límite iaquierdo
       isColliding = (xPos < 0) ? true : false
@@ -341,7 +351,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         player.xPos -= overlap
       }
       break
-
     case State.UP_LEFT:
       // posiones hacia la izquierda
       xPos = player.xPos + player.hitBox.xOffset - 1
@@ -395,7 +404,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         console.log("UP");
       }
       break
-
     case State.DOWN_LEFT:
       // posiones hacia la izquierda
       xPos = player.xPos + player.hitBox.xOffset - 1
@@ -434,12 +442,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
     case State.UP:
       // primera colisión en (xPos, yPos)
-      yPos = player.yPos + player.hitBox.ySize + player.hitBox.yOffset - 10;
+      yPos = player.yPos + player.hitBox.yOffset + 10;
       xPos = player.xPos + player.hitBox.xOffset;
 
       isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdW);
       isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdWl);
       isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdWr);
+      isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl);
 
       // habrá colisión si toca alguno de los 3 bloques
       isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
@@ -487,7 +496,7 @@ function detectCollisionAttack(sprite) {
     // Eliminar el esqueleto de la lista de sprites
     const index = globals.sprites.indexOf(sprite);
     if (index !== -1) {
-      globals.score = globals.score +10
+      globals.score = globals.score + 10
       globals.sprites[index].state = State.DEATH;
       globals.sprites.splice(index, 1)
     }

@@ -199,8 +199,15 @@ function initSkeleton() {
 // FORJA
 function initForge() {
   // crear las propiedades de las imagenes: 
-  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(48, 1, 0, 0, 64, 16, 10)
+  const imageSet = new ImageSet(
+    /* initFil */ 48,
+    /* initCol */ 1,
+    /* xSize */ 0,
+    /* ySize */ 0,
+    /* gridSize */ 64,
+    /* xOffset */ 16,
+    /* yOffset */ 10,
+  )
 
   // crear los datos de la animación. 8 frames / state
   const frames = new Frames(3, 9)
@@ -209,13 +216,18 @@ function initForge() {
   const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(64, 64, 0, 64)
+  const hitBox = new HitBox(
+    /* xSize */ 0, 
+    /* ySize */ 0, 
+    /* xOffset */ 0, 
+    /* yOffset */ 0,
+  )
 
   // crear sprite de la forja
   const forge = new Sprite(
     SpriteID.FORGE,
     State.STILL,
-    50, -10,
+    50, -15,
     imageSet,
     frames,
     /* attackFrames */ 0,
@@ -231,7 +243,16 @@ function initForge() {
 function initForge2() {
   // crear las propiedades de las imagenes: 
   // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-  const imageSet = new ImageSet(48, 1, 64, 130, 64, 16, 10)
+  // const imageSet = new ImageSet(48, 1, 64, 130, 64, 16, 10)
+  const imageSet = new ImageSet(
+    /* initFil */ 48,
+    /* initCol */ 1,
+    /* xSize */ 64,
+    /* ySize */ 130,
+    /* gridSize */ 64,
+    /* xOffset */ 16,
+    /* yOffset */ 10,
+  )
 
   // crear los datos de la animación. 8 frames / state
   const frames = new Frames(3, 9)
@@ -240,13 +261,14 @@ function initForge2() {
   const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(64, 64, 0, 64)
+  // const hitBox = new HitBox(64, 64, 0, 64)
+  const hitBox = new HitBox(0, 0, 0, 0)
 
   // crear sprite de la forja
   const forge = new Sprite(
     SpriteID.FORGE,
     State.STILL,
-    50, -10,
+    62, -10,
     imageSet,
     frames,
     /* attackFrames */ 0,

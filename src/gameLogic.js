@@ -14,7 +14,7 @@ export default function update() {
 
     case Game.PLAYING:
       playGame()
-      skeletonTime()
+      // skeletonTime()
       break
 
     case Game.NEW_GAME:
