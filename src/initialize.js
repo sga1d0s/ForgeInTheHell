@@ -227,7 +227,7 @@ function initForge() {
   const forge = new Sprite(
     SpriteID.FORGE,
     State.STILL,
-    50, -15,
+    62, -10,
     imageSet,
     frames,
     /* attackFrames */ 0,
@@ -293,13 +293,13 @@ function initOven() {
   const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(64, 40, 0, 24)
+  const hitBox = new HitBox(58, 30, 3, 34)
 
   // crear sprite de la forja
   const forge = new Sprite(
     /* ID */ SpriteID.FORGE,
     /* STATE */ State.STILL,
-    /* XPOS, YPOS */ 205, 115,
+    /* XPOS, YPOS */ 225, 113,
     /* IMAGESET */ imageSet,
     /* FRAMES */ frames,
     /* attackFrames */ 0,
@@ -330,7 +330,7 @@ function initOven2() {
   const forge = new Sprite(
     /* ID */ SpriteID.FORGE,
     /* STATE */ State.STILL,
-    /* XPOS, YPOS */ 205, 155,
+    /* XPOS, YPOS */ 225, 153,
     /* IMAGESET */ imageSet,
     /* FRAMES */ frames,
     /* attackFrames */ 0,
@@ -355,13 +355,13 @@ function initMelted() {
   const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(64, 20, 0, 38)
+  const hitBox = new HitBox(60, 7, 2, 44)
 
   // crear sprite de la forja
   const forge = new Sprite(
     /* ID */ SpriteID.FORGE,
     /* STATE */ State.STILL,
-    /* XPOS, YPOS */ 15, 225,
+    /* XPOS, YPOS */ 32, 225,
     /* IMAGESET */ imageSet,
     /* FRAMES */ frames,
     /* attackFrames */ 0,
@@ -392,7 +392,7 @@ function initMelted2() {
   const forge = new Sprite(
     /* ID */ SpriteID.FORGE,
     /* STATE */ State.STILL,
-    /* XPOS, YPOS */ 15, 265,
+    /* XPOS, YPOS */ 32, 265,
     /* IMAGESET */ imageSet,
     /* FRAMES */ frames,
     /* attackFrames */ 0,

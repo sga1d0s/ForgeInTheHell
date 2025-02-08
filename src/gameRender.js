@@ -73,7 +73,7 @@ function drawGame() {
   renderUHD()
 
   // dibujar el martillo pasandole el valor de gastado
-  renderHammer(0)
+  renderHammer(30)
 }
 
 // dibujar el mapa
