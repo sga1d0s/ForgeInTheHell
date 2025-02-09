@@ -271,7 +271,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
     case State.RIGHT:
       // primera colision en (xpos + xsize -1, ypos)
-      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
+      xPos = player.xPos + player.hitBox.xOffset
       yPos = player.yPos + player.hitBox.yOffset + 10;
       isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
 
@@ -439,7 +439,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       }
 
       if (isCollidingOnPos4){
-        
+
       }
 
       break
