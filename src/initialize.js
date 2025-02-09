@@ -261,8 +261,8 @@ function initForge2() {
   const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  // const hitBox = new HitBox(64, 64, 0, 64)
-  const hitBox = new HitBox(0, 0, 0, 0)
+  const hitBox = new HitBox(64, 64, 0, 64)
+  //const hitBox = new HitBox(0, 0, 0, 0)
 
   // crear sprite de la forja
   const forge = new Sprite(
