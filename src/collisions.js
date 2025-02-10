@@ -349,6 +349,19 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         overlap = Math.floor(yPos4_3) % brickSize + 1;
         player.yPos -= overlap;
       }
+
+      // calculo de colision en PUNTO 1 DIAGONAL
+      if (isCollidingOnPos3) {
+        overlapX = Math.floor(xPos1_3) % brickSize + 1;
+        overlapY = Math.floor(yPos4_3) % brickSize + 1;
+
+        if (overlapX < overlapY) {
+          player.xPos -= overlapX;
+        } else {
+          player.yPos -= overlapY
+        }
+      }
+
       break
 
     case State.RIGHT:
@@ -424,6 +437,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
       // segunda colisión en (xPos + brickSize, yPos)
       xPos1_3 = player.xPos + player.hitBox.xOffset + player.hitBox.xSize
+      yPos4_3 = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
       isCollidingOnPos3 = isCollidingWithObstacleAt(xPos1_3, yPos4_3, obstacleIdFl)
       isCollidingOnPos3 ? console.log("DOWN POS 3") : false
 
@@ -507,7 +521,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
     case State.UP:
       // primera colisión en (PUNTO 1)
-      yPos6_1 = player.yPos + player.hitBox.yOffset - 1;
+      yPos6_1 = player.yPos + player.hitBox.yOffset;
       xPos1_3 = player.xPos + player.hitBox.xOffset + player.hitBox.xSize
       isCollidingOnPos1 = isCollidingWithObstacleAt(xPos1_3, yPos6_1, obstacleIdFl);
       isCollidingOnPos1 ? console.log("UP POS 1") : false
