@@ -272,7 +272,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     case State.DOWN_RIGHT:
     case State.RIGHT:
       // primera colision en (xpos + xsize -1, ypos)
-      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1
+      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize
 
       yPos = player.yPos + player.hitBox.yOffset
       isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
@@ -303,14 +303,16 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       // primera colision en (xpos + xsize -1, ypos)
       xPos = player.xPos + player.hitBox.xOffset - 1
       yPos = player.yPos + player.hitBox.yOffset
-      isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
+      isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
+      isCollidingOnPos6? console.log("LEFT POS 6"): false
 
       // ultima colision en (xpos + xsize - 1, ypos + ysize -1)
       yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1
-      isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
+      isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
+      isCollidingOnPos4? console.log("LEFT POS 4"): false
 
       // habrá colision si toca alguno de los 3 bloques
-      isColliding = isCollidingOnPos1 || isCollidingOnPos3
+      isColliding = isCollidingOnPos6 || isCollidingOnPos4
 
       if (isColliding) {
         // existe colision a la derecha
@@ -327,16 +329,16 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
 
       xPos = player.xPos + player.hitBox.xOffset;
-      isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
-      isCollidingOnPos1? console.log("POS 1"): false
+      isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
+      isCollidingOnPos4? console.log("DOWN POS 4"): false
 
       // segunda colisión en (xPos + brickSize, yPos)
-      xPos = player.xPos + brickSize - 3;
+      xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize
       isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstacleIdFl)
-      isCollidingOnPos3 ? console.log("POS 3") : false
+      isCollidingOnPos3 ? console.log("DOWN POS 3") : false
 
       // habrá colisión si toca alguno de los 3 bloques
-      isColliding = isCollidingOnPos1 || isCollidingOnPos3;
+      isColliding = isCollidingOnPos3 || isCollidingOnPos4;
 
       if (isColliding) {
         // existe colisión hacia abajo
