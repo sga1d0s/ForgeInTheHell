@@ -92,7 +92,7 @@ export const State = {
 export const Tile = {
   SIZE_64: 0,
   SIZE_32: 1,
-  SIZE_16: 2,
+  // SIZE_16: 2,
 }
 
 // id de bloque del mapa
