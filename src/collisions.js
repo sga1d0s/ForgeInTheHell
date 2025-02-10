@@ -374,7 +374,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         overlap = Math.floor(xPos) % brickSize + 1
         player.xPos -= overlap
       }
-
       break;
 
     case State.UP_LEFT:
@@ -413,7 +412,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         overlap = Math.floor(xPos6_4) % brickSize + 1
         player.xPos -= overlap - brickSize
       }
-
       break
 
     case State.DOWN_LEFT:

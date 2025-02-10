@@ -1,6 +1,5 @@
 import globals from "./globals.js"
-import { Game, GameText, Tile, State } from "./constants.js"
-import { initVars } from "./initialize.js"
+import { Game, GameText, Tile, } from "./constants.js"
 
 // funcion que renderiza los graficos
 export default function render() {

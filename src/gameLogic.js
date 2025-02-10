@@ -40,7 +40,7 @@ export default function update() {
     case Game.OVER:
       gameOver()
       break
-      
+
     default:
       console.error("Error: Game State invalid")
   }
@@ -368,7 +368,7 @@ function updateAnimationFrame(sprite) {
 }
 
 // cambio de dirección
-export function swapDirection(sprite) {
+function swapDirection(sprite) {
   if (sprite.state === State.RIGHT) {
     sprite.state = State.LEFT;
   } else if (sprite.state === State.LEFT) {
@@ -396,14 +396,40 @@ function calculateCollisionWithborders(sprite) {
 
 // teclado y movimiento
 function readKeyboardAndAssignState(sprite) {
+  // estados de ATAQUE
   if (globals.action.attack) {
-    // Determinar el estado de ataque basado en la dirección actual
-    sprite.state = sprite.state === State.LEFT || sprite.state === State.STILL_LEFT ? State.ATTACK_LEFT :
-      sprite.state === State.RIGHT || sprite.state === State.STILL_RIGHT ? State.ATTACK_RIGHT :
-        sprite.state === State.UP || sprite.state === State.STILL_UP ? State.ATTACK_UP :
-          sprite.state === State.DOWN || sprite.state === State.STILL_DOWN ? State.ATTACK_DOWN :
-            sprite.state
-  } else if (globals.action.moveLeft) {
+    switch (sprite.state) {
+      case State.LEFT:
+      case State.STILL_LEFT:
+        sprite.state = State.ATTACK_LEFT;
+        break;
+      case State.RIGHT:
+      case State.STILL_RIGHT:
+        sprite.state = State.ATTACK_RIGHT;
+        break;
+      case State.UP:
+      case State.STILL_UP:
+        sprite.state = State.ATTACK_UP;
+        break;
+      case State.DOWN:
+      case State.STILL_DOWN:
+        sprite.state = State.ATTACK_DOWN;
+        break;
+    }
+    return;
+  }
+  // estados de MOVIMIENTO
+  if (globals.action.moveLeft && globals.action.moveUp) {
+    sprite.state = State.UP_LEFT;
+  } else if (globals.action.moveLeft && globals.action.moveDown) {
+    sprite.state = State.DOWN_LEFT;
+  } else if (globals.action.moveRight && globals.action.moveUp) {
+    sprite.state = State.UP_RIGHT;
+  } else if (globals.action.moveRight && globals.action.moveDown) {
+    sprite.state = State.DOWN_RIGHT;
+  }
+  // Verificar movimientos individuales
+  else if (globals.action.moveLeft) {
     sprite.state = State.LEFT;
   } else if (globals.action.moveRight) {
     sprite.state = State.RIGHT;
@@ -411,35 +437,27 @@ function readKeyboardAndAssignState(sprite) {
     sprite.state = State.UP;
   } else if (globals.action.moveDown) {
     sprite.state = State.DOWN;
-  } else {
-    sprite.state = sprite.state === State.LEFT ? State.STILL_LEFT :
-      sprite.state === State.RIGHT ? State.STILL_RIGHT :
-        sprite.state === State.UP ? State.STILL_UP :
-          sprite.state === State.DOWN ? State.STILL_DOWN :
-            sprite.state;
   }
-  if (globals.action.moveLeft && globals.action.moveUp) {
-    sprite.state = State.UP_LEFT
-  } else if (globals.action.moveLeft && globals.action.moveDown) {
-    sprite.state = State.DOWN_LEFT
-  } else if (globals.action.moveRight && globals.action.moveUp) {
-    sprite.state = State.UP_RIGHT
-  } else if (globals.action.moveRight && globals.action.moveDown) {
-    sprite.state = State.DOWN_RIGHT
-  } else if (globals.action.moveLeft) {
-    sprite.state = State.LEFT
-  } else if (globals.action.moveRight) {
-    sprite.state = State.RIGHT
-  } else if (globals.action.moveUp) {
-    sprite.state = State.UP
-  } else if (globals.action.moveDown) {
-    sprite.state = State.DOWN
-  } else {
-    sprite.state = sprite.state === State.LEFT ? State.STILL_LEFT :
-      sprite.state === State.RIGHT ? State.STILL_RIGHT :
-        sprite.state === State.UP ? State.STILL_UP :
-          sprite.state === State.DOWN ? State.STILL_DOWN :
-            sprite.state
+  // estados de STILL
+  else {
+    switch (sprite.state) {
+      case State.LEFT:
+      case State.DOWN_LEFT:
+      case State.UP_LEFT:
+        sprite.state = State.STILL_LEFT;
+        break;
+      case State.RIGHT:
+      case State.DOWN_RIGHT:
+      case State.UP_RIGHT:
+        sprite.state = State.STILL_RIGHT;
+        break;
+      case State.UP:
+        sprite.state = State.STILL_UP;
+        break;
+      case State.DOWN:
+        sprite.state = State.STILL_DOWN;
+        break;
+    }
   }
 }
 
@@ -497,7 +515,7 @@ function reload() {
   globals.gameTime = 0
   globals.deltaTime = 0
   // globals.cycleRealTime = 0
-  
+
   // reiniciamos timers
   // globals.skeletonTime = {}
   // globals.loadingTime = {}
