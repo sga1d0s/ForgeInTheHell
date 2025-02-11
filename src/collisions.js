@@ -322,7 +322,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(yPos6_1) % brickSize + 1;
         player.yPos -= overlap - brickSize;
-      } else if (isCollidingOnPos1 && isCollidingOnPos3 || isCollidingOnPos3) {
+      } if (isCollidingOnPos1 && isCollidingOnPos3 || isCollidingOnPos3) {
         // existe colisión hacia abajo
         player.isCollidingWithObstacleOnTheBottom = true;
 
@@ -455,7 +455,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(xPos6_4) % brickSize + 1
-        player.xPos -= overlap - brickSize -1
+        player.xPos -= overlap - brickSize - 1
       }
       break
 
@@ -561,15 +561,24 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
     case State.UP:
       // primera colisión en (PUNTO 1)
-      yPos6_1 = player.yPos + player.hitBox.yOffset;
+      yPos6_1 = player.yPos + player.hitBox.yOffset - 1;
       xPos1_3 = player.xPos + player.hitBox.xOffset + player.hitBox.xSize
-      isCollidingOnPos1 = isCollidingWithObstacleAt(xPos1_3, yPos6_1, obstacleIdFl);
+
+      isCollidingW1 = isCollidingWithObstacleAt(xPos1_3, yPos6_1, obstacleIdW);
+      isCollidingWl1 = isCollidingWithObstacleAt(xPos1_3, yPos6_1, obstacleIdWl);
+      isCollidingWr1 = isCollidingWithObstacleAt(xPos1_3, yPos6_1, obstacleIdWr);
+      isCollidingFl1 = isCollidingWithObstacleAt(xPos1_3, yPos6_1, obstacleIdFl);
+
+      isCollidingOnPos1 = isCollidingW1 || isCollidingWl1 || isCollidingWr1 || isCollidingFl1
+
       isCollidingOnPos1 ? console.log("UP POS 1") : false
 
       // segunda colisión en (xPos + brickSize, yPos)
       xPos6_4 = player.xPos + player.hitBox.xOffset;
       yPos6_1 = player.yPos + player.hitBox.yOffset - 1;
+
       isCollidingOnPos6 = isCollidingWithObstacleAt(xPos6_4, yPos6_1, obstacleIdFl);
+
       isCollidingOnPos6 ? console.log("UP POS 6") : false
 
       // habrá colisión si toca alguno de los 3 bloques
