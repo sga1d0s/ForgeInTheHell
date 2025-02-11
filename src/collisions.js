@@ -298,9 +298,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(yPos6_1) % brickSize + 1;
         player.yPos -= overlap - brickSize;
-      }
-
-      if (isCollidingOnPos1 && isCollidingOnPos3 || isCollidingOnPos3) {
+      }else if (isCollidingOnPos1 && isCollidingOnPos3 || isCollidingOnPos3) {
         // existe colisión hacia abajo
         player.isCollidingWithObstacleOnTheBottom = true;
 
@@ -338,30 +336,24 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(xPos1_3) % brickSize + 1;
         player.xPos -= overlap;
-      }
-
-      // colision PUNTO 4 Y 3
-      if (isCollidingOnPos4 && isCollidingOnPos3 || isCollidingOnPos4) {
+      } else if (isCollidingOnPos4 && isCollidingOnPos3 || isCollidingOnPos4) {
         // existe colisión hacia abajo
         player.isCollidingWithObstacleOnTheBottom = true;
 
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(yPos4_3) % brickSize + 1;
         player.yPos -= overlap;
-      }
-
-      // calculo de colision en PUNTO 1 DIAGONAL
-      if (isCollidingOnPos3) {
+      }else if (isCollidingOnPos3) {
         overlapX = Math.floor(xPos1_3) % brickSize + 1;
         overlapY = Math.floor(yPos4_3) % brickSize + 1;
 
-        if (overlapX < overlapY) {
+        if (overlapX <= overlapY) {
+          // colisión eje X
           player.xPos -= overlapX;
         } else {
           player.yPos -= overlapY
         }
       }
-
       break
 
     case State.RIGHT:
@@ -429,19 +421,19 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       break
 
     case State.DOWN_LEFT:
-      // primera colisión en (xPos, yPos + ySize - 1)
+      // primera colisión en (PUNTO 4)
       yPos4_3 = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
       xPos6_4 = player.xPos + player.hitBox.xOffset;
       isCollidingOnPos4 = isCollidingWithObstacleAt(xPos6_4, yPos4_3, obstacleIdFl)
       isCollidingOnPos4 ? console.log("DOWN POS 4") : false
 
-      // segunda colisión en (xPos + brickSize, yPos)
+      // segunda colisión en (PUNTO 3)
       xPos1_3 = player.xPos + player.hitBox.xOffset + player.hitBox.xSize
       yPos4_3 = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
       isCollidingOnPos3 = isCollidingWithObstacleAt(xPos1_3, yPos4_3, obstacleIdFl)
       isCollidingOnPos3 ? console.log("DOWN POS 3") : false
 
-      // primera colision en (xpos + xsize -1, ypos)
+      // primera colision en (PUNTO 6)
       xPos6_4 = player.xPos + player.hitBox.xOffset - 1
       yPos6_1 = player.yPos + player.hitBox.yOffset
       isCollidingOnPos6 = isCollidingWithObstacleAt(xPos6_4, yPos6_1, obstacleIdFl)
@@ -455,16 +447,25 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(yPos4_3) % brickSize + 1;
         player.yPos -= overlap;
-      }
-
-      // COLISIONA EN PUNTO 4 Y 6
-      if (isCollidingOnPos4 && isCollidingOnPos6 || isCollidingOnPos6) {
+      }else if (isCollidingOnPos4 && isCollidingOnPos6 || isCollidingOnPos6) {
         // existe colisión hacia abajo
         player.isCollidingWithObstacleOnTheBottom = true;
 
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(xPos6_4) % brickSize + 1;
         player.xPos -= overlap - brickSize;
+      } else if (isCollidingOnPos4) {
+        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+        overlapX = Math.floor(xPos6_4) % brickSize + 1;
+        // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+        overlapY = brickSize - Math.floor(yPos4_3) % brickSize +1;
+
+        if (overlapX >= overlapY) {
+          // colisión en eje X
+          player.xPos -= overlapX - brickSize
+        } else {
+          player.yPos -= overlapY -brickSize
+        }
       }
       break
 
