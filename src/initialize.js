@@ -293,7 +293,7 @@ function initOven() {
   const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(58, 30, 4, 34)
+  const hitBox = new HitBox(50, 30, 4, 34)
 
   // crear sprite de la forja
   const forge = new Sprite(
