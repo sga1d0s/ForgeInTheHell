@@ -433,14 +433,14 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
       isCollidingOnPos6 = isCollidingW6 || isCollidingWl6 || isCollidingWr6 || isCollidingFl6
 
-      isCollidingOnPos6 ? console.log("UP RIGHT POS 6") : false
+      isCollidingOnPos6 ? console.log("UP LEFT POS 6") : false
 
       // primera colisión en (PUNTO 4)
       yPos4_3 = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
       xPos6_4 = player.xPos + player.hitBox.xOffset;
       isCollidingOnPos4 = isCollidingWithObstacleAt(xPos6_4, yPos4_3, obstacleIdFl)
 
-      isCollidingOnPos4 ? console.log("DOWN RIGHT POS 4") : false
+      isCollidingOnPos4 ? console.log("DOWN LEFT POS 4") : false
 
       // primera colisión en (PUNTO 1)
       yPos6_1 = player.yPos + player.hitBox.yOffset - 1;
@@ -453,7 +453,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
       isCollidingOnPos1 = isCollidingW1 || isCollidingWl1 || isCollidingWr1 || isCollidingFl1
 
-      isCollidingOnPos1 ? console.log("UP RIGHT POS 1") : false
+      isCollidingOnPos1 ? console.log("UP LEFT POS 1") : false
 
       if (isCollidingOnPos6 && isCollidingOnPos1 || isCollidingOnPos1) {
         // existe colisión hacia arriba
@@ -470,8 +470,15 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(xPos6_4) % brickSize + 1
         player.xPos -= overlap - brickSize - 1
+      } else if (isCollidingOnPos6) {
+        overlapX = brickSize - Math.floor(xPos6_4) % brickSize + 1;
+        overlapY = brickSize - Math.floor(yPos6_1) % brickSize + 1;
+        if (overlapX < overlapY) {
+          player.xPos += overlapX - 1;
+        } else {
+          player.yPos += overlapY - 1
+        }
       }
-
       break
 
     case State.DOWN_LEFT:
