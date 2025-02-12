@@ -462,18 +462,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(yPos6_1) % brickSize + 1;
         player.yPos -= overlap - brickSize;
-      } else if (isCollidingOnPos6) {
-        overlapX = Math.floor(xPos6_4) % brickSize + 1;
-        overlapY = brickSize - Math.floor(yPos6_1) % brickSize + 1;
-        if (overlapX <= overlapY) {
-          console.log("TEST en X");
-          player.xPos -= overlapX;
-        } else {
-          console.log("TEST en Y");
-          player.yPos += overlapY
-        }
       }
-
       if (isCollidingOnPos6 && isCollidingOnPos4 || isCollidingOnPos4) {
         // existe colision a la derecha
         player.isCollidingWithObstacleOnTheLeft = true
