@@ -268,7 +268,7 @@ function initForge2() {
   const forge = new Sprite(
     SpriteID.FORGE,
     State.STILL,
-    62, -10,
+    62, 0,
     imageSet,
     frames,
     /* attackFrames */ 0,
@@ -293,13 +293,13 @@ function initOven() {
   const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(50, 30, 4, 34)
+  const hitBox = new HitBox(54, 26, 6, 38)
 
   // crear sprite de la forja
   const forge = new Sprite(
     /* ID */ SpriteID.FORGE,
     /* STATE */ State.STILL,
-    /* XPOS, YPOS */ 225, 113,
+    /* XPOS, YPOS */ 225, 125,
     /* IMAGESET */ imageSet,
     /* FRAMES */ frames,
     /* attackFrames */ 0,
@@ -330,7 +330,7 @@ function initOven2() {
   const forge = new Sprite(
     /* ID */ SpriteID.FORGE,
     /* STATE */ State.STILL,
-    /* XPOS, YPOS */ 225, 153,
+    /* XPOS, YPOS */ 225, 165,
     /* IMAGESET */ imageSet,
     /* FRAMES */ frames,
     /* attackFrames */ 0,
