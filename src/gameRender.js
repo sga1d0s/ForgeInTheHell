@@ -127,7 +127,7 @@ function renderSprite(sprite) {
   )
 }
 
-function drawSritesNewGame() {
+function drawSpritesNewGame() {
   const sprite = globals.sprites[4];
   renderSprite(sprite)
 }
@@ -283,7 +283,6 @@ function drawGameOver() {
 }
 
 function drawNewGame() {
-
   drawCorners()
 
   // globals
@@ -299,9 +298,6 @@ function drawNewGame() {
   ctx.font = '15px emulogic'
   ctx.fillText("(pres ENTER to start)", 85, 250, 400)
 
-  // ****** TODO 
-  // drawNewGameSprites()
-
   // pintar inverso el nombre
 
   // DOWN RIGHT
@@ -315,7 +311,7 @@ function drawNewGame() {
   ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
 
   // dibujar los elementos
-  drawSritesNewGame()
+  drawSpritesNewGame()
 
   keyboardShortcuts()
 }

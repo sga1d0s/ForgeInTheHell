@@ -418,6 +418,7 @@ function initLevel() {
   globals.level = new Level(level1, imageSet)
 }
 
+// init TIMERS
 function initTimers() {
   // creamos timer de valor 200, con cambios cada 0.5 segundos
   globals.skeletonTime = new Timer(360, 20)
