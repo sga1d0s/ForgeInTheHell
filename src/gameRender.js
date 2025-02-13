@@ -127,11 +127,16 @@ function renderSprite(sprite) {
   )
 }
 
+function drawSritesNewGame() {
+  const sprite = globals.sprites[4];
+  renderSprite(sprite)
+}
+
 // mapear sprites
 function drawSprites() {
+
   for (let i = 0; i < globals.sprites.length; ++i) {
     const sprite = globals.sprites[i];
-
     // TEST: dibuja un rectangulo verde alrededor del sprite
     // drawSpriteRectangle(sprite)
 
@@ -308,6 +313,9 @@ function drawNewGame() {
   ctx.fillStyle = "black"
   // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
+
+  // dibujar los elementos
+  drawSritesNewGame()
 
   keyboardShortcuts()
 }

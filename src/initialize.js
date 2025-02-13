@@ -104,9 +104,6 @@ function initSprites() {
   initMelted()
   initOven()
   initForge()
-
-  // initPlayerNewGame()
-  // initSkeletonNewGame()
 }
 
 function initEvents() {
@@ -217,9 +214,9 @@ function initForge() {
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
   const hitBox = new HitBox(
-    /* xSize */ 0, 
-    /* ySize */ 0, 
-    /* xOffset */ 0, 
+    /* xSize */ 0,
+    /* ySize */ 0,
+    /* xOffset */ 0,
     /* yOffset */ 0,
   )
 
@@ -441,5 +438,5 @@ export {
   initLevel,
   initEvents,
   initSkeleton,
-  initTimers
+  initTimers,
 }

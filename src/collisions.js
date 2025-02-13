@@ -143,7 +143,8 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
   }
 
   // Iterar sobre los otros sprites
-  for (const otherSprite of otherSprites) {
+  for (let i = 0; i < otherSprites.length; i++) {
+    const otherSprite = otherSprites[i];
     // Datos del sprite en cuestión
     const x1 = sprite.xPos + sprite.hitBox.xOffset;
     const y1 = sprite.yPos + sprite.hitBox.yOffset;
@@ -281,7 +282,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
   let isCollidingFl6
 
   switch (direction) {
-
     case State.UP_RIGHT:
       // colisión en (PUNTO 1)
       yPos6_1 = player.yPos + player.hitBox.yOffset - 1;
@@ -345,7 +345,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         player.xPos -= overlap;
 
       }
-
       break
 
     case State.DOWN_RIGHT:
@@ -618,7 +617,6 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         player.yPos -= overlap - brickSize;
       }
       break;
-
     default:
       break;
   }

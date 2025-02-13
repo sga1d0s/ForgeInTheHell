@@ -14,12 +14,14 @@ export default function update() {
 
     case Game.PLAYING:
       playGame()
-      // skeletonTime()
+      skeletonTime()
       break
 
     case Game.NEW_GAME:
       // teclado en NEW GAME
       newGame()
+      // actualiza sprite®
+      updateSkeletonNewGame()
       break
 
     case Game.STORY:
@@ -268,6 +270,11 @@ function updateLife() {
       globals.gameState = Game.OVER
     }
   }
+}
+
+function updateSkeletonNewGame(sprite){
+   sprite = globals.sprites[4]
+    updateSkeleton(sprite)
 }
 
 // actualiza cada tipo de sprite
