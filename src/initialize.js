@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, FPS, SpriteID, State } from "./constants.js"
+import { Game, FPS, SpriteID, State, GameText } from "./constants.js"
 import Sprite from "./Sprite.js"
 import { ImageSet, } from "./ImageSet.js"
 import Frames from "./Frames.js"
@@ -8,6 +8,7 @@ import Physics from "./Physics.js"
 import { keydownHandler, keyupHandler } from "./events.js"
 import HitBox from "./HitBox.js"
 import Timer from "./Timer.js"
+import TextWord from "./TextWord.js"
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -46,6 +47,8 @@ function initVars() {
 
   // variable vida
   globals.life = 100;
+
+
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
@@ -423,8 +426,8 @@ function initTimers() {
   // creamos timer de valor 200, con cambios cada 0.5 segundos
   globals.skeletonTime = new Timer(360, 20)
   globals.loadingTime = new Timer(360, 2)
-  
-  
+
+
   globals.scoreWordTime = new Timer(360, 1)
 
   // timer game over BETA 180 sg
@@ -432,6 +435,51 @@ function initTimers() {
 
   console.log("initTimers");
 }
+
+//function initProcessText() {
+
+  // Función para procesar el texto y calcular posiciones
+  function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
+    let words = text.split(" ")
+    let xPos = initX
+    let yPos = initY
+    let wordsArray = []
+
+    ctx.font = "10px emulogic"
+
+    for (let i = 0; i < words.length; i++) {
+      let wordWidth = ctx.measureText(words[i]).width
+
+      // Si la palabra no cabe en la línea actual, saltar a la siguiente línea
+      if (xPos + wordWidth > maxWidth) {
+        xPos = initX;
+        yPos += lineHeight
+      }
+
+      wordsArray.push(new TextWord(words[i], xPos, yPos))
+
+      xPos += wordWidth + ctx.measureText(' ').width
+    }
+    console.log(wordsArray);
+    console.log(globals.ctx);
+    return wordsArray
+  }
+
+  function initProcessText(){
+       // parametros de render
+   const text = GameText.GAME_STORY_TEXT
+   const maxWidth = globals.canvas.width - 20
+   const initX = 30
+   const initY = 120
+   const lineHeight = 20
+   const ctx = globals.ctx
+ 
+   // Procesar el texto y obtener posiciones
+   globals.wordsArray = processText(text, maxWidth, initX, initY, lineHeight, ctx)
+  }
+
+
+//}
 
 // exportar funciones
 export {
@@ -443,4 +491,6 @@ export {
   initEvents,
   initSkeleton,
   initTimers,
+  initProcessText,
+  processText,
 }

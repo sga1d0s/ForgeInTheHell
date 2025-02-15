@@ -1,8 +1,11 @@
 import globals from "./globals.js"
-import { initHTMLElements, initVars, loadAssets, initSprites, initLevel, initEvents, initSkeleton, initTimers } from "./initialize.js"
+import { initHTMLElements, initVars, 
+  loadAssets, initSprites, initLevel, 
+  initEvents, initSkeleton, initTimers,  initProcessText} from "./initialize.js"
 import update from "./gameLogic.js"
 import updateSprite from "./gameLogic.js"
 import render from "./gameRender.js"
+import { GameText } from "./constants.js"
 
 ////////////////////////////////////
 //            GAME INIT           //

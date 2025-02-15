@@ -65,4 +65,6 @@ export default {
 
   // score
   score: 0,
+
+  wordsArray: []
 }

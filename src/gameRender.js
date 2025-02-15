@@ -2,6 +2,7 @@ import globals from "./globals.js"
 import { Game, GameText, Tile, } from "./constants.js"
 // import Paragraf from "./Paragraf.js"
 import TextWord from "./TextWord.js"
+import { initProcessText } from "./initialize.js"
 
 // funcion que renderiza los graficos
 export default function render() {
@@ -12,6 +13,7 @@ export default function render() {
     case Game.LOADING:
       // TODO ***** 
       drawSpinner()
+      initProcessText()
 
       break
 
@@ -326,45 +328,15 @@ function drawStory() {
   drawCorners()
 
   // Definir constantes
-  const text = GameText.GAME_STORY_TEXT
   const title = GameText.GAME_STORY_TITTLE
-  const ctx = globals.ctx
+     const ctx = globals.ctx
+  
 
   ctx.font = '15px emulogic'
   ctx.fillStyle = 'red'
   ctx.fillText(title, 160, 80)
 
-  // parametros de render
-  const maxWidth = globals.canvas.width - 20
-  const lineHeight = 20
-  const initX = 30
-  const initY = 120
-
-  // Función para procesar el texto y calcular posiciones
-  function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
-    let words = text.split(" ")
-    let xPos = initX
-    let yPos = initY
-    let wordsArray = []
-
-    ctx.font = "10px emulogic"
-
-    for (let i = 0; i < words.length; i++) {
-      let wordWidth = ctx.measureText(words[i]).width
-
-      // Si la palabra no cabe en la línea actual, saltar a la siguiente línea
-      if (xPos + wordWidth > maxWidth) {
-        xPos = initX;
-        yPos += lineHeight
-      }
-
-      wordsArray.push(new TextWord(words[i], xPos, yPos))
-
-      xPos += wordWidth + ctx.measureText(' ').width
-    }
-    console.log(wordsArray);
-    return wordsArray
-  }
+ 
 
   // renderizar texto progresivamente
   function renderText(wordsArray, ctx,) {
@@ -378,11 +350,10 @@ function drawStory() {
     }
   }
 
-  // Procesar el texto y obtener posiciones
-  let wordsArray = processText(text, maxWidth, initX, initY, lineHeight, ctx)
 
   // Dibujar el texto palabra por palabra
-  renderText(wordsArray, ctx)
+  renderText(globals.wordsArray, ctx)
+  console.log(ctx.font);
 
   // UP LEFT
   ctx.fillStyle = "lightblue"
