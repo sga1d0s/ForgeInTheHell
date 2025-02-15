@@ -84,7 +84,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    // globals.gameState = Game.OVER
+    //globals.gameState = Game.STORY
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
@@ -422,7 +422,10 @@ function initLevel() {
 function initTimers() {
   // creamos timer de valor 200, con cambios cada 0.5 segundos
   globals.skeletonTime = new Timer(360, 20)
-  globals.loadingTime = new Timer(360, 1)
+  globals.loadingTime = new Timer(360, 2)
+  
+  
+  globals.scoreWordTime = new Timer(360, 1)
 
   // timer game over BETA 180 sg
   globals.gameOverTime = new Timer(360, 360)

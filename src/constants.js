@@ -23,16 +23,9 @@ export const GameText = {
   ],
   GAME_STORY: "STORY",
   GAME_STORY_TITTLE: "THE FORGE...",
-  GAME_STORY_TEXT: [
-    "That morning something different was haunting",
-    "John Smith's forge... a darkness hung over the village.",
-    "John was well aware that it was something he harbored in",
-    "his possession that was causing it. At last he had found",
-    "the mallet of destiny with which to forge extraordinary",
-    "wonders. But... undoubtedly that would make others want",
-    "to get hold of the magnificent mallet...               ",
-  ],
-  SHORTCUTS: "--- SELECT WITH ARROWS --- PRESS 'ENTER' TO CONFIRM ---"
+  GAME_STORY_TEXT: "That morning something different was haunting John Smith's forge... a darkness hung over the village. John was well aware that it was something he harbored in his possession that was causing it. At last he had found the mallet of destiny with which to forge extraordinary wonders. But... undoubtedly that would make others want to get hold of the magnificent mallet...",
+  SHORTCUTS: "--- SELECT WITH ARROWS --- PRESS 'ENTER' TO CONFIRM ---",
+  GAME_LOADING: "LOADING..."
 }
 
 // estados del juego

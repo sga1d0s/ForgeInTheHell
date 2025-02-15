@@ -1,5 +1,7 @@
 import globals from "./globals.js"
 import { Game, GameText, Tile, } from "./constants.js"
+// import Paragraf from "./Paragraf.js"
+import TextWord from "./TextWord.js"
 
 // funcion que renderiza los graficos
 export default function render() {
@@ -317,29 +319,70 @@ function drawNewGame() {
 }
 
 function drawStory() {
+  // Borrar la pantalla entera
+  globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
+  globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
 
   drawCorners()
 
-  // globals
+  // Definir constantes
+  const text = GameText.GAME_STORY_TEXT
+  const title = GameText.GAME_STORY_TITTLE
   const ctx = globals.ctx
-  const text = GameText.GAME_STORY_TITTLE
-
-  // TITTLE
-  const lineHeight = 20
-  const startX = 30
-  const startY = 120
 
   ctx.font = '15px emulogic'
   ctx.fillStyle = 'red'
-  ctx.fillText(text, 160, 80)
+  ctx.fillText(title, 160, 80)
 
-  // STORY TEXT
-  ctx.fillStyle = 'lightgrey'
-  ctx.font = '10px emulogic'
-  // recorrer el array corigiendo la posición por línea
-  for (let i = 0; i < GameText.GAME_STORY_TEXT.length; i++) {
-    ctx.fillText(GameText.GAME_STORY_TEXT[i], startX, startY + i * lineHeight, 450)
+  // parametros de render
+  const maxWidth = globals.canvas.width - 20
+  const lineHeight = 20
+  const initX = 30
+  const initY = 120
+
+  // Función para procesar el texto y calcular posiciones
+  function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
+    let words = text.split(" ")
+    let xPos = initX
+    let yPos = initY
+    let wordsArray = []
+
+    ctx.font = "10px emulogic"
+
+    for (let i = 0; i < words.length; i++) {
+      let wordWidth = ctx.measureText(words[i]).width
+
+      // Si la palabra no cabe en la línea actual, saltar a la siguiente línea
+      if (xPos + wordWidth > maxWidth) {
+        xPos = initX;
+        yPos += lineHeight
+      }
+
+      wordsArray.push(new TextWord(words[i], xPos, yPos))
+
+      xPos += wordWidth + ctx.measureText(' ').width
+    }
+    console.log(wordsArray);
+    return wordsArray
   }
+
+  // renderizar texto progresivamente
+  function renderText(wordsArray, ctx,) {
+    ctx.fillStyle = "lightgrey"
+    ctx.font = "10px emulogic"
+
+    for (let i = 0; i < wordsArray.length; i++) {
+      let word = wordsArray[i]
+      ctx.fillText(word.word, word.xPos, word.yPos)
+      // console.log(word);
+    }
+  }
+
+  // Procesar el texto y obtener posiciones
+  let wordsArray = processText(text, maxWidth, initX, initY, lineHeight, ctx)
+
+  // Dibujar el texto palabra por palabra
+  renderText(wordsArray, ctx)
 
   // UP LEFT
   ctx.fillStyle = "lightblue"
@@ -352,6 +395,7 @@ function drawStory() {
 
   keyboardShortcuts()
 }
+
 
 function drawControls() {
 

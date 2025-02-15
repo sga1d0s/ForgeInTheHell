@@ -52,6 +52,8 @@ export default {
   // temporizador loading
   loadingTime: {},
 
+  scoreWordTime: {},
+
   // temporizador BETA 180 seg
   gameOverTime: {},
 
