@@ -1,7 +1,7 @@
 import globals from "./globals.js"
-import { Game, SpriteID, State, StrikeBox } from "./constants.js"
+import { Game, SpriteID, State, StrikeBox, GameText } from "./constants.js"
 import detectCollisions from "./collisions.js"
-import { initSkeleton, initSprites, initLevel } from "./initialize.js"
+import { initSkeleton, initSprites, initLevel, processText } from "./initialize.js"
 
 export default function update() {
 
@@ -10,6 +10,7 @@ export default function update() {
     case Game.LOADING:
       console.log("Loading assets...")
       loadingTime()
+  
       break
 
     case Game.PLAYING:
@@ -272,9 +273,9 @@ function updateLife() {
   }
 }
 
-function updateSkeletonNewGame(sprite){
-   sprite = globals.sprites[4]
-    updateSkeleton(sprite)
+function updateSkeletonNewGame(sprite) {
+  sprite = globals.sprites[4]
+  updateSkeleton(sprite)
 }
 
 // actualiza cada tipo de sprite

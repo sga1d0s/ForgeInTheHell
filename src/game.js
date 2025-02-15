@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { initHTMLElements, initVars, loadAssets, initSprites, initLevel, initEvents, processText, initTimers } from "./initialize.js"
+import { initHTMLElements, initVars, loadAssets, initSprites, initLevel, initEvents, processText, initTimers, initProcessText } from "./initialize.js"
 import update from "./gameLogic.js"
 import updateSprite from "./gameLogic.js"
 import render from "./gameRender.js"
@@ -34,20 +34,8 @@ function init() {
   // eventos de teclado
   initEvents()
 
-  // ########################### parametros de render
-  const maxWidth = globals.canvas.width - 20;
-  const lineHeight = 20
-  const initX = 30
-  const initY = 120
-  const ctx = globals.ctx
-  console.log("TEST max width" + globals.canvas.width);
-  const text = GameText.GAME_STORY_TEXT
+ initProcessText()
 
-  // Procesar el texto y obtener posiciones
-  processText(text, maxWidth, initX, initY, lineHeight, ctx)
-
-  // ##################################################
-  
   // start the first frame request
   window.requestAnimationFrame(gameLoop)
 }

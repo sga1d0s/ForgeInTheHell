@@ -337,7 +337,7 @@ function drawStory() {
   // renderizar texto progresivamente
   function renderText(wordsArray, ctx,) {
     ctx.fillStyle = "lightgrey"
-    ctx.font = "10px emulogic"
+    ctx.font = '10px emulogic'
 
     for (let i = 0; i < wordsArray.length; i++) {
       let word = wordsArray[i]

@@ -47,8 +47,6 @@ function initVars() {
 
   // variable vida
   globals.life = 100;
-
-
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
@@ -91,6 +89,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
+
   }
 }
 
@@ -441,9 +440,8 @@ function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
   let words = text.split(" ")
   let xPos = initX
   let yPos = initY
-  const fontSize = 10;
 
-  ctx.font = `${fontSize}px emulogic`; // Configurar fuente
+  ctx.font = `10px emulogic`; // Configurar fuente
 
   console.log(ctx.font);
   for (let i = 0; i < words.length; i++) {
@@ -463,6 +461,23 @@ function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
   }
 }
 
+function initProcessText (){
+              // ########################### parametros de render
+              const maxWidth = globals.canvas.width - 20;
+              const lineHeight = 20
+              const initX = 30
+              const initY = 120
+              const ctx = globals.ctx
+              console.log("TEST max width" + globals.canvas.width);
+              const text = GameText.GAME_STORY_TEXT
+        
+              // Procesar el texto y obtener posiciones
+              processText(text, maxWidth, initX, initY, lineHeight, ctx)
+        
+              // ##################################################
+}
+
+
 // exportar funciones
 export {
   initHTMLElements,
@@ -473,5 +488,6 @@ export {
   initEvents,
   initSkeleton,
   initTimers,
-  processText
+  processText,
+  initProcessText
 }
