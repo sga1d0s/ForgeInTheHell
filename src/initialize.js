@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, FPS, SpriteID, State } from "./constants.js"
+import { Game, FPS, SpriteID, State, RenderParams, GameText } from "./constants.js"
 import Sprite from "./Sprite.js"
 import { ImageSet, } from "./ImageSet.js"
 import Frames from "./Frames.js"
@@ -8,6 +8,7 @@ import Physics from "./Physics.js"
 import { keydownHandler, keyupHandler } from "./events.js"
 import HitBox from "./HitBox.js"
 import Timer from "./Timer.js"
+import TextWord from "./TextWord.js"
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -46,6 +47,8 @@ function initVars() {
 
   // variable vida
   globals.life = 100;
+
+
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
@@ -84,7 +87,7 @@ function loadHandler() {
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
-    //globals.gameState = Game.STORY
+    // globals.gameState = Game.STORY
     // *********** Game State ************ //
     // *********** Game State ************ //
     // *********** Game State ************ //
@@ -423,14 +426,41 @@ function initTimers() {
   // creamos timer de valor 200, con cambios cada 0.5 segundos
   globals.skeletonTime = new Timer(360, 20)
   globals.loadingTime = new Timer(360, 2)
-  
-  
+
+
   globals.scoreWordTime = new Timer(360, 1)
 
   // timer game over BETA 180 sg
   globals.gameOverTime = new Timer(360, 360)
 
   console.log("initTimers");
+}
+
+// Función para procesar el texto y calcular posiciones
+function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
+  let words = text.split(" ")
+  let xPos = initX
+  let yPos = initY
+  const fontSize = 10;
+
+  ctx.font = `${fontSize}px emulogic`; // Configurar fuente
+
+  console.log(ctx.font);
+  for (let i = 0; i < words.length; i++) {
+    let wordWidth = ctx.measureText(words[i]).width
+    // Si la palabra no cabe en la línea actual, saltar a la siguiente línea
+    if (xPos + wordWidth > maxWidth) {
+      xPos = initX;
+      yPos += lineHeight
+    }
+
+    globals.wordsArray.push(new TextWord(words[i], xPos, yPos))
+
+    xPos += wordWidth + ctx.measureText(" ").width
+    console.log(wordWidth);
+
+    // console.log(globals.wordsArray);
+  }
 }
 
 // exportar funciones
@@ -443,4 +473,5 @@ export {
   initEvents,
   initSkeleton,
   initTimers,
+  processText
 }

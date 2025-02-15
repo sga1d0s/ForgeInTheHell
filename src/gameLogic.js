@@ -521,13 +521,6 @@ function reload() {
   // iniciamos el contador
   globals.gameTime = 0
   globals.deltaTime = 0
-  // globals.cycleRealTime = 0
-
-  // reiniciamos timers
-  // globals.skeletonTime = {}
-  // globals.loadingTime = {}
-  // globals.gameOverTime = {}
-  // globals.level = {}
 
   globals.spritesNewGame = []
   globals.sprites = []

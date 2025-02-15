@@ -154,3 +154,10 @@ export const StrikeBox = [
     yOffset: 10,
   },
 ]
+
+// parametros de render
+export const RenderParams = {
+  lineHeight: 20,
+  initX: 30,
+  initY: 120
+}
