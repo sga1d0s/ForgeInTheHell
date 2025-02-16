@@ -436,50 +436,46 @@ function initTimers() {
   console.log("initTimers");
 }
 
-//function initProcessText() {
+// función para procesar el texto y calcular posiciones
+function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
+  let words = text.split(" ")
+  let xPos = initX
+  let yPos = initY
+  let wordsArray = []
 
-  // Función para procesar el texto y calcular posiciones
-  function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
-    let words = text.split(" ")
-    let xPos = initX
-    let yPos = initY
-    let wordsArray = []
+  ctx.font = "10px emulogic"
 
-    ctx.font = "10px emulogic"
+  for (let i = 0; i < words.length; i++) {
+    let wordWidth = ctx.measureText(words[i]).width
 
-    for (let i = 0; i < words.length; i++) {
-      let wordWidth = ctx.measureText(words[i]).width
-
-      // Si la palabra no cabe en la línea actual, saltar a la siguiente línea
-      if (xPos + wordWidth > maxWidth) {
-        xPos = initX;
-        yPos += lineHeight
-      }
-
-      wordsArray.push(new TextWord(words[i], xPos, yPos))
-
-      xPos += wordWidth + ctx.measureText(' ').width
+    // salto de lionea si no cabe
+    if (xPos + wordWidth > maxWidth) {
+      xPos = initX;
+      yPos = yPos + lineHeight
     }
-    console.log(wordsArray);
-    console.log(globals.ctx);
-    return wordsArray
+
+    wordsArray.push(new TextWord(words[i], xPos, yPos))
+
+    xPos += wordWidth + ctx.measureText(' ').width
   }
+  console.log(wordsArray);
+  console.log(globals.ctx);
 
-  function initProcessText(){
-       // parametros de render
-   const text = GameText.GAME_STORY_TEXT
-   const maxWidth = globals.canvas.width - 20
-   const initX = 30
-   const initY = 120
-   const lineHeight = 20
-   const ctx = globals.ctx
- 
-   // Procesar el texto y obtener posiciones
-   globals.wordsArray = processText(text, maxWidth, initX, initY, lineHeight, ctx)
-  }
+  return wordsArray
+}
 
+function initProcessText() {
+  // parametros de render
+  const text = GameText.GAME_STORY_TEXT
+  const maxWidth = globals.canvas.width - 20
+  const initX = 30
+  const initY = 120
+  const lineHeight = 20
+  const ctx = globals.ctx
 
-//}
+  // Procesar el texto y obtener posiciones
+  globals.wordsArray = processText(text, maxWidth, initX, initY, lineHeight, ctx)
+}
 
 // exportar funciones
 export {

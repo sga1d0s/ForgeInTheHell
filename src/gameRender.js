@@ -14,7 +14,6 @@ export default function render() {
       // TODO ***** 
       drawSpinner()
       initProcessText()
-
       break
 
     case Game.PLAYING:
@@ -22,10 +21,7 @@ export default function render() {
       break
 
     case Game.OVER:
-      globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
-      globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
       drawGameOver()
-
       break
 
     case Game.NEW_GAME:
@@ -138,7 +134,6 @@ function drawSpritesNewGame() {
 
 // mapear sprites
 function drawSprites() {
-
   for (let i = 0; i < globals.sprites.length; ++i) {
     const sprite = globals.sprites[i];
     // TEST: dibuja un rectangulo verde alrededor del sprite
@@ -329,14 +324,11 @@ function drawStory() {
 
   // Definir constantes
   const title = GameText.GAME_STORY_TITTLE
-     const ctx = globals.ctx
-  
+  const ctx = globals.ctx
 
   ctx.font = '15px emulogic'
   ctx.fillStyle = 'red'
   ctx.fillText(title, 160, 80)
-
- 
 
   // renderizar texto progresivamente
   function renderText(wordsArray, ctx,) {
@@ -350,10 +342,9 @@ function drawStory() {
     }
   }
 
-
   // Dibujar el texto palabra por palabra
   renderText(globals.wordsArray, ctx)
-  console.log(ctx.font);
+  // console.log(ctx.font);
 
   // UP LEFT
   ctx.fillStyle = "lightblue"

@@ -66,5 +66,6 @@ export default {
   // score
   score: 0,
 
+  // array de palabras del texto de story
   wordsArray: []
 }

@@ -1,4 +1,5 @@
 #gameScreen {
+  margin: auto;
   width: 1024px;
   height: 768px;
   image-rendering: -moz-crisp-edges;
@@ -12,6 +13,7 @@ div {
 }
 
 #gameUHD {
+  margin: auto;
   width: 1024px;
   height: 96px;
   margin-top: 0px;
