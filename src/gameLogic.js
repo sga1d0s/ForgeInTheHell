@@ -40,6 +40,7 @@ export default function update() {
       break
 
     case Game.OVER:
+      // teclado en OVER
       gameOver()
       break
 

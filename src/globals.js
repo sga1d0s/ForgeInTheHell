@@ -52,8 +52,6 @@ export default {
   // temporizador loading
   loadingTime: {},
 
-  scoreWordTime: {},
-
   // temporizador BETA 180 seg
   gameOverTime: {},
 
@@ -67,5 +65,8 @@ export default {
   score: 0,
 
   // array de palabras del texto de story
-  wordsArray: []
+  wordsArray: [],
+
+  // insdex palabras
+  currentWordIndex: 0
 }

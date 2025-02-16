@@ -427,8 +427,8 @@ function initTimers() {
   globals.skeletonTime = new Timer(360, 20)
   globals.loadingTime = new Timer(360, 2)
 
-
-  globals.scoreWordTime = new Timer(360, 1)
+  // temporizador palabras en story
+  globals.wordTimer = new Timer(0, 0.01)
 
   // timer game over BETA 180 sg
   globals.gameOverTime = new Timer(360, 360)
@@ -458,8 +458,8 @@ function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
 
     xPos += wordWidth + ctx.measureText(' ').width
   }
-  console.log(wordsArray);
-  console.log(globals.ctx);
+  // console.log(wordsArray);
+  // console.log(globals.ctx);
 
   return wordsArray
 }

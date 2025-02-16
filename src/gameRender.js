@@ -1,12 +1,9 @@
 import globals from "./globals.js"
 import { Game, GameText, Tile, } from "./constants.js"
-// import Paragraf from "./Paragraf.js"
-import TextWord from "./TextWord.js"
 import { initProcessText } from "./initialize.js"
 
 // funcion que renderiza los graficos
 export default function render() {
-
   // change what the game is doing based on the game state
   switch (globals.gameState) {
 
@@ -317,8 +314,8 @@ function drawNewGame() {
 
 function drawStory() {
   // Borrar la pantalla entera
-  globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
-  globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
+  /* globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
+  globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height) */
 
   drawCorners()
 
@@ -330,21 +327,29 @@ function drawStory() {
   ctx.fillStyle = 'red'
   ctx.fillText(title, 160, 80)
 
-  // renderizar texto progresivamente
-  function renderText(wordsArray, ctx,) {
+  function renderText(wordsArray, ctx) {
     ctx.fillStyle = "lightgrey"
     ctx.font = "10px emulogic"
 
-    for (let i = 0; i < wordsArray.length; i++) {
+    // incrementar contador del temporizador
+    globals.wordTimer.timeChangeCounter += globals.deltaTime
+
+    if (globals.wordTimer.timeChangeCounter >= globals.wordTimer.timeChangeValue) {
+      globals.wordTimer.timeChangeCounter = 0
+      if (globals.currentWordIndex < wordsArray.length) {
+        // mostrar la siguiente palabra
+        globals.currentWordIndex++
+      }
+    }
+
+    // dibujar solo las palabras hasta el indice
+    for (let i = 0; i < globals.currentWordIndex; i++) {
       let word = wordsArray[i]
       ctx.fillText(word.word, word.xPos, word.yPos)
-      // console.log(word);
     }
   }
 
-  // Dibujar el texto palabra por palabra
   renderText(globals.wordsArray, ctx)
-  // console.log(ctx.font);
 
   // UP LEFT
   ctx.fillStyle = "lightblue"
@@ -522,6 +527,7 @@ function drawCorners() {
   ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
 }
 
+// pantalla de LOADING
 function drawSpinner() {
 
   // globals
