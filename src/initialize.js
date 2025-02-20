@@ -424,8 +424,8 @@ function initLevel() {
 // init TIMERS
 function initTimers() {
   // creamos timer de valor 200, con cambios cada 0.5 segundos
-  globals.skeletonTime = new Timer(360, 20)
-  globals.loadingTime = new Timer(360, 2)
+  globals.skeletonTime = new Timer(0, 20)
+  globals.loadingTime = new Timer(0, 2)
 
   // temporizador palabras en story
   globals.wordTimer = new Timer(0, 0.01)

@@ -275,22 +275,25 @@ function updateLife() {
         case SpriteID.PLAYER:
           sprite.state = State.DEATH
           break;
-      
+
         default:
           break;
       }
-
-      // incrementamos el contador de cambio de valor
-      globals.gameOverPlayer.timeChangeCounter += globals.deltaTime
-
-      // si ha pasado el tiempo necesario, cambiamos el valor del timer
-      if (globals.gameOverPlayer.timeChangeCounter > globals.gameOverPlayer.timeChangeValue) {
-        globals.gameState = Game.OVER
-
-        // restear timeChangecounter
-        globals.skeletonTime.timeChangeCounter = 0
-      }
+      deathTimer()
     }
+  }
+}
+
+function deathTimer() {
+  // incrementamos el contador de cambio de valor
+  globals.gameOverPlayer.timeChangeCounter += globals.deltaTime
+
+  // si ha pasado el tiempo necesario, cambiamos el valor del timer
+  if (globals.gameOverPlayer.timeChangeCounter > globals.gameOverPlayer.timeChangeValue) {
+    globals.gameState = Game.OVER
+
+    // restear timeChangecounter
+    globals.gameOverPlayer.timeChangeCounter = 0
   }
 }
 
@@ -565,8 +568,6 @@ function reload() {
   // inicialización del mapa del juego
   initLevel()
 
-  // inicializar timers
-  initTimers()
 }
 
 function gameOver() {
