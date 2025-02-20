@@ -1,7 +1,7 @@
 import globals from "./globals.js"
 import { Game, SpriteID, State, StrikeBox } from "./constants.js"
 import detectCollisions from "./collisions.js"
-import { initSkeleton, initSprites, initLevel } from "./initialize.js"
+import { initSkeleton, initSprites, initLevel, initTimers } from "./initialize.js"
 
 export default function update() {
 
@@ -268,14 +268,35 @@ function updateLife() {
       globals.life = globals.life - 10
     }
     if (globals.life <= 10) {
-      globals.gameState = Game.OVER
+
+      let id = sprite.id
+
+      switch (id) {
+        case SpriteID.PLAYER:
+          sprite.state = State.DEATH
+          break;
+      
+        default:
+          break;
+      }
+
+      // incrementamos el contador de cambio de valor
+      globals.gameOverPlayer.timeChangeCounter += globals.deltaTime
+
+      // si ha pasado el tiempo necesario, cambiamos el valor del timer
+      if (globals.gameOverPlayer.timeChangeCounter > globals.gameOverPlayer.timeChangeValue) {
+        globals.gameState = Game.OVER
+
+        // restear timeChangecounter
+        globals.skeletonTime.timeChangeCounter = 0
+      }
     }
   }
 }
 
-function updateSkeletonNewGame(sprite){
-   sprite = globals.sprites[4]
-    updateSkeleton(sprite)
+function updateSkeletonNewGame(sprite) {
+  sprite = globals.sprites[4]
+  updateSkeleton(sprite)
 }
 
 // actualiza cada tipo de sprite
@@ -283,7 +304,6 @@ function updateSprite(sprite) {
   const type = sprite.id
 
   switch (type) {
-
     // caso jugador
     case SpriteID.PLAYER:
       updatePlayer(sprite)
@@ -522,13 +542,6 @@ function reload() {
   // iniciamos el contador
   globals.gameTime = 0
   globals.deltaTime = 0
-  // globals.cycleRealTime = 0
-
-  // reiniciamos timers
-  // globals.skeletonTime = {}
-  // globals.loadingTime = {}
-  // globals.gameOverTime = {}
-  // globals.level = {}
 
   globals.spritesNewGame = []
   globals.sprites = []
@@ -551,6 +564,9 @@ function reload() {
 
   // inicialización del mapa del juego
   initLevel()
+
+  // inicializar timers
+  initTimers()
 }
 
 function gameOver() {

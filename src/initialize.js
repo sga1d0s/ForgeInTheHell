@@ -433,6 +433,9 @@ function initTimers() {
   // timer game over BETA 180 sg
   globals.gameOverTime = new Timer(360, 360)
 
+  // timer player death state
+  globals.gameOverPlayer = new Timer(0, 15)
+
   console.log("initTimers");
 }
 

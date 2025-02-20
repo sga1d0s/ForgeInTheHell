@@ -1,5 +1,6 @@
 import globals from "./globals.js"
 import { Block, SpriteID, State } from "./constants.js"
+import HitBox from "./HitBox.js"
 
 export default function detectCollisions() {
   // calcular colision del player con cada uno de los sprites
@@ -20,7 +21,7 @@ export default function detectCollisions() {
   detectCollisionBetweenPlayerAndMapObstacles()
 }
 
-// detecta la colisión entre player y enemigos
+// colisión entre PLAYER Y ENEMIGOS
 function detectCollisionBetweenPlayerAndSprites(sprite) {
   // reset collision state
   sprite.isCollidingWithPlayer = false
@@ -130,39 +131,39 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
   }
 }
 
-// detecta la colisión entre player y enemigos
+// colision ESQUELETOS Y SPRITES
 function detectCollisionBetweenSkeletonAndSprites(sprite) {
 
-  // Obtener todos los demás sprites
+  // obtener todos los demás sprites
   const otherSprites = [];
 
   for (let i = 0; i < globals.sprites.length; i++) {
     if (globals.sprites[i] !== sprite) {
-      otherSprites.push(globals.sprites[i]);
+      otherSprites.push(globals.sprites[i])
     }
   }
 
-  // Iterar sobre los otros sprites
+  // recorrer los otros sprites
   for (let i = 0; i < otherSprites.length; i++) {
-    const otherSprite = otherSprites[i];
-    // Datos del sprite en cuestión
-    const x1 = sprite.xPos + sprite.hitBox.xOffset;
-    const y1 = sprite.yPos + sprite.hitBox.yOffset;
-    const w1 = sprite.hitBox.xSize;
-    const h1 = sprite.hitBox.ySize;
+    const otherSprite = otherSprites[i]
+    // datos del sprite
+    const x1 = sprite.xPos + sprite.hitBox.xOffset
+    const y1 = sprite.yPos + sprite.hitBox.yOffset
+    const w1 = sprite.hitBox.xSize
+    const h1 = sprite.hitBox.ySize
 
-    // Datos del otro sprite
-    const x2 = otherSprite.xPos + otherSprite.hitBox.xOffset;
-    const y2 = otherSprite.yPos + otherSprite.hitBox.yOffset;
-    const w2 = otherSprite.hitBox.xSize;
-    const h2 = otherSprite.hitBox.ySize;
+    // datos de otherSprite
+    const x2 = otherSprite.xPos + otherSprite.hitBox.xOffset
+    const y2 = otherSprite.yPos + otherSprite.hitBox.yOffset
+    const w2 = otherSprite.hitBox.xSize
+    const h2 = otherSprite.hitBox.ySize
 
     // verificar si hay intersección
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
 
     if (isOverlap && otherSprite.id != SpriteID.SKELETON) {
       // ajustar la posición del esqueleto y cambiar su dirección
-      let overlap;
+      let overlap
       // ESQUELETO
       switch (sprite.state) {
         // ESQUELETO
@@ -170,6 +171,11 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
           overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
           sprite.yPos += overlap
           sprite.state = State.DOWN
+          if (sprite.yPos > 325) {
+            console.log("OUT DOWN");
+            sprite.state = State.DEATH
+            sprite.hitbox = new HitBox(0, 0, 0, 0)
+          }
           break
         // ESQELETO
         case State.DOWN:
@@ -191,6 +197,11 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
               overlap = Math.floor(sprite.yPos) % sprite.hitBox.ySize + 10;
               sprite.yPos -= overlap
               sprite.state = State.UP
+              if (sprite.yPos < 50) {
+                console.log("OUT UP");
+                sprite.state = State.DEATH
+                sprite.hitbox = new HitBox(0, 0, 0, 0)
+              }
               break
           }
           break
@@ -226,10 +237,9 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
       }
     }
   }
-
 }
 
-// calculo de colisiones con los bloques del mapa
+// colision PLAYER Y MAPA
 function detectCollisionBetweenPlayerAndMapObstacles() {
   // player
   const player = globals.sprites[3]
@@ -460,7 +470,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
         // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
         overlap = Math.floor(yPos6_1) % brickSize + 1;
-        player.yPos -= overlap - brickSize -1 ;
+        player.yPos -= overlap - brickSize - 1;
       }
       if (isCollidingOnPos6 && isCollidingOnPos4 || isCollidingOnPos4) {
         // existe colision a la derecha
@@ -622,7 +632,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
   }
 }
 
-// detecta colision entre hacha y enemigos
+// colision en ATAQUE
 function detectCollisionAttack(sprite) {
   // reset collision state
   sprite.isAttackSuccsesfull = false
@@ -643,6 +653,7 @@ function detectCollisionAttack(sprite) {
   const h2 = sprite.hitBox.ySize
 
   const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
+
   if (isOverlap && sprite.id === SpriteID.SKELETON) {
     // existe colisión
     sprite.isAttackSuccsesfull = true
@@ -652,7 +663,8 @@ function detectCollisionAttack(sprite) {
     if (index !== -1) {
       globals.score = globals.score + 10
       globals.sprites[index].state = State.DEATH;
-      globals.sprites.splice(index, 1)
+      globals.sprites[index].hitBox = new HitBox(0, 0, 0, 0)
+      // globals.sprites.splice(index, 1)
     }
   }
 }
