@@ -101,8 +101,12 @@ function updateSkeleton(sprite) {
 
 // actualizar player
 function updatePlayer(sprite) {
-  // Leer teclado y asignar estado
-  readKeyboardAndAssignState(sprite);
+
+  // asignar teclado solo si player no está muerto
+  if (sprite.state != State.DEATH) {
+    // Leer teclado y asignar estado
+    readKeyboardAndAssignState(sprite);
+  }
 
   // Reset de velocidades
   sprite.physics.vx = 0;
