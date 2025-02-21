@@ -269,9 +269,7 @@ function updateLife() {
     }
     if (globals.life <= 10) {
 
-      let id = sprite.id
-
-      switch (id) {
+      switch (sprite.id) {
         case SpriteID.PLAYER:
           sprite.state = State.DEATH
           break;
@@ -284,6 +282,7 @@ function updateLife() {
   }
 }
 
+// determina el tiempo entre muerto y gameOver
 function deathTimer() {
   // incrementamos el contador de cambio de valor
   globals.gameOverPlayer.timeChangeCounter += globals.deltaTime
@@ -297,6 +296,7 @@ function deathTimer() {
   }
 }
 
+// actualiza el esqueleto de NewGame
 function updateSkeletonNewGame(sprite) {
   sprite = globals.sprites[4]
   updateSkeleton(sprite)

@@ -198,7 +198,6 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
               sprite.yPos -= overlap
               sprite.state = State.UP
               if (sprite.yPos < 50) {
-                console.log("OUT UP");
                 sprite.state = State.DEATH
                 sprite.hitbox = new HitBox(0, 0, 0, 0)
               }
