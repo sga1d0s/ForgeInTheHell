@@ -326,6 +326,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
       isCollidingOnPos3 ? console.log("DOWN RIGHT POS 3") : false
 
+      // ###########################
+      // UP-RIGHT SCREEN BORDER
+      if (player.xPos >= 490) {
+        player.xPos = -20
+      } 
+      // ###########################
+
       if (isCollidingOnPos6 && isCollidingOnPos1 || isCollidingOnPos6) {
         // existe colisión hacia arriba
         player.isCollidingWithObstacleOnTheTop = true;
@@ -375,6 +382,22 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       isCollidingOnPos1 = isCollidingWithObstacleAt(xPos1_3, yPos6_1, obstacleIdFl);
       isCollidingOnPos1 ? console.log("DOWN RIGHT POS 1") : false
 
+      // ###########################
+      // DOWN-RIGHT SCREEN BORDER
+      if (player.xPos >= 500) {
+        player.xPos = -20
+      } else if (player.yPos < 60) {
+        player.yPos = 70
+      }
+      // ###########################
+
+      // ###########################
+      // DOWN SCREEN BORDER
+      if (player.yPos >= 325) {
+        player.yPos = 325
+      }
+      // ###########################
+
       // colisionm PUNTO 1 Y 3
       if (isCollidingOnPos1 && isCollidingOnPos3 || isCollidingOnPos1) {
         // existe colisión hacia abajo
@@ -418,6 +441,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
       // habrá colision si toca alguno de los 3 bloques
       isColliding = isCollidingOnPos1 || isCollidingOnPos3
+
+      // ###########################
+      // RIGHT SCREEN BORDER
+      if (player.xPos >= 500) {
+        player.xPos = -20
+      }
+      // ###########################
 
       if (isColliding) {
         // existe colision a la derecha
@@ -463,6 +493,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
       isCollidingOnPos1 ? console.log("UP LEFT POS 1") : false
 
+      // ###########################
+      // UP-LEFT SCREEN BORDER
+      if (player.xPos <= -20) {
+        player.xPos = 490
+      }
+      // ###########################
+
       if (isCollidingOnPos6 && isCollidingOnPos1 || isCollidingOnPos1) {
         // existe colisión hacia arriba
         player.isCollidingWithObstacleOnTheTop = true;
@@ -507,6 +544,20 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       yPos6_1 = player.yPos + player.hitBox.yOffset
       isCollidingOnPos6 = isCollidingWithObstacleAt(xPos6_4, yPos6_1, obstacleIdFl)
       isCollidingOnPos6 ? console.log("LEFT POS 6") : false
+
+      // ###########################
+      // DOWN-LEFT SCREEN BORDER
+      if (player.xPos <= -32) {
+        player.xPos = 500
+      }
+      // ###########################
+
+      // ###########################
+      // DOWN SCREEN BORDER
+      if (player.yPos >= 325) {
+        player.yPos = 325
+      }
+      // ###########################
 
       // COLISIONA EN PUNTO 4 Y 3 o PUNTO 3
       if (isCollidingOnPos4 && isCollidingOnPos3 || isCollidingOnPos3) {
@@ -556,6 +607,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       // habrá colision si toca alguno de los 3 bloques
       isColliding = isCollidingOnPos6 || isCollidingOnPos4
 
+      // ###########################
+      // LEFT SCREEN BORDER
+      if (xPos <= -32) {
+        player.xPos = 500
+      }
+      // ###########################
+
       if (isColliding) {
         // existe colision a la derecha
         player.isCollidingWithObstacleOnTheLeft = true
@@ -582,6 +640,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       // habrá colisión si toca alguno de los 3 bloques
       isColliding = isCollidingOnPos3 || isCollidingOnPos4;
 
+      // ###########################
+      // DOWN SCREEN BORDER
+      if (player.yPos >= 325) {
+        player.yPos = 325
+      }
+      // ###########################
+
       if (isColliding) {
         // existe colisión hacia abajo
         player.isCollidingWithObstacleOnTheBottom = true;
@@ -605,6 +670,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       isCollidingOnPos1 = isCollidingW1 || isCollidingWl1 || isCollidingWr1 || isCollidingFl1
 
       isCollidingOnPos1 ? console.log("UP POS 1") : false
+      console.log(player.yPos);
 
       // segunda colisión en (xPos + brickSize, yPos)
       xPos6_4 = player.xPos + player.hitBox.xOffset;
