@@ -71,6 +71,9 @@ export default {
   currentWordIndex: 0,
 
   // deterioro martillo
-  hammerDamage: 30
+  hammerDamage: 0,
+
+  // contador ataque fallido
+  failHitCounter: 0,
 
 }

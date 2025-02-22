@@ -184,6 +184,9 @@ function playGame() {
   // actualizar vida
   updateLife()
 
+  // actualizar el deterioro del martillo
+  updateHammerDamage()
+
   // TEST: tiempo limitado para la prueba
   gameOverTime()
 }
@@ -451,6 +454,10 @@ function readKeyboardAndAssignState(sprite) {
       case State.STILL_DOWN:
         sprite.state = State.ATTACK_DOWN;
         break;
+      default:
+        globals.failHitCounter++
+        console.log(globals.failHitCounter);
+        break
     }
     return;
   }
@@ -489,7 +496,7 @@ function readKeyboardAndAssignState(sprite) {
         break;
       case State.UP:
         sprite.state = State.STILL_UP;
-        console.log("Xpos UP" +sprite.xPos);
+        console.log("Xpos UP" + sprite.xPos);
         console.log("Ypos UP" + sprite.yPos);
         break;
       case State.DOWN:
@@ -576,6 +583,8 @@ function reload() {
   globals.score = 0
   // variable vida
   globals.life = 100;
+  // martillo
+  globals.hammerDamage = 0
 
   // iniciar los sprites
   initSprites()
@@ -593,6 +602,14 @@ function gameOver() {
       globals.gameState = Game.NEW_GAME
     }
   }
-
   reload()
+}
+
+// calculo deterioro martillo
+function updateHammerDamage() {
+  globals.hammerDamage = globals.failHitCounter - globals.score / 3
+
+  if (globals.hammerDamage < 10){
+    
+  }
 }
