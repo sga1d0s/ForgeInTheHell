@@ -585,6 +585,8 @@ function reload() {
   globals.life = 100;
   // martillo
   globals.hammerDamage = 0
+  // golpes fallidos
+  globals.failHitCounter = 0
 
   // iniciar los sprites
   initSprites()
@@ -610,6 +612,6 @@ function updateHammerDamage() {
   globals.hammerDamage = globals.failHitCounter - globals.score / 3
 
   if (globals.hammerDamage < 10){
-    
+
   }
 }
