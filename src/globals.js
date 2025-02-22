@@ -68,5 +68,9 @@ export default {
   wordsArray: [],
 
   // insdex palabras
-  currentWordIndex: 0
+  currentWordIndex: 0,
+
+  // deterioro martillo
+  hammerDamage: 30
+
 }

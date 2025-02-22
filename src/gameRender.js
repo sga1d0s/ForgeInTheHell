@@ -69,7 +69,7 @@ function drawGame() {
   renderUHD()
 
   // dibujar el martillo pasandole el valor de gastado
-  renderHammer(30)
+  renderHammer()
 }
 
 // dibujar el mapa
@@ -238,18 +238,27 @@ function renderUHD() {
 }
 
 // draw hammer
-function renderHammer(value) {
+function renderHammer() {
   const spriteSheet = new Image();
   spriteSheet.src = globals.assetsToLoad[0].src
 
   // calcula el valor a restar de vida del martillo
-  let x = 64 * value / 100
+  let x = 64 * globals.hammerDamage / 100
 
   // Dibuja el sprite en (sprite, sx, sy, sWidth, sHeight, displayX, displayY, displayWidth, displayHeight)
-  globals.ctxUHD.drawImage(spriteSheet, 0, 3920, 68, 68, 430, 0, 64, 64);
+  globals.ctxUHD.drawImage(spriteSheet, 2, 3920, 68, 68, 430, 0, 68, 64);
 
   // Dibuja el segundo sprite (siguiente en el eje X) en (120, 50)
-  globals.ctxUHD.drawImage(spriteSheet, 70, 3920, 68, 68, 430 + x / 2, 0, 64 - x, 64);
+  globals.ctxUHD.drawImage(
+    /* sprite */ spriteSheet, 
+    /* sx */ 70, 
+    /* sy */ 3920, 
+    /* sWidth */ 90, 
+    /* sHeight */ 68, 
+    /* displayX */ 439 + x / 2, 
+    /* displayY */ 0, 
+    /* displayWidth */ 64 - x, 
+    /* displayHeight */ 64);
 }
 
 function drawGameOver() {

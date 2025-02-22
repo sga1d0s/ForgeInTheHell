@@ -571,7 +571,6 @@ function reload() {
 
   // inicialización del mapa del juego
   initLevel()
-
 }
 
 function gameOver() {
