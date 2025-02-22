@@ -171,6 +171,7 @@ function updatePlayer(sprite) {
 
 // funcion principal playGame
 function playGame() {
+
   // actualiza sprite
   updateSprites()
 
@@ -498,15 +499,18 @@ function readKeyboardAndAssignState(sprite) {
 
 // set esqueleto
 function skeletonTime() {
-  // incrementamos el contador de cambio de valor
+  // incrementar el tiempo del esqueleto
   globals.skeletonTime.timeChangeCounter += globals.deltaTime
 
-  // si ha pasado el tiempo necesario, cambiamos el valor del timer
   if (globals.skeletonTime.timeChangeCounter > globals.skeletonTime.timeChangeValue) {
-
     initSkeleton()
-    // restear timeChangecounter
     globals.skeletonTime.timeChangeCounter = 0
+  }
+
+  // ############### cada 30 seg divide el teimpo de aparicion entre 2???????????????
+  if (globals.gameTime > 0 && globals.gameTime % 30 < globals.deltaTime) {
+    globals.skeletonTime.timeChangeValue = Math.max(globals.skeletonTime.timeChangeValue / 2, 1)
+    console.log("TEST TIEMOI ESQUELETO" + globals.skeletonTime.timeChangeValue)
   }
 }
 
@@ -546,9 +550,12 @@ function reload() {
   globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
   globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
 
-  // iniciamos el contador
+  // ireiniciar contadores
   globals.gameTime = 0
   globals.deltaTime = 0
+  globals.skeletonTime.timeChangeValue = globals.skeletonTime.initialTimeNewSkeleton
+  globals.skeletonTime.timeChangeCounter = 0
+
 
   globals.spritesNewGame = []
   globals.sprites = []

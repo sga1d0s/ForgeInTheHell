@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, FPS, SpriteID, State, GameText } from "./constants.js"
+import { Game, FPS, SpriteID, State, GameText, InitialTimeNewSkeleton } from "./constants.js"
 import Sprite from "./Sprite.js"
 import { ImageSet, } from "./ImageSet.js"
 import Frames from "./Frames.js"
@@ -423,17 +423,12 @@ function initLevel() {
 
 // init TIMERS
 function initTimers() {
-  // creamos timer de valor 200, con cambios cada 0.5 segundos
-  globals.skeletonTime = new Timer(0, 20)
+
+  globals.skeletonTime = new Timer(0, InitialTimeNewSkeleton)
+  globals.skeletonTime.initialTimeNewSkeleton = InitialTimeNewSkeleton
   globals.loadingTime = new Timer(0, 2)
-
-  // temporizador palabras en story
   globals.wordTimer = new Timer(0, 0.01)
-
-  // timer game over BETA 180 sg
   globals.gameOverTime = new Timer(360, 360)
-
-  // timer player death state
   globals.gameOverPlayer = new Timer(0, 15)
 
   console.log("initTimers");

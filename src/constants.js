@@ -154,3 +154,6 @@ export const StrikeBox = [
     yOffset: 10,
   },
 ]
+
+// tiempo inicial de aparicion de esqueleto
+export const InitialTimeNewSkeleton = 10
