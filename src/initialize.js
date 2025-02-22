@@ -153,31 +153,36 @@ function initPlayer() {
 
 // SKELETON
 function initSkeleton() {
-  let randomX = 0
-  do {
-    // generar coordenadas aleatorias dentro de un rango
-    randomX = Math.floor(Math.random() * (450 - 50 + 1)) + 50
-  } while (randomX < 65);
+  let randomX
+  let randomY
 
-  let randomY = 0
-  do {
-    // posición Y aleatoria entre 100 y 384
-    randomY = Math.floor(Math.random() * (50 - 320 + 1)) + 320
-  } while (randomY < 150);
+  // RANDOM X
+  if (Math.random() < 0.5) {
+    randomX = Math.floor(Math.random() * (180 - 0 + 1)) + 0
+  } else {
+    randomX = Math.floor(Math.random() * (440 - 272 + 1)) + 272
+  }
+
+  // RANDOM Y
+  if (Math.random() < 0.5) {
+    randomY = Math.floor(Math.random() * (180 - 110 + 1)) + 110
+  } else {
+    randomY = Math.floor(Math.random() * (300 - 70 + 1)) + 70
+  }
 
   const randomState = Math.floor(Math.random() * (12 - 9)) + 9
 
   // crear las propiedades de las imágenes
-  const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0);
+  const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0)
 
-  // crear los datos de la animación (8 frames / estado)
-  const frames = new Frames(5, 5);
+  // datos de la animación (8 frames / estado)
+  const frames = new Frames(5, 5)
 
   // inicializamos physics
-  const physics = new Physics(40);
+  const physics = new Physics(40)
 
   // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(18, 20, 21, 40);
+  const hitBox = new HitBox(18, 20, 21, 40)
 
   // crear el sprite del esqueleto con la posición inicial
   const skeleton = new Sprite(
@@ -190,10 +195,10 @@ function initSkeleton() {
     physics,
     hitBox,
     /* strikeBox */ 0
-  );
+  )
 
   // Agregar el nuevo esqueleto al array de sprites
-  globals.sprites.splice(4, 0, skeleton);
+  globals.sprites.splice(4, 0, skeleton)
 }
 
 // FORJA

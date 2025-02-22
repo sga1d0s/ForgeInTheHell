@@ -489,9 +489,13 @@ function readKeyboardAndAssignState(sprite) {
         break;
       case State.UP:
         sprite.state = State.STILL_UP;
+        console.log("Xpos UP" +sprite.xPos);
+        console.log("Ypos UP" + sprite.yPos);
         break;
       case State.DOWN:
         sprite.state = State.STILL_DOWN;
+        console.log("Xpos DOWN" + sprite.xPos);
+        console.log("Ypos DOWN" + sprite.yPos);
         break;
     }
   }
