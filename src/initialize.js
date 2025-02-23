@@ -165,7 +165,7 @@ function initSkeleton() {
 
   // RANDOM Y
   if (Math.random() < 0.5) {
-    randomY = Math.floor(Math.random() * (180 - 110 + 1)) + 110
+    randomY = Math.floor(Math.random() * (180 - 120 + 1)) + 120
   } else {
     randomY = Math.floor(Math.random() * (300 - 70 + 1)) + 70
   }
