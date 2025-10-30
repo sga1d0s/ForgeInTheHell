@@ -6,7 +6,7 @@ services:
       - "5180:80"  # puerto externo -> interno
     volumes:
       - ./:/usr/share/nginx/html:ro
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx:/etc/nginx/conf.d:ro
     healthcheck:
       test: ["CMD", "wget", "-q", "http://localhost/index.html", "-O", "-"]
       interval: 30s
