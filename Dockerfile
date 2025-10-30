@@ -1,5 +1,11 @@
-# --- Runtime (Nginx) ---
-FROM nginx:1.27.2
+# Runtime (Nginx) para servir sitio estático
+FROM nginx:1.27-alpine
+
+# Config Nginx
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 8080
+
+# Copia del sitio (si construyes la imagen). En Portainer con bind mount no es necesario,
+# pero así también puedes "docker build" y ejecutar sin volúmenes.
+COPY . /usr/share/nginx/html
+
+EXPOSE 80

@@ -1,10 +1,17 @@
+version: "3.9"
+
 services:
-  astro:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      network: host     # ayuda en Portainer si hay problemas de red en el build
-    # image: sgaldos/astro-portfolio:latest
+  game:
+    image: nginx:1.27-alpine
+    container_name: forgeinthehell-game
     ports:
-      - "8081:8081"
+      - "5180:80"   # Puerto externo en el NAS -> 80 interno del contenedor (nginx)
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "http://localhost/index.html", "-O", "-"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
     restart: unless-stopped
