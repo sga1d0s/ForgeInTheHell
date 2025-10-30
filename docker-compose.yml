@@ -6,9 +6,9 @@ services:
     container_name: forgeinthehell-game
     ports:
       - "5180:80"   # Puerto externo en el NAS -> 80 interno del contenedor (nginx)
-    volumes:
-      - ./:/usr/share/nginx/html:ro
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    # volumes:
+    #   - ./:/usr/share/nginx/html:ro
+    #   - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     healthcheck:
       test: ["CMD", "wget", "-q", "http://localhost/index.html", "-O", "-"]
       interval: 30s
