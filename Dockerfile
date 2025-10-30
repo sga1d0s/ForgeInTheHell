@@ -6,4 +6,4 @@ FROM nginx:1.27-alpine
 # Copia del sitio estático
 COPY . /usr/share/nginx/html
 
-EXPOSE 443
+EXPOSE 8080

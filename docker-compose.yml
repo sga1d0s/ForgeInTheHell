@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   game:
     build:
@@ -7,5 +5,5 @@ services:
       dockerfile: Dockerfile
     container_name: forgeinthehell-game
     ports:
-      - "5180:443"
+      - "8082:8082"
     restart: unless-stopped
