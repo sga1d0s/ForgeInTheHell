@@ -1,5 +1,5 @@
 # Runtime (Nginx) para servir sitio estático
-FROM nginx:1.27-alpine
+# FROM nginx:1.27-alpine
 
 # Config Nginx
 # COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
@@ -8,4 +8,4 @@ FROM nginx:1.27-alpine
 # pero así también puedes "docker build" y ejecutar sin volúmenes.
 # COPY . /usr/share/nginx/html
 
-EXPOSE 80
+# EXPOSE 80
