@@ -1,15 +1,9 @@
 services:
   game:
     image: nginx:1.27-alpine
-    container_name: game-canvas
+    container_name: forgeinthehell-game
     ports:
-      - "5180:80"  # puerto externo -> interno
+      - "5180:80"
     volumes:
       - ./:/usr/share/nginx/html:ro
-      - ./nginx:/etc/nginx/conf.d:ro
-    healthcheck:
-      test: ["CMD", "wget", "-q", "http://localhost/index.html", "-O", "-"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
     restart: unless-stopped
