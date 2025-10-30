@@ -7,5 +7,5 @@ services:
       dockerfile: Dockerfile
     container_name: forgeinthehell-game
     ports:
-      - "5180:80"
+      - "5180:443"
     restart: unless-stopped
