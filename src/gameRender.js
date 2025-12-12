@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, GameText, Tile, } from "./constants.js"
+import { Game, GameText, Tile, ParticleID, ParticleState } from "./constants.js"
 import { initProcessText } from "./initialize.js"
 
 // funcion que renderiza los graficos
@@ -8,7 +8,6 @@ export default function render() {
   switch (globals.gameState) {
 
     case Game.LOADING:
-      // TODO ***** 
       drawSpinner()
       initProcessText()
       break
@@ -65,10 +64,13 @@ function drawGame() {
   // dibujar los elementos
   drawSprites()
 
+  // particles 
+  renderFxParticles()
+
   // dibujar el UHD
   renderUHD()
 
-  // dibujar el martillo pasandole el valor de gastado
+  // dibujar el martillo
   renderHammer()
 }
 
@@ -77,7 +79,6 @@ function renderMap() {
   const brickSize = globals.level.imageSet.gridSize
   const levelData = globals.level.data
 
-  // dibujamos el mapa
   const num_fil = levelData.length
   const num_col = levelData[0].length
 
@@ -122,6 +123,155 @@ function renderSprite(sprite) {
     xPos, yPos,
     sprite.imageSet.xSize, sprite.imageSet.ySize,
   )
+}
+
+// dibujar partículas de lluvia
+function renderRainParticles() {
+  for (let i = 0; i < globals.rainParticles.length; i++) {
+    const particle = globals.rainParticles[i];
+    renderRainParticle(particle);
+  }
+}
+
+function renderRainParticle(particle) {
+  const type = particle.id;
+
+  switch (type) {
+    case ParticleID.RAIN_PARTICLES:
+      renderRainParticleSparkle(particle);
+      break;
+  }
+}
+
+function renderRainParticleSparkle(particle) {
+  if (particle.state !== ParticleState.OFF) {
+    globals.ctx.save();
+
+    globals.ctx.globalAlpha = particle.alpha;
+
+    globals.ctx.shadowColor = particle.color;
+    globals.ctx.shadowBlur = 5;
+
+    // resetear el frame
+    globals.ctx.beginPath();
+    globals.ctx.roundRect(particle.xPos, particle.yPos, particle.width, particle.height, particle.radius);
+    globals.ctx.closePath();
+
+    globals.ctx.strokeStyle = "transparent";
+
+    for (let i = 0; i < 5; i++) {
+      globals.ctx.shadowBlur += 0.85;
+      globals.ctx.stroke();
+    }
+
+    globals.ctx.fillStyle = particle.color;
+    globals.ctx.fill();
+
+    globals.ctx.restore();
+  }
+}
+
+function renderFxParticles() {
+  if (globals.fxParticles) {
+    for (let i = 0; i < globals.fxParticles.length; i++) {
+      renderFxParticle(globals.fxParticles[i]);
+    }
+  }
+
+  // se activa el aura si queda poca vida
+  if (globals.lowLifeAuraParticles && globals.lowLifeAuraEnabled) {
+    for (let i = 0; i < globals.lowLifeAuraParticles.length; i++) {
+      renderFxParticle(globals.lowLifeAuraParticles[i]);
+    }
+  }
+}
+
+function renderFxParticle(particle) {
+  switch (particle.id) {
+    case ParticleID.SKELETON_SPAWN_CLOUD:
+    case ParticleID.ATTACK_DUST:
+      renderSkeletonSpawnCloud(particle);
+      break;
+
+    case ParticleID.LOW_LIFE_AURA:
+      renderLowLifeAura(particle);
+      break;
+  }
+}
+
+function renderLowLifeAura(particle) {
+  if (particle.state === ParticleState.OFF) return;
+  if (!globals.lowLifeAuraEnabled) return;
+
+  const ctx = globals.ctx;
+  ctx.save();
+
+  ctx.globalAlpha = particle.alpha;
+  ctx.fillStyle = particle.color;
+
+  // glow suave
+  ctx.shadowColor = particle.color;
+  ctx.shadowBlur = 10;
+
+  ctx.beginPath();
+  ctx.arc(particle.xPos, particle.yPos, particle.radius, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function renderSkeletonSpawnCloud(particle) {
+  if (particle.state === ParticleState.OFF) return;
+
+  const ctx = globals.ctx;
+  ctx.save();
+
+  ctx.globalAlpha = particle.alpha;
+  ctx.fillStyle = particle.color;
+
+  ctx.beginPath();
+  ctx.arc(particle.xPos, particle.yPos, particle.radius, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+}
+
+function renderHudParticles() {
+  if (!globals.hudParticles) return;
+
+  const ctx = globals.ctxUHD;
+
+  for (let i = 0; i < globals.hudParticles.length; i++) {
+    const p = globals.hudParticles[i];
+    if (p.state === ParticleState.OFF) continue;
+
+    switch (p.id) {
+      case ParticleID.HAMMER_SPARK:
+        renderHammerSpark(p, ctx);
+        break;
+    }
+  }
+}
+
+// dibujar chispas del martillo
+function renderHammerSpark(particle, ctx) {
+  ctx.save();
+
+  ctx.globalAlpha = particle.alpha;
+  ctx.fillStyle = particle.color;
+
+  // sombra
+  ctx.shadowColor = particle.color;
+  ctx.shadowBlur = 10;
+
+  ctx.beginPath();
+  ctx.arc(particle.xPos, particle.yPos, particle.radius, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
 }
 
 function drawSpritesNewGame() {
@@ -239,6 +389,10 @@ function renderUHD() {
 
 // draw hammer
 function renderHammer() {
+
+  // dibujar chispas de martillo detrás del icono
+  renderHudParticles();
+
   const spriteSheet = new Image();
   spriteSheet.src = globals.assetsToLoad[0].src
 
@@ -250,14 +404,14 @@ function renderHammer() {
 
   // Dibuja el segundo sprite (siguiente en el eje X) en (120, 50)
   globals.ctxUHD.drawImage(
-    /* sprite */ spriteSheet, 
-    /* sx */ 70, 
-    /* sy */ 3920, 
-    /* sWidth */ 90, 
-    /* sHeight */ 68, 
-    /* displayX */ 439 + x / 2, 
-    /* displayY */ 0, 
-    /* displayWidth */ 64 - x, 
+    /* sprite */ spriteSheet,
+    /* sx */ 70,
+    /* sy */ 3920,
+    /* sWidth */ 90,
+    /* sHeight */ 68,
+    /* displayX */ 439 + x / 2,
+    /* displayY */ 0,
+    /* displayWidth */ 64 - x,
     /* displayHeight */ 64);
 }
 
@@ -284,7 +438,7 @@ function drawGameOver() {
   uhd.fillRect(5, 10, 502, 30)
   uhd.font = '10px emulogic'
   uhd.fillStyle = 'white'
-  uhd.fillText("--- NEW GAME WILL START IN " + time + " SECONDS ---", 50, 35, 480)
+  uhd.fillText("--- SELECT AND PRES ENTER FOR NEW GAME ---", 50, 35, 480)
 }
 
 function drawNewGame() {
@@ -312,7 +466,6 @@ function drawNewGame() {
   // print down right
   ctx.font = '22px emulogic'
   ctx.fillStyle = "black"
-  // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
 
   // dibujar los elementos
@@ -322,10 +475,6 @@ function drawNewGame() {
 }
 
 function drawStory() {
-  // Borrar la pantalla entera
-  /* globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
-  globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height) */
-
   drawCorners()
 
   // Definir constantes
@@ -374,7 +523,6 @@ function drawStory() {
 
 
 function drawControls() {
-
   drawCorners()
 
   // globals
@@ -405,7 +553,6 @@ function drawControls() {
   // text up right
   ctx.font = '22px emulogic'
   ctx.fillStyle = "black"
-  // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
 
   keyboardShortcuts()
@@ -462,7 +609,6 @@ function drawScores() {
   // print down left
   ctx.font = '22px emulogic'
   ctx.fillStyle = "black"
-  // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
 
   keyboardShortcuts()
@@ -496,6 +642,11 @@ function drawCorners() {
   // ctx.fillRect(x, y, width, height);
   ctx.fillRect(0, 0, 512, 384)
 
+  // Background rain particles (behind UI)
+  renderRainParticles()
+
+  renderFxParticles()
+
   // UP LEFT
   ctx.fillStyle = blue
   ctx.fillRect(0, 0, 10, 64)
@@ -512,7 +663,6 @@ function drawCorners() {
   // text up right
   ctx.font = '22px emulogic'
   ctx.fillStyle = blue
-  // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_CONTROLS, 386, 40, 120)
 
   // DOWN LEFT
@@ -522,7 +672,6 @@ function drawCorners() {
   // print down left
   ctx.font = '22px emulogic'
   ctx.fillStyle = blue
-  // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_SCORES, 5, 360, 150)
 
   // DOWN RIGHT
@@ -532,7 +681,6 @@ function drawCorners() {
   // print down right
   ctx.font = '22px emulogic'
   ctx.fillStyle = blue
-  // context.fillText(text, x, y [, maxWidth])
   ctx.fillText(GameText.GAME_NEW, 375, 360, 130)
 }
 
@@ -545,7 +693,6 @@ function drawSpinner() {
 
   // CTX 
   ctx.fillStyle = black
-  // ctx.fillRect(x, y, width, height);
   ctx.fillRect(0, 0, 512, 384)
 
 

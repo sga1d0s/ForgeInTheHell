@@ -52,6 +52,9 @@ export function keyupHandler(event) {
     case Key.SPACE:
       globals.action.attack = false
       break;
+    case Key.ENTER:
+      globals.action.enter = false
+      break;
 
     default:
       break;

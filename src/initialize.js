@@ -1,5 +1,5 @@
 import globals from "./globals.js"
-import { Game, FPS, SpriteID, State, GameText, InitialTimeNewSkeleton } from "./constants.js"
+import { Game, FPS, SpriteID, State, GameText, InitialTimeNewSkeleton, ParticleID, ParticleState } from "./constants.js"
 import Sprite from "./Sprite.js"
 import { ImageSet, } from "./ImageSet.js"
 import Frames from "./Frames.js"
@@ -9,6 +9,7 @@ import { keydownHandler, keyupHandler } from "./events.js"
 import HitBox from "./HitBox.js"
 import Timer from "./Timer.js"
 import TextWord from "./TextWord.js"
+import { RainParticleSparkle, SkeletonSpawnCloudParticle, HammerSparkParticle } from "./Particle.js";
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -47,6 +48,22 @@ function initVars() {
 
   // variable vida
   globals.life = 100;
+
+  globals.didReloadInGameOver = false;
+
+  // FX particles
+  globals.fxParticles = [];
+
+  // si true, retrasar la aparición del esqueleto para que la nube aparezca primero.
+  globals.pendingSkeletonSpawn = null;
+
+  // HUD particles (hammer sparks)
+  globals.hudParticles = [];
+  globals.prevHammerDamage = 0;
+  globals.prevAttack = false;
+
+  globals.lowLifeAuraParticles = [];
+  globals.lowLifeAuraEnabled = false;
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
@@ -81,18 +98,15 @@ function loadHandler() {
     }
 
     console.log("Assets finish loading")
-
-    // *********** Game State ************ //
-    // *********** Game State ************ //
-    // *********** Game State ************ //
-    //globals.gameState = Game.STORY
-    // *********** Game State ************ //
-    // *********** Game State ************ //
-    // *********** Game State ************ //
   }
 }
 
 function initSprites() {
+
+  // Mantener las partículas de lluvia persistentes
+  if (!globals.rainParticles) {
+    globals.rainParticles = [];
+  }
 
   // sprites de la forja
   initOven2()
@@ -105,12 +119,190 @@ function initSprites() {
   initMelted()
   initOven()
   initForge()
+  initRainParticleParticles()
 }
 
 function initEvents() {
   // captura de eventos del teclado
   window.addEventListener("keydown", keydownHandler, false)
   window.addEventListener("keyup", keyupHandler, false)
+}
+
+// inicio partículas lluvia
+function initRainParticleParticles() {
+  initRainParticleSparkles();
+}
+
+function initRainParticleSparkles() {
+  // Si ya está inicializado, no recrea
+  if (globals.rainParticles && globals.rainParticles.length > 0) {
+    return;
+  }
+
+  const numOfParticles = 100;
+
+  for (let i = 0; i < numOfParticles; i++) {
+    createRainParticleSparkle();
+  }
+}
+
+function createRainParticleSparkle() {
+  const xPos = Math.random() * globals.canvas.width;
+  const yPos = Math.random() * globals.canvas.height;
+
+  const width = 3.5;
+  const height = 3.5;
+  const radius = 3.5;
+
+  const color = "red"
+
+  // Base alpha + brillo
+  const baseAlpha = 0.35 + Math.random() * 0.55;
+  const twinkleSpeed = 3 + Math.random() * 6;
+  const twinklePhase = Math.random() * Math.PI * 2;
+
+  // Lluvia: velocidad vertical y horizontal
+  const vy = 25 + Math.random() * 90;
+  const vx = -6 + Math.random() * 12;
+
+  const particle = new RainParticleSparkle(
+    ParticleID.RAIN_PARTICLES,
+    ParticleState.FADE,
+    xPos,
+    yPos,
+    null,
+    baseAlpha,
+    width,
+    height,
+    radius,
+    color
+  );
+
+  // asignar datos a campos dinámicos
+  particle.baseAlpha = baseAlpha;
+  particle.twinkleSpeed = twinkleSpeed;
+  particle.twinklePhase = twinklePhase;
+  particle.vx = vx;
+  particle.vy = vy;
+
+  globals.rainParticles.push(particle);
+}
+
+function createSkeletonSpawnCloud(xCenter, yCenter) {
+  // nuve de partículas antes de la aparición
+  const count = 14;
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 10 + Math.random() * 25;
+
+    const xPos = xCenter + (Math.random() * 14 - 7);
+    const yPos = yCenter + (Math.random() * 10 - 5);
+
+    const radius = 3 + Math.random() * 10;
+    const alpha = 0.20 + Math.random() * 0.25;
+    const timeToLive = 0.35 + Math.random() * 0.50;
+
+    const p = new SkeletonSpawnCloudParticle(
+      ParticleID.SKELETON_SPAWN_CLOUD,
+      ParticleState.FADE,
+      xPos,
+      yPos,
+      null,
+      alpha,
+      radius,
+      timeToLive,
+      "rgba(40, 40, 40, 1)"
+    );
+
+    p.vx = Math.cos(angle) * speed;
+    p.vy = Math.sin(angle) * speed - 10;
+
+    globals.fxParticles.push(p);
+  }
+}
+
+function getRandomSkeletonSpawnPosition() {
+  let randomX;
+  let randomY;
+
+  // RANDOM X
+  if (Math.random() < 0.5) {
+    randomX = Math.floor(Math.random() * (180 - 0 + 1)) + 0;
+  } else {
+    randomX = Math.floor(Math.random() * (440 - 272 + 1)) + 272;
+  }
+
+  // RANDOM Y
+  if (Math.random() < 0.5) {
+    randomY = Math.floor(Math.random() * (180 - 120 + 1)) + 120;
+  } else {
+    randomY = Math.floor(Math.random() * (300 - 70 + 1)) + 70;
+  }
+
+  return { x: randomX, y: randomY };
+}
+
+function initSkeletonAt(x, y) {
+  const randomState = Math.floor(Math.random() * (12 - 9)) + 9;
+
+  const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0);
+  const frames = new Frames(5, 5);
+  const physics = new Physics(40);
+  const hitBox = new HitBox(18, 20, 21, 40);
+
+  const skeleton = new Sprite(
+    SpriteID.SKELETON,
+    randomState,
+    x, y,
+    imageSet,
+    frames,
+    0,
+    physics,
+    hitBox,
+    0
+  );
+
+  globals.sprites.splice(4, 0, skeleton);
+}
+
+function createHammerSparks(xCenter, yCenter, intensity = 1) {
+
+  const count = Math.min(18 + Math.floor(intensity * 18), 60);
+
+  for (let i = 0; i < count; i++) {
+    // Ángulo y velocidad de las chispas
+    const angle = (-Math.PI / 2) + (Math.random() * 1.35 - 0.675);
+    const speed = 180 + Math.random() * 320;
+
+    const radius = 1.5 + Math.random() * 3.8;
+
+    // brillo
+    const alpha = 0.75 + Math.random() * 0.25;
+
+    // Duración
+    const timeToLive = 0.55 + Math.random() * 0.35;
+
+    const p = new HammerSparkParticle(
+      ParticleID.HAMMER_SPARK,
+      ParticleState.FADE,
+      xCenter + (Math.random() * 14 - 7),
+      yCenter + (Math.random() * 10 - 5),
+      null,
+      alpha,
+      radius,
+      timeToLive,
+      "rgba(255, 40, 40, 1)"
+    );
+
+    p.vx = Math.cos(angle) * speed;
+    p.vy = Math.sin(angle) * speed;
+
+    // velocidad aleatoria
+    p.vx += (Math.random() * 80 - 40);
+    p.vy += (Math.random() * 60 - 30);
+
+    globals.hudParticles.push(p);
+  }
 }
 
 // PLAYER
@@ -151,52 +343,8 @@ function initPlayer() {
 
 // SKELETON
 function initSkeleton() {
-  let randomX
-  let randomY
-
-  // RANDOM X
-  if (Math.random() < 0.5) {
-    randomX = Math.floor(Math.random() * (180 - 0 + 1)) + 0
-  } else {
-    randomX = Math.floor(Math.random() * (440 - 272 + 1)) + 272
-  }
-
-  // RANDOM Y
-  if (Math.random() < 0.5) {
-    randomY = Math.floor(Math.random() * (180 - 120 + 1)) + 120
-  } else {
-    randomY = Math.floor(Math.random() * (300 - 70 + 1)) + 70
-  }
-
-  const randomState = Math.floor(Math.random() * (12 - 9)) + 9
-
-  // crear las propiedades de las imágenes
-  const imageSet = new ImageSet(-1, 0, 64, 64, 64, 0, 0)
-
-  // datos de la animación (8 frames / estado)
-  const frames = new Frames(5, 5)
-
-  // inicializamos physics
-  const physics = new Physics(40)
-
-  // crear hitbox HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(18, 20, 21, 40)
-
-  // crear el sprite del esqueleto con la posición inicial
-  const skeleton = new Sprite(
-    SpriteID.SKELETON,
-    /* State */ randomState,
-    randomX, randomY,
-    imageSet,
-    frames,
-    /* attackFrames */ 0,
-    physics,
-    hitBox,
-    /* strikeBox */ 0
-  )
-
-  // Agregar el nuevo esqueleto al array de sprites
-  globals.sprites.splice(4, 0, skeleton)
+  const pos = getRandomSkeletonSpawnPosition();
+  initSkeletonAt(pos.x, pos.y);
 }
 
 // FORJA
@@ -376,6 +524,69 @@ function initMelted() {
   globals.sprites.push(forge)
 }
 
+// partículas de ataque
+function createAttackDust(xCenter, yGround) {
+  const count = 10;
+
+  for (let i = 0; i < count; i++) {
+    const angle = Math.PI + (Math.random() * Math.PI);
+    const speed = 25 + Math.random() * 70;
+
+    const xPos = xCenter + (Math.random() * 18 - 9);
+    const yPos = yGround + (Math.random() * 6 - 3);
+
+    const radius = 2 + Math.random() * 6;
+    const alpha = 0.18 + Math.random() * 0.25;
+    const timeToLive = 0.25 + Math.random() * 0.25;
+
+    const p = new SkeletonSpawnCloudParticle(
+      ParticleID.ATTACK_DUST,
+      ParticleState.FADE,
+      xPos,
+      yPos,
+      null,
+      alpha,
+      radius,
+      timeToLive,
+      "rgba(233, 233, 233, 1)"
+    );
+
+    p.vx = Math.cos(angle) * speed;
+    p.vy = Math.sin(angle) * speed - (10 + Math.random() * 25)
+    p.gravity = 140;
+
+    globals.fxParticles.push(p);
+  }
+}
+
+// partículas de vida baja
+function ensureLowLifeAuraParticles() {
+  if (!globals.lowLifeAuraParticles) globals.lowLifeAuraParticles = [];
+
+  const targetCount = 18;
+
+  while (globals.lowLifeAuraParticles.length < targetCount) {
+    const p = new RainParticleSparkle(
+      ParticleID.LOW_LIFE_AURA,
+      ParticleState.FADE,
+      0, 0,
+      null,
+      0.6,
+      3.5, 3.5, 3.5,
+      "rgba(251, 230, 0, 1)"
+    );
+
+    // parámetros orbitales (propiedades “sueltas”)
+    p.orbitR = 14 + Math.random() * 22;
+    p.angle = Math.random() * Math.PI * 2;
+    p.angularSpeed = 1.2 + Math.random() * 1.8;
+    p.baseAlpha = 0.25 + Math.random() * 0.35;
+    p.twinklePhase = Math.random() * Math.PI * 2;
+
+    globals.lowLifeAuraParticles.push(p);
+  }
+}
+
 // MELTED 2
 function initMelted2() {
   // crear las propiedades de las imagenes: 
@@ -459,8 +670,6 @@ function processText(text, maxWidth, initX, initY, lineHeight, ctx) {
 
     xPos += wordWidth + ctx.measureText(' ').width
   }
-  // console.log(wordsArray);
-  // console.log(globals.ctx);
 
   return wordsArray
 }
@@ -490,4 +699,12 @@ export {
   initTimers,
   initProcessText,
   processText,
+  createRainParticleSparkle,
+  initRainParticleSparkles,
+  createSkeletonSpawnCloud,
+  getRandomSkeletonSpawnPosition,
+  initSkeletonAt,
+  createHammerSparks,
+  createAttackDust,
+  ensureLowLifeAuraParticles,
 }

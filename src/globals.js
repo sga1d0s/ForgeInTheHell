@@ -72,8 +72,14 @@ export default {
 
   // deterioro martillo
   hammerDamage: 0,
+  prevHammerDamage: 0,
 
   // contador ataque fallido
   failHitCounter: 0,
+
+  // partículas
+  rainParticles: [],
+  // levelsParticles: [],
+  level: {},
 
 }

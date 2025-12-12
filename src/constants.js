@@ -157,3 +157,19 @@ export const StrikeBox = [
 
 // tiempo inicial de aparicion de esqueleto
 export const InitialTimeNewSkeleton = 10
+
+// ID partículas
+export const ParticleID = {
+  RAIN_PARTICLES: 1,
+  SKELETON_SPAWN_CLOUD: 2,
+  HAMMER_SPARK: 5,
+  ATTACK_DUST: 6,
+  LOW_LIFE_AURA: 7,
+};
+
+// particle state
+export const ParticleState = {
+  ON: 0,
+  FADE: 1,
+  OFF: -1,
+};

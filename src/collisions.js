@@ -72,7 +72,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
           // existe colision a la derecha
           player.isCollidingWithObstacleOnTheRight = true
 
-          // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+          // AJUSTE: Calcular solapamiento y mover el personaje lo justo
           overlap = Math.floor(xPos) % player.hitBox.xSize
           player.xPos -= overlap
         }
@@ -84,7 +84,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
         xPos = player.xPos
 
         if (isOverlap) {
-          // existe colision a la izquierda]]
+          // existe colision a la izquierda
           player.isCollidingWithObstacleOnTheLeft = true
 
           // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
