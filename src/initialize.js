@@ -47,8 +47,6 @@ function initVars() {
 
   // variable vida
   globals.life = 100;
-
-
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
