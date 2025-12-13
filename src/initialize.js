@@ -533,17 +533,6 @@ function initMelted() {
 }
 
 function initHammerPickupAt(x, y) {
-  // 64x64 y sin animación
-  // const imageSet = new ImageSet(
-  //   /* initFil */ 0,     // <-- lo ajustamos en 2 min
-  //   /* initCol */ 0,     // <-- lo ajustamos en 2 min
-  //   /* xSize */  64,
-  //   /* ySize */  64,
-  //   /* gridSize */ 64,
-  //   /* xOffset */ 0,
-  //   /* yOffset */ 0,
-  // );
-
   // crear las propiedades de las imagenes: 
   // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
   const imageSet = new ImageSet(116, 12, 32, 32, 32, 10, 0)
@@ -558,15 +547,15 @@ function initHammerPickupAt(x, y) {
   const physics = new Physics(40)
 
   // crear el HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(20, 20, 20, 36)
+  const hitBox = new HitBox(0, 0, 0, 0)
 
-  const strikeBox = new HitBox(0, 0, 0, 0)
+  const strikeBox = new HitBox(20, 20, 12, 7)
 
   // crear nuestro sprite
   const pickup = new Sprite(
     SpriteID.FORGE,
     State.STILL_DOWN,
-    100, 100,
+    x, y,
     imageSet,
     frames,
     attackFrames,
@@ -582,7 +571,6 @@ function initHammerPickupAt(x, y) {
   globals.hammerPickupSprite = pickup;
 
   return pickup;
-
 };
 
 

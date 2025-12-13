@@ -65,7 +65,7 @@ export function keyupHandler(event) {
 // evento HammerBroken
 export class HammerBrokenEvent {
   constructor() {
-    this.id = "PLAYER";
+    this.id = "FORGE";
     this.type = "SIMPLE";
     this.priority = 100;
     this.running = false;
@@ -109,7 +109,7 @@ export class HammerBrokenEvent {
 
   getPickupSpawnPosition() {
     // Versión simple: centro (luego lo refinamos con validación como skeleton)
-    return { x: 100, y: 400 };
+    return { x: 100, y: 150 };
   }
 }
 
