@@ -229,25 +229,23 @@ function createSkeletonSpawnCloud(xCenter, yCenter) {
   }
 }
 
+function randomBetween(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function getRandomSkeletonSpawnPosition() {
-  let randomX;
-  let randomY;
 
-  // RANDOM X
-  if (Math.random() < 0.5) {
-    randomX = Math.floor(Math.random() * (180 - 0 + 1)) + 0;
-  } else {
-    randomX = Math.floor(Math.random() * (440 - 272 + 1)) + 272;
+  const zones = [
+    { xMin: 0, xMax: 180, yMin: 100, yMax: 190 },
+    { xMin: 90, xMax: 400, yMin: 160, yMax: 300 },
+  ];
+
+  const zone = zones[Math.floor(Math.random() * zones.length)];
+
+  return {
+    x: randomBetween(zone.xMin, zone.xMax),
+    y: randomBetween(zone.yMin, zone.yMax),
   }
-
-  // RANDOM Y
-  if (Math.random() < 0.5) {
-    randomY = Math.floor(Math.random() * (180 - 120 + 1)) + 120;
-  } else {
-    randomY = Math.floor(Math.random() * (300 - 70 + 1)) + 70;
-  }
-
-  return { x: randomX, y: randomY };
 }
 
 function initSkeletonAt(x, y) {
@@ -337,7 +335,7 @@ function initPlayer() {
   const player = new Sprite(
     SpriteID.PLAYER,
     State.STILL_DOWN,
-    40, 100,
+    90, 160,
     imageSet,
     frames,
     attackFrames,
@@ -559,7 +557,7 @@ function initHammerPickupAt(x, y) {
     attackFrames,
     physics,
     hitBox,
-    )
+  )
 
   // añadir el player al array de sprites
   globals.sprites.push(pickup)
