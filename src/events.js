@@ -69,6 +69,10 @@ export class HammerBrokenEvent {
     this.type = "SIMPLE";
     this.priority = 100;
     this.running = false;
+    // Delay before the pickup appears (seconds)
+    this.spawnDelaySeconds = 1.5;
+    this.spawnTimerSeconds = 0;
+    this.pickupSpawned = false;
   }
 
   spawnHammerPickup() {
@@ -100,10 +104,24 @@ export class HammerBrokenEvent {
     const sparkY = 0 + 40;
     createHammerSparks(sparkX, sparkY, 1.5);
 
-    this.spawnHammerPickup();
+    // Reset delay timer and wait before spawning the pickup
+    this.spawnTimerSeconds = 0;
+    this.pickupSpawned = false;
   }
 
   update(dt) {
+    // Wait a bit before spawning the pickup
+    if (!this.pickupSpawned) {
+      // dt may be in ms or seconds depending on your loop; normalize to seconds
+      const dtSeconds = dt > 5 ? dt / 1000 : dt;
+      this.spawnTimerSeconds += dtSeconds;
+
+      if (this.spawnTimerSeconds >= this.spawnDelaySeconds) {
+        this.spawnHammerPickup();
+        this.pickupSpawned = true;
+      }
+    }
+
     // si el jugador recoge el martillo:
     // - cerramos evento
     // - reseteamos failHitCounter para que hammerDamage no vuelva a 10 al siguiente frame
@@ -128,6 +146,8 @@ export class HammerBrokenEvent {
 
   end() {
     this.running = false;
+    this.spawnTimerSeconds = 0;
+    this.pickupSpawned = false;
   }
 
   getPickupSpawnPosition() {

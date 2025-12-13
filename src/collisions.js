@@ -185,7 +185,7 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
     // verificar si hay intersección
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
 
-    if (isOverlap && otherSprite.id != SpriteID.SKELETON) {
+    if ((isOverlap && otherSprite.id != SpriteID.SKELETON) && otherSprite.id != SpriteID.HAMMER) {
       // ajustar la posición del esqueleto y cambiar su dirección
       let overlap
       // ESQUELETO
