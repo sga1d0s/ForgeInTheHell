@@ -72,7 +72,7 @@ export class HammerBrokenEvent {
     this.running = false;
 
     // Timer para retrasar el spawn del martillo
-    this.spawnTimer = new Timer(false, 5);
+    this.spawnTimer = new Timer(false, 1);
   }
 
   spawnHammerPickup() {
@@ -108,38 +108,48 @@ export class HammerBrokenEvent {
   }
 
   update(dt) {
-  // 1) Si ya se recogió el martillo → cerrar evento
-  if (globals.hammerPickupCollected) {
-    globals.hammerPickupCollected = false;
+    // 1) Si ya se recogió el martillo → cerrar evento
+    if (globals.hammerPickupCollected) {
+      globals.hammerPickupCollected = false;
 
-    globals.failHitCounter = globals.score / 3;
-    globals.hammerDamage = 0;
-    globals.prevHammerDamage = 0;
+      globals.failHitCounter = globals.score / 3;
+      globals.hammerDamage = 0;
+      globals.prevHammerDamage = 0;
 
-    this.end();
-    return;
-  }
+      this.end();
+      return;
+    }
 
-  // 2) Avanzar timer de spawn
-  if (!this.spawnTimer.value) {
-    this.spawnTimer.timeChangeCounter += globals.deltaTime;
+    // 2) Avanzar timer de spawn
+    if (!this.spawnTimer.value) {
+      this.spawnTimer.timeChangeCounter += globals.deltaTime;
 
-    if (this.spawnTimer.timeChangeCounter >= this.spawnTimer.timeChangeValue) {
-      this.spawnHammerPickup();
-      this.spawnTimer.value = true;
+      if (this.spawnTimer.timeChangeCounter >= this.spawnTimer.timeChangeValue) {
+        this.spawnHammerPickup();
+        this.spawnTimer.value = true;
+      }
     }
   }
-}
 
   end() {
     this.running = false;
-    this.spawnTimerSeconds = 0;
-    this.pickupSpawned = false;
+    this.spawnTimer.timeChangeCounter = 0;
+    this.spawnTimer.value = false;
   }
 
   getPickupSpawnPosition() {
-    // Versión simple: centro (luego lo refinamos con validación como skeleton)
-    return { x: 100, y: 150 };
+    // psiciones para la reaparición del martillo
+    const pos = [
+      { x: 50, y: 300 },
+      { x: 200, y: 200 },
+      { x: 450, y: 300 },
+      { x: 450, y: 100 },
+      { x: 50, y: 300 }
+    ]
+
+    const index = Math.floor(Math.random() * pos.length);
+
+    return pos[index]
   }
 }
 
