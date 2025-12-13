@@ -54,6 +54,30 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
     sprite.isCollidingWithPlayer = true
   }
 
+  // Pickup martillo: se puede atravesar y al tocarlo se recoge
+  if (isOverlap && sprite.id === SpriteID.HAMMER) {
+    // No lo tratamos como obstáculo
+    sprite.isCollidingWithPlayer = false;
+
+    // eliminar el sprite del array (para que no se vuelva a recoger)
+    const idx = globals.sprites.indexOf(sprite);
+    if (idx !== -1) globals.sprites.splice(idx, 1);
+
+    // reset estado del martillo
+    globals.hammerPickupActive = false;
+    globals.hammerPickupSprite = null;
+    globals.hammerDamage = 0;
+    globals.prevHammerDamage = 0;
+
+    // reactivar ataque si estaba deshabilitado por evento
+    globals.attackDisabled = false;
+
+    // controlar la recogida del martillo
+    globals.hammerPickupCollected = true;
+      // console.log("RECOGER MARTILLO");
+    return;
+  }
+
   // variables to use
   let xPos
   let yPos
@@ -330,7 +354,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       // UP-RIGHT SCREEN BORDER
       if (player.xPos >= 490) {
         player.xPos = -20
-      } 
+      }
       // ###########################
 
       if (isCollidingOnPos6 && isCollidingOnPos1 || isCollidingOnPos6) {

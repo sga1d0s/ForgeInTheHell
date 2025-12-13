@@ -65,7 +65,7 @@ export function keyupHandler(event) {
 // evento HammerBroken
 export class HammerBrokenEvent {
   constructor() {
-    this.id = "FORGE";
+    this.id = "HAMMER";
     this.type = "SIMPLE";
     this.priority = 100;
     this.running = false;
@@ -79,25 +79,48 @@ export class HammerBrokenEvent {
   }
 
   canTrigger() {
-    return !this.running && !globals.attackDisabled && globals.hammerDamage >= globals.hammerMaxDamage;
+    // si ya hay pickup en el mapa, no vuelvas a disparar el evento
+    return (
+      !this.running &&
+      !globals.attackDisabled &&
+      !globals.hammerPickupActive &&
+      globals.hammerDamage >= globals.hammerMaxDamage
+    );
   }
 
   start() {
     this.running = true;
-
     globals.attackDisabled = true;
+
+    // Limpia señal de recogida anterior (por si venimos de un evento previo)
+    globals.hammerPickupCollected = false;
 
     // feedback visual inmediato opcional (HUD)
     const sparkX = 430 + 34;
     const sparkY = 0 + 40;
     createHammerSparks(sparkX, sparkY, 1.5);
 
-    // spawn pickup martillo
     this.spawnHammerPickup();
   }
 
   update(dt) {
-    // si ya lo recogió, termina
+    // si el jugador recoge el martillo:
+    // - cerramos evento
+    // - reseteamos failHitCounter para que hammerDamage no vuelva a 10 al siguiente frame
+    if (globals.hammerPickupCollected) {
+      globals.hammerPickupCollected = false;
+
+      // hammerDamage = failHitCounter - score/3  -> queremos que sea 0
+      globals.failHitCounter = globals.score / 3;
+
+      globals.hammerDamage = 0;
+      globals.prevHammerDamage = 0;
+
+      this.end();
+      return;
+    }
+
+    // si por algún motivo se re-habilita el ataque sin recogida, termina también
     if (!globals.attackDisabled) {
       this.end();
     }

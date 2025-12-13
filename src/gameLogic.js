@@ -521,6 +521,11 @@ function updateSprite(sprite) {
       updateForge(sprite)
       break
 
+    // caso martillo
+    case SpriteID.HAMMER:
+      updateAnimationFrame(sprite)
+      break
+
     // caso del enemigo
     default:
       break

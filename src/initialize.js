@@ -547,13 +547,11 @@ function initHammerPickupAt(x, y) {
   const physics = new Physics(40)
 
   // crear el HitBox(xSize, ySize, xOffset, yOffset)
-  const hitBox = new HitBox(0, 0, 0, 0)
-
-  const strikeBox = new HitBox(20, 20, 12, 7)
+  const hitBox = new HitBox(20, 20, 12, 7)
 
   // crear nuestro sprite
   const pickup = new Sprite(
-    SpriteID.FORGE,
+    SpriteID.HAMMER,
     State.STILL_DOWN,
     x, y,
     imageSet,
@@ -561,7 +559,7 @@ function initHammerPickupAt(x, y) {
     attackFrames,
     physics,
     hitBox,
-    strikeBox)
+    )
 
   // añadir el player al array de sprites
   globals.sprites.push(pickup)
