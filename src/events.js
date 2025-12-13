@@ -1,5 +1,6 @@
-import { Key } from "./constants.js"
+import { Key, SpriteID } from "./constants.js";
 import globals from "./globals.js";
+import { createHammerSparks, initHammerPickupAt } from "./initialize.js";
 
 export function keydownHandler(event) {
   switch (event.keyCode) {
@@ -60,3 +61,56 @@ export function keyupHandler(event) {
       break;
   }
 }
+
+// evento HammerBroken
+export class HammerBrokenEvent {
+  constructor() {
+    this.id = "PLAYER";
+    this.type = "SIMPLE";
+    this.priority = 100;
+    this.running = false;
+  }
+
+  spawnHammerPickup() {
+    if (globals.hammerPickupActive) return;
+
+    const pos = this.getPickupSpawnPosition();
+    initHammerPickupAt(pos.x, pos.y);
+  }
+
+  canTrigger() {
+    return !this.running && !globals.attackDisabled && globals.hammerDamage >= globals.hammerMaxDamage;
+  }
+
+  start() {
+    this.running = true;
+
+    globals.attackDisabled = true;
+
+    // feedback visual inmediato opcional (HUD)
+    const sparkX = 430 + 34;
+    const sparkY = 0 + 40;
+    createHammerSparks(sparkX, sparkY, 1.5);
+
+    // spawn pickup martillo
+    this.spawnHammerPickup();
+  }
+
+  update(dt) {
+    // si ya lo recogió, termina
+    if (!globals.attackDisabled) {
+      this.end();
+    }
+  }
+
+  end() {
+    this.running = false;
+  }
+
+  getPickupSpawnPosition() {
+    // Versión simple: centro (luego lo refinamos con validación como skeleton)
+    return { x: 100, y: 400 };
+  }
+}
+
+export default HammerBrokenEvent;

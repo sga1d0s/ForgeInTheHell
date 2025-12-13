@@ -80,6 +80,11 @@ export default {
   // partículas
   rainParticles: [],
   // levelsParticles: [],
-  level: {},
+
+  // ---- evento HammerBroken
+  attackDisabled: false,
+  hammerMaxDamage: 10,
+  hammerPickupActive: false,
+  hammerPickupSprite: null,
 
 }

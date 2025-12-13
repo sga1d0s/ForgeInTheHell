@@ -201,6 +201,9 @@ function updatePlayer(sprite) {
 // funcion principal playGame
 function playGame() {
 
+  // evento HemmerBroken
+  globals.eventManager.update(globals.deltaTime);
+
   // actualiza sprite
   updateSprites()
 
@@ -623,10 +626,10 @@ function calculateCollisionWithborders(sprite) {
 
 // teclado y movimiento
 function readKeyboardAndAssignState(sprite) {
-  // estados de ATAQUE 
   const attackJustPressed = globals.action.attack && !globals.prevAttack;
 
-  if (attackJustPressed) {
+  // estados de ATAQUE 
+  if (attackJustPressed && !globals.attackDisabled) {
     switch (sprite.state) {
       case State.LEFT:
       case State.STILL_LEFT:

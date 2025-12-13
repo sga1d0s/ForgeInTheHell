@@ -72,6 +72,8 @@ function drawGame() {
 
   // dibujar el martillo
   renderHammer()
+
+  console.log(globals.hammerDamage)
 }
 
 // dibujar el mapa
@@ -103,6 +105,12 @@ function renderMap() {
 
 // dibujar sprites
 function renderSprite(sprite) {
+  // Defensive: some objects in globals.sprites might not be fully renderable yet
+  if (!sprite || !sprite.imageSet || !sprite.frames) {
+    // Uncomment to debug once:
+    // console.warn("Skipping non-renderable sprite", sprite);
+    return;
+  }
 
   // calcular la posicion del tile de inicio
   const xPosInit = sprite.imageSet.initCol * sprite.imageSet.gridSize
@@ -286,7 +294,10 @@ function drawSprites() {
     // TEST: dibuja un rectangulo verde alrededor del sprite
     // drawSpriteRectangle(sprite)
 
-    renderSprite(sprite)
+    // Only render sprites that have an imageSet/frames (pickups or placeholders might not)
+    if (sprite && sprite.imageSet && sprite.frames) {
+      renderSprite(sprite)
+    }
 
     // TEST: dibuja el hitbox
     // drawHitBox(sprite)

@@ -10,6 +10,7 @@ import HitBox from "./HitBox.js"
 import Timer from "./Timer.js"
 import TextWord from "./TextWord.js"
 import { RainParticleSparkle, SkeletonSpawnCloudParticle, HammerSparkParticle } from "./Particle.js";
+import EventManager from "./EventManager.js";
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -64,6 +65,13 @@ function initVars() {
 
   globals.lowLifeAuraParticles = [];
   globals.lowLifeAuraEnabled = false;
+
+  // Evento HammerBroken
+  globals.attackDisabled = false;      // bloquea ataque cuando el martillo está roto
+  globals.hammerMaxDamage = 10;        // o el valor que uses como límite real
+  globals.hammerPickupActive = false;  // si hay un martillo en el mapa
+  globals.hammerPickupSprite = null;   // referencia al sprite pickup si lo guardas
+  globals.eventManager = new EventManager();
 }
 
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
@@ -524,6 +532,61 @@ function initMelted() {
   globals.sprites.push(forge)
 }
 
+function initHammerPickupAt(x, y) {
+  // 64x64 y sin animación
+  // const imageSet = new ImageSet(
+  //   /* initFil */ 0,     // <-- lo ajustamos en 2 min
+  //   /* initCol */ 0,     // <-- lo ajustamos en 2 min
+  //   /* xSize */  64,
+  //   /* ySize */  64,
+  //   /* gridSize */ 64,
+  //   /* xOffset */ 0,
+  //   /* yOffset */ 0,
+  // );
+
+  // crear las propiedades de las imagenes: 
+  // initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
+  const imageSet = new ImageSet(116, 12, 32, 32, 32, 10, 0)
+
+  // crear los datos de la animación. 9 frames / state
+  const frames = new Frames(5, 5)
+
+  // crear los frames de ataque
+  const attackFrames = new Frames(9, 9)
+
+  // inicializamos physics
+  const physics = new Physics(40)
+
+  // crear el HitBox(xSize, ySize, xOffset, yOffset)
+  const hitBox = new HitBox(20, 20, 20, 36)
+
+  const strikeBox = new HitBox(0, 0, 0, 0)
+
+  // crear nuestro sprite
+  const pickup = new Sprite(
+    SpriteID.FORGE,
+    State.STILL_DOWN,
+    100, 100,
+    imageSet,
+    frames,
+    attackFrames,
+    physics,
+    hitBox,
+    strikeBox)
+
+  // añadir el player al array de sprites
+  globals.sprites.push(pickup)
+
+  // globals.sprites.push(pickup);
+  globals.hammerPickupActive = true;
+  globals.hammerPickupSprite = pickup;
+
+  return pickup;
+
+};
+
+
+
 // partículas de ataque
 function createAttackDust(xCenter, yGround) {
   const count = 10;
@@ -707,4 +770,5 @@ export {
   createHammerSparks,
   createAttackDust,
   ensureLowLifeAuraParticles,
+  initHammerPickupAt
 }
