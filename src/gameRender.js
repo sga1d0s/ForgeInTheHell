@@ -408,10 +408,10 @@ function renderHammer() {
   spriteSheet.src = globals.assetsToLoad[0].src
 
   // calcula el valor a restar de vida del martillo
-  let x = 64 * globals.hammerDamage / 10
+  let x = Math.round( 64 * globals.hammerDamage / 10)
 
   // Dibuja el sprite en (sprite, sx, sy, sWidth, sHeight, displayX, displayY, displayWidth, displayHeight)
-  globals.ctxUHD.drawImage(spriteSheet, 2, 3920, 68, 68, 430, 0, 68, 64);
+  globals.ctxUHD.drawImage(spriteSheet, 2, 3920, 68, 68, 429, 0, 68, 64);
 
   // Dibuja el segundo sprite (siguiente en el eje X) en (120, 50)
   globals.ctxUHD.drawImage(
