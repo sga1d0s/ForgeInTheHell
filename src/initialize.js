@@ -690,7 +690,7 @@ function initTimers() {
   globals.skeletonTime = new Timer(0, InitialTimeNewSkeleton)
   globals.skeletonTime.initialTimeNewSkeleton = InitialTimeNewSkeleton
   globals.loadingTime = new Timer(0, 2)
-  globals.wordTimer = new Timer(0, 0.01)
+  globals.wordTimer = new Timer(0, 0.1)
   globals.gameOverTime = new Timer(360, 360)
   globals.gameOverPlayer = new Timer(0, 15)
 

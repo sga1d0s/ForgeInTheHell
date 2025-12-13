@@ -1,6 +1,7 @@
 import { Key, SpriteID } from "./constants.js";
 import globals from "./globals.js";
 import { createHammerSparks, initHammerPickupAt } from "./initialize.js";
+import Timer from "./Timer.js";
 
 export function keydownHandler(event) {
   switch (event.keyCode) {
@@ -69,10 +70,9 @@ export class HammerBrokenEvent {
     this.type = "SIMPLE";
     this.priority = 100;
     this.running = false;
-    // Delay before the pickup appears (seconds)
-    this.spawnDelaySeconds = 1.5;
-    this.spawnTimerSeconds = 0;
-    this.pickupSpawned = false;
+
+    // Timer para retrasar el spawn del martillo
+    this.spawnTimer = new Timer(false, 5);
   }
 
   spawnHammerPickup() {
@@ -96,53 +96,40 @@ export class HammerBrokenEvent {
     this.running = true;
     globals.attackDisabled = true;
 
-    // Limpia señal de recogida anterior (por si venimos de un evento previo)
     globals.hammerPickupCollected = false;
 
-    // feedback visual inmediato opcional (HUD)
+    // reset del timer
+    this.spawnTimer.timeChangeCounter = 0;
+    this.spawnTimer.value = false;
+
     const sparkX = 430 + 34;
     const sparkY = 0 + 40;
     createHammerSparks(sparkX, sparkY, 1.5);
-
-    // Reset delay timer and wait before spawning the pickup
-    this.spawnTimerSeconds = 0;
-    this.pickupSpawned = false;
   }
 
   update(dt) {
-    // Wait a bit before spawning the pickup
-    if (!this.pickupSpawned) {
-      // dt may be in ms or seconds depending on your loop; normalize to seconds
-      const dtSeconds = dt > 5 ? dt / 1000 : dt;
-      this.spawnTimerSeconds += dtSeconds;
+  // 1) Si ya se recogió el martillo → cerrar evento
+  if (globals.hammerPickupCollected) {
+    globals.hammerPickupCollected = false;
 
-      if (this.spawnTimerSeconds >= this.spawnDelaySeconds) {
-        this.spawnHammerPickup();
-        this.pickupSpawned = true;
-      }
-    }
+    globals.failHitCounter = globals.score / 3;
+    globals.hammerDamage = 0;
+    globals.prevHammerDamage = 0;
 
-    // si el jugador recoge el martillo:
-    // - cerramos evento
-    // - reseteamos failHitCounter para que hammerDamage no vuelva a 10 al siguiente frame
-    if (globals.hammerPickupCollected) {
-      globals.hammerPickupCollected = false;
+    this.end();
+    return;
+  }
 
-      // hammerDamage = failHitCounter - score/3  -> queremos que sea 0
-      globals.failHitCounter = globals.score / 3;
+  // 2) Avanzar timer de spawn
+  if (!this.spawnTimer.value) {
+    this.spawnTimer.timeChangeCounter += globals.deltaTime;
 
-      globals.hammerDamage = 0;
-      globals.prevHammerDamage = 0;
-
-      this.end();
-      return;
-    }
-
-    // si por algún motivo se re-habilita el ataque sin recogida, termina también
-    if (!globals.attackDisabled) {
-      this.end();
+    if (this.spawnTimer.timeChangeCounter >= this.spawnTimer.timeChangeValue) {
+      this.spawnHammerPickup();
+      this.spawnTimer.value = true;
     }
   }
+}
 
   end() {
     this.running = false;

@@ -350,7 +350,7 @@ function renderUHD() {
   const score = globals.score
   const highScore = 130000
   const life = globals.life
-  const time = 180 - Math.floor(globals.gameTime / 2)
+  const time = 180 - Math.floor(globals.gameTime / 4)
 
   const gridY = 26
   const gridY2 = gridY + 25
