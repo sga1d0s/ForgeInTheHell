@@ -300,7 +300,7 @@ function drawSprites() {
     }
 
     // TEST: dibuja el hitbox
-    drawHitBox(sprite)
+    // drawHitBox(sprite)
 
     // TEST: dibuja el hitbox del hacha
     drawStrikeBox(sprite)

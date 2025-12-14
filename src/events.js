@@ -164,7 +164,7 @@ export class BlessingEvent {
     this.priority = 50;
     this.running = false;
 
-    this.requiredStreak = 1;
+    this.requiredStreak = 10;
     this.durationSeconds = 20;
 
     // timer de duración
