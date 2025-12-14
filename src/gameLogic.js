@@ -1,9 +1,36 @@
 import globals from "./globals.js"
-import { Game, SpriteID, State, StrikeBox } from "./constants.js"
+import { Game, SpriteID, State, StrikeBox, ParticleID, ParticleState } from "./constants.js"
 import detectCollisions from "./collisions.js"
-import { initSkeleton, initSprites, initLevel, initTimers } from "./initialize.js"
+import {
+  initSkeleton, initSkeletonAt, getRandomSkeletonSpawnPosition, createSkeletonSpawnCloud, createHammerSparks, initSprites, initLevel, createAttackDust,
+  ensureLowLifeAuraParticles,
+} from "./initialize.js"
 
 export default function update() {
+
+  // partículas de lluvia de fondo
+  if (globals.rainParticles && globals.rainParticles.length > 0) {
+    updateRainParticleParticles();
+  }
+  // FX particles
+  if (globals.fxParticles && globals.fxParticles.length > 0) {
+    updateFxParticles();
+  }
+
+  // HUD particles (hammer)
+  if (globals.hudParticles && globals.hudParticles.length > 0) {
+    updateHudParticles();
+  }
+
+  // Si la aparición de un esqueleto está pendiente, cuenta atrás y aparece cuando esté listo.
+  if (globals.pendingSkeletonSpawn) {
+    updatePendingSkeletonSpawn();
+  }
+
+  // iniciar particulas de aura
+  updateLowLifeAura();
+
+  globals.gameTime += globals.deltaTime;
 
   // change what the game is doing based on the game state
   switch (globals.gameState) {
@@ -47,6 +74,8 @@ export default function update() {
     default:
       console.error("Error: Game State invalid")
   }
+
+  globals.prevAttack = globals.action.attack;
 }
 
 // actualiza forja
@@ -172,6 +201,9 @@ function updatePlayer(sprite) {
 // funcion principal playGame
 function playGame() {
 
+  // evento HemmerBroken
+  globals.eventManager.update(globals.deltaTime);
+
   // actualiza sprite
   updateSprites()
 
@@ -189,6 +221,165 @@ function playGame() {
 
   // TEST: tiempo limitado para la prueba
   gameOverTime()
+}
+
+// rain particles
+function updateRainParticleParticles() {
+  for (let i = 0; i < globals.rainParticles.length; i++) {
+    updateRainParticleParticle(globals.rainParticles[i]);
+  }
+}
+
+function updateRainParticleParticle(particle) {
+  const type = particle.id;
+
+  switch (type) {
+    case ParticleID.RAIN_PARTICLES:
+      updateRainParticleSparkle(particle);
+      break;
+  }
+}
+
+function updateRainParticleSparkle(particle) {
+  // movimiento de partículas
+  particle.yPos += (particle.vy ?? 60) * globals.deltaTime;
+  particle.xPos += (particle.vx ?? 0) * globals.deltaTime;
+
+  if (particle.xPos < -particle.width) {
+    particle.xPos = globals.canvas.width + particle.width;
+  } else if (particle.xPos > globals.canvas.width + particle.width) {
+    particle.xPos = -particle.width;
+  }
+
+  // Si sale por abajo, reaparece arriba con X nueva
+  if (particle.yPos > globals.canvas.height + particle.height) {
+    particle.yPos = -particle.height - Math.random() * 40;
+    particle.xPos = Math.random() * globals.canvas.width;
+  }
+
+  // brillo alpha
+  const baseAlpha = particle.baseAlpha ?? particle.alpha ?? 0.6;
+  const speed = particle.twinkleSpeed ?? 6;
+  const phase = particle.twinklePhase ?? 0;
+  particle.alpha = baseAlpha * (0.65 + 0.35 * Math.sin(phase + speed * globals.gameTime));
+
+  particle.state = ParticleState.FADE;
+}
+
+function updateFxParticles() {
+  for (let i = 0; i < globals.fxParticles.length; i++) {
+    const p = globals.fxParticles[i];
+
+    if (p.state === ParticleState.OFF) {
+      globals.fxParticles.splice(i, 1);
+      i--;
+      continue;
+    }
+
+    updateFxParticle(p);
+  }
+}
+
+function updateFxParticle(particle) {
+  switch (particle.id) {
+    case ParticleID.SKELETON_SPAWN_CLOUD:
+    case ParticleID.ATTACK_DUST:
+      updateSkeletonSpawnCloud(particle);
+      break;
+  }
+}
+
+function updateSkeletonSpawnCloud(particle) {
+  particle.life += globals.deltaTime;
+
+  if (particle.gravity) {
+    particle.vy += particle.gravity * globals.deltaTime;
+  }
+
+  particle.xPos += (particle.vx ?? 0) * globals.deltaTime;
+  particle.yPos += (particle.vy ?? 0) * globals.deltaTime;
+
+  const t = Math.min(particle.life / particle.timeToLive, 1);
+  particle.alpha = (particle.baseAlpha ?? particle.alpha ?? 0.3) * (1 - t);
+
+  if (particle.life >= particle.timeToLive) {
+    particle.state = ParticleState.OFF;
+  }
+}
+
+function updatePendingSkeletonSpawn() {
+  globals.pendingSkeletonSpawn.delay -= globals.deltaTime;
+
+  if (globals.pendingSkeletonSpawn.delay <= 0) {
+    const { x, y } = globals.pendingSkeletonSpawn;
+    initSkeletonAt(x, y);
+    globals.pendingSkeletonSpawn = null;
+  }
+}
+
+function updateHudParticles() {
+  for (let i = 0; i < globals.hudParticles.length; i++) {
+    const p = globals.hudParticles[i];
+
+    if (p.state === ParticleState.OFF) {
+      globals.hudParticles.splice(i, 1);
+      i--;
+      continue;
+    }
+
+    switch (p.id) {
+      case ParticleID.HAMMER_SPARK:
+        updateHammerSpark(p);
+        break;
+    }
+  }
+}
+
+function updateHammerSpark(particle) {
+  particle.life += globals.deltaTime;
+
+  // gravedad
+  particle.vy += 240 * globals.deltaTime;
+
+  particle.xPos += (particle.vx ?? 0) * globals.deltaTime;
+  particle.yPos += (particle.vy ?? 0) * globals.deltaTime;
+
+  const t = Math.min(particle.life / particle.timeToLive, 1);
+  particle.alpha = (particle.baseAlpha ?? particle.alpha ?? 0.5) * (1 - t);
+
+  if (particle.life >= particle.timeToLive) {
+    particle.state = ParticleState.OFF;
+  }
+}
+
+function updateLowLifeAura() {
+  const player = globals.sprites[3];
+  if (!player) return;
+
+  const threshold = 30;
+
+  if (globals.life < threshold) {
+    ensureLowLifeAuraParticles();
+    globals.lowLifeAuraEnabled = true;
+
+    const cx = player.xPos + 32;
+    const cy = player.yPos + 34;
+
+    for (const p of globals.lowLifeAuraParticles) {
+      p.angle += p.angularSpeed * globals.deltaTime;
+
+      // posición orbital
+      p.xPos = cx + Math.cos(p.angle) * p.orbitR;
+      p.yPos = cy + Math.sin(p.angle) * (p.orbitR * 0.6);
+
+      // oscilaciones del brillo
+      const t = globals.gameTime * 5 + (p.twinklePhase ?? 0);
+      // variaciones aleatorias de la bibración
+      p.alpha = (p.baseAlpha ?? 0.4) * (0.55 + 0.45 * Math.sin(t));
+    }
+  } else {
+    globals.lowLifeAuraEnabled = false;
+  }
 }
 
 // estado NEW_GAME
@@ -330,6 +521,11 @@ function updateSprite(sprite) {
       updateForge(sprite)
       break
 
+    // caso martillo
+    case SpriteID.HAMMER:
+      updateAnimationFrame(sprite)
+      break
+
     // caso del enemigo
     default:
       break
@@ -435,30 +631,40 @@ function calculateCollisionWithborders(sprite) {
 
 // teclado y movimiento
 function readKeyboardAndAssignState(sprite) {
-  // estados de ATAQUE
-  if (globals.action.attack) {
+  const attackJustPressed = globals.action.attack && !globals.prevAttack;
+
+  // estados de ATAQUE 
+  if (attackJustPressed && !globals.attackDisabled) {
     switch (sprite.state) {
       case State.LEFT:
       case State.STILL_LEFT:
         sprite.state = State.ATTACK_LEFT;
+        // polvo al atacar
+        createAttackDust(sprite.xPos + 32, sprite.yPos + 58);
         break;
       case State.RIGHT:
       case State.STILL_RIGHT:
         sprite.state = State.ATTACK_RIGHT;
+        // polvo al atacar
+        createAttackDust(sprite.xPos + 32, sprite.yPos + 58);
         break;
       case State.UP:
       case State.STILL_UP:
         sprite.state = State.ATTACK_UP;
+        // polvo al atacar
+        createAttackDust(sprite.xPos + 32, sprite.yPos + 58);
         break;
       case State.DOWN:
       case State.STILL_DOWN:
         sprite.state = State.ATTACK_DOWN;
+        // polvo al atacar
+        createAttackDust(sprite.xPos + 32, sprite.yPos + 58);
         break;
       default:
-        globals.failHitCounter++
-        console.log(globals.failHitCounter);
-        break
+        globals.failHitCounter++;
+        break;
     }
+
     return;
   }
   // estados de MOVIMIENTO
@@ -496,13 +702,13 @@ function readKeyboardAndAssignState(sprite) {
         break;
       case State.UP:
         sprite.state = State.STILL_UP;
-        console.log("Xpos UP" + sprite.xPos);
-        console.log("Ypos UP" + sprite.yPos);
+        // console.log("Xpos UP" + sprite.xPos);
+        // console.log("Ypos UP" + sprite.yPos);
         break;
       case State.DOWN:
         sprite.state = State.STILL_DOWN;
-        console.log("Xpos DOWN" + sprite.xPos);
-        console.log("Ypos DOWN" + sprite.yPos);
+        // console.log("Xpos DOWN" + sprite.xPos);
+        // console.log("Ypos DOWN" + sprite.yPos);
         break;
     }
   }
@@ -514,14 +720,21 @@ function skeletonTime() {
   globals.skeletonTime.timeChangeCounter += globals.deltaTime
 
   if (globals.skeletonTime.timeChangeCounter > globals.skeletonTime.timeChangeValue) {
-    initSkeleton()
+
+    // no apilar spawns si ya hay uno en cola
+    if (!globals.pendingSkeletonSpawn) {
+      const pos = getRandomSkeletonSpawnPosition();
+      createSkeletonSpawnCloud(pos.x + 32, pos.y + 48);
+      globals.pendingSkeletonSpawn = { x: pos.x, y: pos.y, delay: 0.28 };
+    }
+
     globals.skeletonTime.timeChangeCounter = 0
   }
 
   // ############### cada 30 seg divide el teimpo de aparicion entre 2???????????????
   if (globals.gameTime > 0 && globals.gameTime % 30 < globals.deltaTime) {
     globals.skeletonTime.timeChangeValue = Math.max(globals.skeletonTime.timeChangeValue / 2, 1)
-    console.log("TEST TIEMOI ESQUELETO" + globals.skeletonTime.timeChangeValue)
+    // console.log("TEST TIEMOI ESQUELETO" + globals.skeletonTime.timeChangeValue)
   }
 }
 
@@ -534,13 +747,12 @@ function loadingTime() {
   if (globals.loadingTime.timeChangeCounter > globals.loadingTime.timeChangeValue) {
 
     globals.gameState = Game.NEW_GAME
-    console.log("loading time");
     // restear timeChangecounter
     globals.loadingTime.timeChangeCounter = 0
   }
 }
 
-// tiempo para gameOver
+// tiempo para gameOver ||||| NO FUNCIONA |||||
 function gameOverTime() {
 
   // incrementamos el contador de cambio de valor
@@ -553,6 +765,7 @@ function gameOverTime() {
     console.log("gameover");
     // restear timeChangecounter
     globals.gameOverTime.timeChangeCounter = 0
+    ctx.restore();
   }
 }
 
@@ -563,13 +776,18 @@ function reload() {
 
   // ireiniciar contadores
   globals.gameTime = 0
-  globals.deltaTime = 0
+  // globals.deltaTime = 0
   globals.skeletonTime.timeChangeValue = globals.skeletonTime.initialTimeNewSkeleton
   globals.skeletonTime.timeChangeCounter = 0
 
-
   globals.spritesNewGame = []
   globals.sprites = []
+
+  globals.fxParticles = [];
+  globals.pendingSkeletonSpawn = null;
+
+  globals.hudParticles = [];
+  globals.prevHammerDamage = 0;
 
   globals.action = {
     moveLeft: false,
@@ -587,6 +805,10 @@ function reload() {
   globals.hammerDamage = 0
   // golpes fallidos
   globals.failHitCounter = 0
+  globals.prevAttack = false;
+
+  globals.lowLifeAuraParticles = [];
+  globals.lowLifeAuraEnabled = false;
 
   // iniciar los sprites
   initSprites()
@@ -596,22 +818,43 @@ function reload() {
 }
 
 function gameOver() {
+  // solo una vez al entrar en OVER
+  if (!globals.didReloadInGameOver) {
+    reload();
+    globals.didReloadInGameOver = true;
+  }
+  globals.gameState = Game.NEW_GAME;
+
+  // agestionar menu
   if (globals.action.moveLeft) {
     globals.gameState = Game.SCORES;
+    globals.didReloadInGameOver = false;
   }
-  if (globals.action.moveRight) {
-    if (globals.action.enter) {
-      globals.gameState = Game.NEW_GAME
-    }
+
+  if (globals.action.moveRight || globals.action.enter) {
+    globals.gameState = Game.NEW_GAME;
+    globals.didReloadInGameOver = false;
   }
-  reload()
 }
 
 // calculo deterioro martillo
 function updateHammerDamage() {
-  globals.hammerDamage = globals.failHitCounter - globals.score / 3
+  const prev = globals.prevHammerDamage ?? 0;
 
-  if (globals.hammerDamage < 10){
+  globals.hammerDamage = globals.failHitCounter - globals.score / 3;
+  if (globals.hammerDamage < 0) globals.hammerDamage = 0;
 
+  // Si aumenta el daño, chisporroteo detrás del icono del martillo
+  if (globals.hammerDamage > prev) {
+    const delta = globals.hammerDamage - prev;
+
+    // coordenadas de martillo
+    const sparkX = 430 + 34;
+    const sparkY = 0 + 40;
+
+    createHammerSparks(sparkX, sparkY, Math.min(delta / 8, 1.5));
+    // console.log(globals.failHitCounter)
   }
+
+  globals.prevHammerDamage = globals.hammerDamage;
 }

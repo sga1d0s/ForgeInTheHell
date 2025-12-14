@@ -72,8 +72,33 @@ export default {
 
   // deterioro martillo
   hammerDamage: 0,
+  prevHammerDamage: 0,
 
   // contador ataque fallido
   failHitCounter: 0,
+
+  // partículas
+  rainParticles: [],
+  // levelsParticles: [],
+
+  // ---- EVENTO HammerBroken
+  attackDisabled: false,
+  hammerMaxDamage: 10,
+  hammerPickupActive: false,
+  hammerPickupSprite: null,
+
+  // ---- EVENTO Blessing
+  hitStreak: 0,
+
+  // Blessing
+  blessingActive: false,
+  hammerWearDisabled: false,
+  blessingTimeLeft: 0,
+
+  // resetear racha cuando haya fallo 
+  prevFailHitCounter: 0,
+
+  // parar desgaste durante Blessing aunque failHitCounter suba
+  failHitCounterAtBlessingStart: 0,
 
 }

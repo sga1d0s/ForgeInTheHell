@@ -54,6 +54,30 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
     sprite.isCollidingWithPlayer = true
   }
 
+  // Pickup martillo: se puede atravesar y al tocarlo se recoge
+  if (isOverlap && sprite.id === SpriteID.HAMMER) {
+    // No lo tratamos como obstáculo
+    sprite.isCollidingWithPlayer = false;
+
+    // eliminar el sprite del array (para que no se vuelva a recoger)
+    const idx = globals.sprites.indexOf(sprite);
+    if (idx !== -1) globals.sprites.splice(idx, 1);
+
+    // reset estado del martillo
+    globals.hammerPickupActive = false;
+    globals.hammerPickupSprite = null;
+    globals.hammerDamage = 0;
+    globals.prevHammerDamage = 0;
+
+    // reactivar ataque si estaba deshabilitado por evento
+    globals.attackDisabled = false;
+
+    // controlar la recogida del martillo
+    globals.hammerPickupCollected = true;
+    // console.log("RECOGER MARTILLO");
+    return;
+  }
+
   // variables to use
   let xPos
   let yPos
@@ -72,7 +96,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
           // existe colision a la derecha
           player.isCollidingWithObstacleOnTheRight = true
 
-          // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
+          // AJUSTE: Calcular solapamiento y mover el personaje lo justo
           overlap = Math.floor(xPos) % player.hitBox.xSize
           player.xPos -= overlap
         }
@@ -84,7 +108,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
         xPos = player.xPos
 
         if (isOverlap) {
-          // existe colision a la izquierda]]
+          // existe colision a la izquierda
           player.isCollidingWithObstacleOnTheLeft = true
 
           // AJUSTE: Calcular solapamiento y mover el personaje lo correspondiente
@@ -161,7 +185,7 @@ function detectCollisionBetweenSkeletonAndSprites(sprite) {
     // verificar si hay intersección
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
 
-    if (isOverlap && otherSprite.id != SpriteID.SKELETON) {
+    if ((isOverlap && otherSprite.id != SpriteID.SKELETON) && otherSprite.id != SpriteID.HAMMER) {
       // ajustar la posición del esqueleto y cambiar su dirección
       let overlap
       // ESQUELETO
@@ -330,7 +354,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
       // UP-RIGHT SCREEN BORDER
       if (player.xPos >= 490) {
         player.xPos = -20
-      } 
+      }
       // ###########################
 
       if (isCollidingOnPos6 && isCollidingOnPos1 || isCollidingOnPos6) {
@@ -699,6 +723,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
 // colision en ATAQUE
 function detectCollisionAttack(sprite) {
+
   // reset collision state
   sprite.isAttackSuccsesfull = false
 
@@ -720,6 +745,9 @@ function detectCollisionAttack(sprite) {
   const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
 
   if (isOverlap && sprite.id === SpriteID.SKELETON) {
+    // hit confirmado
+    globals.hitStreak++;
+
     // existe colisión
     sprite.isAttackSuccsesfull = true
 
