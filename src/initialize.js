@@ -237,7 +237,7 @@ function getRandomSkeletonSpawnPosition() {
 
   const zones = [
     { xMin: 0, xMax: 180, yMin: 100, yMax: 190 },
-    { xMin: 90, xMax: 400, yMin: 160, yMax: 300 },
+    { xMin: 100, xMax: 400, yMin: 160, yMax: 300 },
   ];
 
   const zone = zones[Math.floor(Math.random() * zones.length)];
@@ -335,7 +335,7 @@ function initPlayer() {
   const player = new Sprite(
     SpriteID.PLAYER,
     State.STILL_DOWN,
-    90, 160,
+    100, 160,
     imageSet,
     frames,
     attackFrames,

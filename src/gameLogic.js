@@ -765,6 +765,7 @@ function gameOverTime() {
     console.log("gameover");
     // restear timeChangecounter
     globals.gameOverTime.timeChangeCounter = 0
+    ctx.restore();
   }
 }
 
