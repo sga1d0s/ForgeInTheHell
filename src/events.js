@@ -164,7 +164,7 @@ export class BlessingEvent {
     this.priority = 50;
     this.running = false;
 
-    this.requiredStrike = 10;
+    this.requiredStreak = 1;
     this.durationSeconds = 20;
 
     // timer de duración
@@ -179,7 +179,7 @@ export class BlessingEvent {
     // si estás en martillo roto / ataque bloqueado, no lances blessing
     if (globals.attackDisabled) return false;
 
-    return globals.hitStrike >= this.requiredStrike;
+    return globals.hitStreak >= this.requiredStreak;
   }
 
   start() {
