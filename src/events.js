@@ -1,4 +1,4 @@
-import { Key, SpriteID } from "./constants.js";
+import { Key } from "./constants.js";
 import globals from "./globals.js";
 import { createHammerSparks, initHammerPickupAt } from "./initialize.js";
 import Timer from "./Timer.js";
@@ -71,8 +71,8 @@ export class HammerBrokenEvent {
     this.priority = 100;
     this.running = false;
 
-    // Timer para retrasar el spawn del martillo
-    this.spawnTimer = new Timer(false, 1);
+    // Timer retrasar el la aparición del martillo
+    this.spawnTimer = new Timer(false, 20);
   }
 
   spawnHammerPickup() {
@@ -83,7 +83,7 @@ export class HammerBrokenEvent {
   }
 
   canTrigger() {
-    // si ya hay pickup en el mapa, no vuelvas a disparar el evento
+    // si ya hay pickup en el mapa, no dispara el evento
     return (
       !this.running &&
       !globals.attackDisabled &&
@@ -108,7 +108,7 @@ export class HammerBrokenEvent {
   }
 
   update(dt) {
-    // 1) Si ya se recogió el martillo → cerrar evento
+    // 1) Si ya se recoge el martillo cerrar evento
     if (globals.hammerPickupCollected) {
       globals.hammerPickupCollected = false;
 
@@ -133,6 +133,11 @@ export class HammerBrokenEvent {
 
   end() {
     this.running = false;
+
+    // Rehabilita ataque al cerrar el evento
+    globals.attackDisabled = false;
+
+    // Limpieza de estado interno
     this.spawnTimer.timeChangeCounter = 0;
     this.spawnTimer.value = false;
   }
@@ -144,8 +149,7 @@ export class HammerBrokenEvent {
       { x: 200, y: 200 },
       { x: 450, y: 300 },
       { x: 450, y: 100 },
-      { x: 50, y: 300 }
-    ]
+    ];
 
     const index = Math.floor(Math.random() * pos.length);
 
@@ -153,4 +157,123 @@ export class HammerBrokenEvent {
   }
 }
 
-export default HammerBrokenEvent;
+export class BlessingEvent {
+  constructor() {
+    this.id = "BLESSING";
+    this.type = "SIMPLE";
+    this.priority = 50;
+    this.running = false;
+
+    this.requiredStrike = 10;
+    this.durationSeconds = 20;
+
+    // timer de duración
+    this.durationTimer = new Timer(false, this.durationSeconds);
+  }
+
+  canTrigger() {
+    // no se apila
+    if (this.running) return false;
+    if (globals.blessingActive) return false;
+
+    // si estás en martillo roto / ataque bloqueado, no lances blessing
+    if (globals.attackDisabled) return false;
+
+    return globals.hitStrike >= this.requiredStrike;
+  }
+
+  start() {
+    this.running = true;
+
+    globals.blessingActive = true;
+    globals.hammerWearDisabled = true;
+    globals.blessingTimeLeft = this.durationSeconds;
+
+    // Congela el desgaste: guardo el contador para restaurarlo al final
+    globals.failHitCounterAtBlessingStart = globals.failHitCounter;
+
+    // reset timer
+    this.durationTimer.timeChangeCounter = 0;
+    this.durationTimer.value = false;
+
+    // consume la racha (si no, re-dispara instantáneo)
+    globals.hitStreak = 0;
+
+    // FX: chispa fuerte al activar 
+    this._sparkX = 430 + 34;
+    this._sparkY = 0 + 40;
+
+    // acumulador para chispas continuas mientras dure el blessing
+    this._sparkAcc = 0;
+
+    // Burst inicial (1 sola vez)
+    createHammerSparks(this._sparkX, this._sparkY, 1.2, {
+      direction: Math.PI / 2, // abajo
+      spread: 0.6,
+      color: "rgba(255, 215, 80, 1)",
+      speedMin: 35,
+      speedMax: 110,
+      ttlMin: 0.28,
+      ttlMax: 0.55,
+      alphaMin: 0.22,
+      alphaMax: 0.6,
+    });
+  }
+
+  update(dt) {
+    if (!this.running) return;
+
+    // partículas constantes mientras dure el blessing
+    this._sparkAcc ??= 0;
+    this._sparkAcc += globals.deltaTime;
+    if (this._sparkAcc >= 0.12) {
+      this._sparkAcc = 0;
+      createHammerSparks(
+        this._sparkX ?? (430 + 34),
+        this._sparkY ?? (0 + 40),
+        0.75,
+        {
+          direction: Math.PI / 2,
+          spread: 0.6,
+          color: "rgba(255, 215, 80, 1)",
+          speedMin: 35,
+          speedMax: 110,
+          ttlMin: 0.28,
+          ttlMax: 0.55,
+          alphaMin: 0.22,
+          alphaMax: 0.55,
+        }
+      );
+    }
+
+    const dtSeconds = globals.deltaTime;
+
+    globals.blessingTimeLeft -= dtSeconds;
+    if (globals.blessingTimeLeft < 0) globals.blessingTimeLeft = 0;
+
+    this.durationTimer.timeChangeCounter += dtSeconds;
+
+    if (this.durationTimer.timeChangeCounter >= this.durationTimer.timeChangeValue) {
+      this.end();
+    }
+  }
+
+  end() {
+    this.running = false;
+
+    globals.blessingActive = false;
+    globals.hammerWearDisabled = false;
+    globals.blessingTimeLeft = 0;
+
+    // borra desgaste durante blessing 
+    globals.failHitCounter = globals.failHitCounterAtBlessingStart;
+
+    // seguridad
+    globals.failHitCounterAtBlessingStart = 0;
+    this.durationTimer.timeChangeCounter = 0;
+    this.durationTimer.value = false;
+
+    // limpiar acumulador
+    this._sparkAcc = 0;
+  }
+}

@@ -74,7 +74,7 @@ function detectCollisionBetweenPlayerAndSprites(sprite) {
 
     // controlar la recogida del martillo
     globals.hammerPickupCollected = true;
-      // console.log("RECOGER MARTILLO");
+    // console.log("RECOGER MARTILLO");
     return;
   }
 
@@ -723,6 +723,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 
 // colision en ATAQUE
 function detectCollisionAttack(sprite) {
+
   // reset collision state
   sprite.isAttackSuccsesfull = false
 
@@ -744,6 +745,9 @@ function detectCollisionAttack(sprite) {
   const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2)
 
   if (isOverlap && sprite.id === SpriteID.SKELETON) {
+    // hit confirmado
+    globals.hitStreak++;
+
     // existe colisión
     sprite.isAttackSuccsesfull = true
 

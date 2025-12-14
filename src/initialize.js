@@ -63,6 +63,14 @@ function initVars() {
   globals.prevHammerDamage = 0;
   globals.prevAttack = false;
 
+  // Blessing (combo -> 20s sin desgaste)
+  globals.hitStreak = 0;
+  globals.blessingActive = false;
+  globals.hammerWearDisabled = false;
+  globals.blessingTimeLeft = 0;
+  globals.prevFailHitCounter = globals.failHitCounter ?? 0;
+  globals.failHitCounterAtBlessingStart = 0;
+
   globals.lowLifeAuraParticles = [];
   globals.lowLifeAuraEnabled = false;
 
@@ -271,22 +279,31 @@ function initSkeletonAt(x, y) {
   globals.sprites.splice(4, 0, skeleton);
 }
 
-function createHammerSparks(xCenter, yCenter, intensity = 1) {
-
+function createHammerSparks(
+  xCenter,
+  yCenter,
+  intensity = 1,
+  {
+    direction = -Math.PI / 2,   // arriba por defecto
+    spread = 1.35,
+    color = "rgba(255, 40, 40, 1)",
+    speedMin = 180,
+    speedMax = 500,
+    ttlMin = 0.55,
+    ttlMax = 0.9,
+    alphaMin = 0.75,
+    alphaMax = 1.0,
+  } = {}
+) {
   const count = Math.min(18 + Math.floor(intensity * 18), 60);
 
   for (let i = 0; i < count; i++) {
-    // Ángulo y velocidad de las chispas
-    const angle = (-Math.PI / 2) + (Math.random() * 1.35 - 0.675);
-    const speed = 180 + Math.random() * 320;
+    const angle = direction + (Math.random() * spread - spread / 2);
+    const speed = speedMin + Math.random() * (speedMax - speedMin);
 
     const radius = 1.5 + Math.random() * 3.8;
-
-    // brillo
-    const alpha = 0.75 + Math.random() * 0.25;
-
-    // Duración
-    const timeToLive = 0.55 + Math.random() * 0.35;
+    const alpha = alphaMin + Math.random() * (alphaMax - alphaMin);
+    const timeToLive = ttlMin + Math.random() * (ttlMax - ttlMin);
 
     const p = new HammerSparkParticle(
       ParticleID.HAMMER_SPARK,
@@ -297,15 +314,11 @@ function createHammerSparks(xCenter, yCenter, intensity = 1) {
       alpha,
       radius,
       timeToLive,
-      "rgba(255, 40, 40, 1)"
+      color
     );
 
-    p.vx = Math.cos(angle) * speed;
-    p.vy = Math.sin(angle) * speed;
-
-    // velocidad aleatoria
-    p.vx += (Math.random() * 80 - 40);
-    p.vy += (Math.random() * 60 - 30);
+    p.vx = Math.cos(angle) * speed + (Math.random() * 80 - 40);
+    p.vy = Math.sin(angle) * speed + (Math.random() * 60 - 30);
 
     globals.hudParticles.push(p);
   }
