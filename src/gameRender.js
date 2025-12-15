@@ -591,30 +591,37 @@ function drawScores() {
   ctx.fillText(GameText.GAME_SCORES, 160, 110)
   ctx.font = '14px emulogic'
 
-  orderByscore(GameText.SCORES)
+  // Preferir las puntuaciones de la base de datos cuando estén disponible
+  const sourceScores = (globals.highScores && globals.highScores.length)
+    ? globals.highScores
+    : GameText.SCORES
 
-  // recorrer el array corigiendo la posición por línea
-  for (let i = 0; i < GameText.SCORES.length; i++) {
+  // Preferir las puntuaciones de la base de datos cuando estén disponibles
+  const scores = orderByscore([...sourceScores]).slice(0, 5)
 
-    let space = " "
-    let n
+  // recorrer el array corrigiendo la posición por línea
+  for (let i = 0; i < scores.length; i++) {
+
+    const space = " "
+    let n = 0
 
     // resaltar en amarillo los 3 primeros
-    if (i == 0 | i == 1 | i == 2) {
+    if (i === 0 || i === 1 || i === 2) {
       ctx.fillStyle = 'yellow'
-
     } else {
       ctx.fillStyle = 'lightblue'
     }
 
+    const scoreStr = scores[i].score.toString()
+
     // alinear a la derecha en función del nº de dígitos del score
-    if (GameText.SCORES[i].score.toString().length < 5) {
-      n = 5 - GameText.SCORES[i].score.toString().length
+    if (scoreStr.length < 5) {
+      n = 5 - scoreStr.length
     }
 
     // imprimir el score alineado
-    ctx.fillText((i + 1) + " " + GameText.SCORES[i].name, nameX, startY + i * lineHeight, 450)
-    ctx.fillText((space.repeat(n)) + GameText.SCORES[i].score, scoreX, startY + i * lineHeight, 450)
+    ctx.fillText((i + 1) + " " + scores[i].name, nameX, startY + i * lineHeight, 450)
+    ctx.fillText((space.repeat(n)) + scores[i].score, scoreX, startY + i * lineHeight, 450)
   }
 
   // DOWN LEFT

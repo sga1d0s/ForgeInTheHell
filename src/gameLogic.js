@@ -5,6 +5,8 @@ import {
   initSkeleton, initSkeletonAt, getRandomSkeletonSpawnPosition, createSkeletonSpawnCloud, createHammerSparks, initSprites, initLevel, createAttackDust,
   ensureLowLifeAuraParticles,
 } from "./initialize.js"
+import { submitScore, fetchHighScores } from "./highScoresApi.js";
+
 
 export default function update() {
 
@@ -818,22 +820,45 @@ function reload() {
 }
 
 function gameOver() {
-  // solo una vez al entrar en OVER
+  // 1) Guardar score y refrescar TOP 10 (solo una vez al entrar en OVER)
+  // Importante: hacerlo ANTES de reload(), porque reload() pone score a 0.
+  if (!globals.didSubmitScoreInGameOver) {
+    globals.didSubmitScoreInGameOver = true;
+
+    const finalScore = globals.score;
+
+    // No bloqueamos el loop de render/update: lanzamos la promesa y listo
+    submitScore(finalScore)
+      .then(() => fetchHighScores(10))
+      .then((scores) => {
+        // por seguridad, máx 10
+        globals.highScores = (scores ?? []).slice(0, 10);
+      })
+      .catch((e) => {
+        console.error("HighScore error", e);
+      });
+  }
+
+  // 2) Reset del juego (solo una vez)
   if (!globals.didReloadInGameOver) {
     reload();
     globals.didReloadInGameOver = true;
   }
+
+  // 3) Volver al menú
   globals.gameState = Game.NEW_GAME;
 
-  // agestionar menu
+  // gestionar menu
   if (globals.action.moveLeft) {
     globals.gameState = Game.SCORES;
     globals.didReloadInGameOver = false;
+    globals.didSubmitScoreInGameOver = false;
   }
 
   if (globals.action.moveRight || globals.action.enter) {
     globals.gameState = Game.NEW_GAME;
     globals.didReloadInGameOver = false;
+    globals.didSubmitScoreInGameOver = false;
   }
 }
 

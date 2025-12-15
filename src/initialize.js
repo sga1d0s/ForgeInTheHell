@@ -11,6 +11,7 @@ import Timer from "./Timer.js"
 import TextWord from "./TextWord.js"
 import { RainParticleSparkle, SkeletonSpawnCloudParticle, HammerSparkParticle } from "./Particle.js";
 import EventManager from "./EventManager.js";
+import { fetchHighScores } from "./highScoresApi.js";
 
 // funcionque inicializa los elementos HTML
 function initHTMLElements() {
@@ -46,6 +47,9 @@ function initVars() {
     moveDown: false,
     attack: false
   }
+
+  // scores DB
+  globals.highScores = [];
 
   // variable vida
   globals.life = 100;
@@ -113,8 +117,19 @@ function loadHandler() {
       globals.tileSets[i].removeEventListener("load", loadHandler, false)
     }
 
-    console.log("Assets finish loading")
+    // Precargar TOP 10 de la API para que el primer render de SCORES no muestre solo constants
+    fetchHighScores(10)
+      .then((scores) => {
+        globals.highScores = (scores ?? []).slice(0, 10);
+        console.log("High scores loaded", globals.highScores);
+      })
+      .catch((e) => {
+        console.error("HighScore preload error", e);
+      });
   }
+
+  console.log("Assets finish loading")
+
 }
 
 function initSprites() {
