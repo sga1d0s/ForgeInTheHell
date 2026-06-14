@@ -302,19 +302,40 @@ function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getRandomSkeletonSpawnPosition() {
+function isSpawnClear(x, y) {
+  // hitbox del esqueleto en la posición candidata
+  const sx = x + 21, sy = y + 40, sw = 18, sh = 20
 
+  for (const sprite of globals.sprites) {
+    if (sprite.id === SpriteID.SKELETON) continue
+    const hb = sprite.hitBox
+    if (!hb || hb.xSize === 0 || hb.ySize === 0) continue
+
+    const ox = sprite.xPos + hb.xOffset
+    const oy = sprite.yPos + hb.yOffset
+
+    const overlap = sx < ox + hb.xSize && sx + sw > ox &&
+                    sy < oy + hb.ySize && sy + sh > oy
+    if (overlap) return false
+  }
+  return true
+}
+
+function getRandomSkeletonSpawnPosition() {
   const zones = [
     { xMin: 0, xMax: 180, yMin: 100, yMax: 190 },
     { xMin: 100, xMax: 400, yMin: 160, yMax: 300 },
   ];
 
-  const zone = zones[Math.floor(Math.random() * zones.length)];
-
-  return {
-    x: randomBetween(zone.xMin, zone.xMax),
-    y: randomBetween(zone.yMin, zone.yMax),
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const zone = zones[Math.floor(Math.random() * zones.length)];
+    const x = randomBetween(zone.xMin, zone.xMax)
+    const y = randomBetween(zone.yMin, zone.yMax)
+    if (isSpawnClear(x, y)) return { x, y }
   }
+
+  // fallback garantizado libre de obstáculos
+  return { x: 250, y: 300 }
 }
 
 function initSkeletonAt(x, y) {
