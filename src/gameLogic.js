@@ -3,7 +3,7 @@ import { Game, SpriteID, State, StrikeBox, ParticleID, ParticleState } from "./c
 import detectCollisions from "./collisions.js"
 import {
   initSkeleton, initSkeletonAt, getRandomSkeletonSpawnPosition, createSkeletonSpawnCloud, createHammerSparks, initSprites, initLevel, createAttackDust,
-  ensureLowLifeAuraParticles, playMenuMusic, stopMenuMusic,
+  ensureLowLifeAuraParticles, playMenuMusic, stopMenuMusic, playSFX, stopSFX,
 } from "./initialize.js"
 
 export default function update() {
@@ -73,6 +73,21 @@ export default function update() {
 
     default:
       console.error("Error: Game State invalid")
+  }
+
+  // SFX de navegación de menú
+  if (globals.gameState !== globals.prevGameState) {
+    const menuStates = [Game.NEW_GAME, Game.STORY, Game.CONTROLS, Game.SCORES]
+    const wasInMenu = menuStates.includes(globals.prevGameState)
+    const isInMenu = menuStates.includes(globals.gameState)
+
+    if (wasInMenu && globals.gameState === Game.PLAYING) {
+      playSFX(globals.sfxGameStart)
+    } else if (isInMenu && wasInMenu) {
+      playSFX(globals.sfxNavigate)
+    }
+
+    globals.prevGameState = globals.gameState
   }
 
   globals.prevAttack = globals.action.attack;
@@ -821,6 +836,7 @@ function reload() {
 function gameOver() {
   // solo una vez al entrar en OVER
   if (!globals.didReloadInGameOver) {
+    stopSFX(globals.sfxGameStart)
     reload();
     globals.didReloadInGameOver = true;
     playMenuMusic()

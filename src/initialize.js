@@ -82,6 +82,27 @@ function initVars() {
   globals.eventManager = new EventManager();
 }
 
+// inicializa los efectos de sonido
+function initSFX() {
+  globals.sfxNavigate = new Audio("./audio/vgmenuselect.ogg")
+  globals.sfxNavigate.volume = 0.6
+
+  globals.sfxGameStart = new Audio("./audio/Fanfare.mp3")
+  globals.sfxGameStart.volume = 0.7
+}
+
+export function playSFX(sound) {
+  if (!sound || !globals.menuMusicUnlocked) return
+  sound.currentTime = 0
+  sound.play().catch(() => {})
+}
+
+export function stopSFX(sound) {
+  if (!sound) return
+  sound.pause()
+  sound.currentTime = 0
+}
+
 // inicializa la música de menú
 function initMenuMusic() {
   const audio = new Audio("./audio/CHIPTUNE_The_Bards_Tale.mp3")
@@ -805,5 +826,6 @@ export {
   createAttackDust,
   ensureLowLifeAuraParticles,
   initHammerPickupAt,
-  initMenuMusic
+  initMenuMusic,
+  initSFX
 }

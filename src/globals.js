@@ -104,5 +104,8 @@ export default {
   // audio
   menuMusic: null,
   menuMusicUnlocked: false,
+  sfxNavigate: null,
+  sfxGameStart: null,
+  prevGameState: -1,
 
 }
