@@ -63,6 +63,8 @@ export default {
 
   // score
   score: 0,
+  
+  highScores: [],
 
   // array de palabras del texto de story
   wordsArray: [],
