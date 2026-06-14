@@ -1,15 +1,9 @@
 import { Key } from "./constants.js";
 import globals from "./globals.js";
-import { createHammerSparks, initHammerPickupAt, playMenuMusic } from "./initialize.js";
+import { createHammerSparks, initHammerPickupAt } from "./initialize.js";
 import Timer from "./Timer.js";
 
 export function keydownHandler(event) {
-  // desbloquear audio en la primera interacción del usuario
-  if (!globals.menuMusicUnlocked) {
-    globals.menuMusicUnlocked = true
-    playMenuMusic()
-  }
-
   switch (event.keyCode) {
     case Key.W:
     case Key.UP:

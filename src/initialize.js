@@ -88,6 +88,23 @@ function initMenuMusic() {
   audio.loop = true
   audio.volume = 0.5
   globals.menuMusic = audio
+
+  // intentar autoplay; si el browser lo bloquea, arrancar en la primera interacción
+  audio.play().then(() => {
+    globals.menuMusicUnlocked = true
+  }).catch(() => {
+    const unlock = () => {
+      if (globals.menuMusicUnlocked) return
+      globals.menuMusicUnlocked = true
+      audio.play().catch(() => {})
+      document.removeEventListener("keydown", unlock)
+      document.removeEventListener("click", unlock)
+      document.removeEventListener("touchstart", unlock)
+    }
+    document.addEventListener("keydown", unlock)
+    document.addEventListener("click", unlock)
+    document.addEventListener("touchstart", unlock)
+  })
 }
 
 export function playMenuMusic() {
