@@ -1,6 +1,7 @@
 import globals from "./globals.js"
 import { Game, SpriteID, State, StrikeBox, ParticleID, ParticleState } from "./constants.js"
 import detectCollisions from "./collisions.js"
+import EventManager from "./EventManager.js"
 import {
   initSkeleton, initSkeletonAt, getRandomSkeletonSpawnPosition, createSkeletonSpawnCloud, createHammerSparks, initSprites, initLevel, createAttackDust,
   ensureLowLifeAuraParticles, playMenuMusic, stopMenuMusic, playSFX, stopSFX,
@@ -835,6 +836,18 @@ function reload() {
 
   globals.lowLifeAuraParticles = [];
   globals.lowLifeAuraEnabled = false;
+
+  // eventos y estado del martillo
+  globals.attackDisabled = false;
+  globals.hammerPickupActive = false;
+  globals.hammerPickupSprite = null;
+  globals.hitStreak = 0;
+  globals.blessingActive = false;
+  globals.hammerWearDisabled = false;
+  globals.blessingTimeLeft = 0;
+  globals.prevFailHitCounter = 0;
+  globals.failHitCounterAtBlessingStart = 0;
+  globals.eventManager = new EventManager();
 
   // iniciar los sprites
   initSprites()
