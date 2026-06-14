@@ -413,6 +413,7 @@ function newGame() {
   }
   if (globals.action.enter) {
     stopMenuMusic()
+    globals.didReloadInGameOver = false
     globals.gameState = Game.PLAYING;
   }
 }
@@ -509,6 +510,12 @@ function deathTimer() {
   globals.gameOverPlayer.timeChangeCounter += globals.deltaTime
 
   if (globals.gameOverPlayer.timeChangeCounter > globals.gameOverPlayer.timeChangeValue) {
+    // limpiar partículas antes de cambiar de estado para evitar residuos visuales
+    globals.fxParticles = []
+    globals.hudParticles = []
+    globals.lowLifeAuraParticles = []
+    globals.lowLifeAuraEnabled = false
+
     globals.gameState = Game.OVER
     globals.gameOverPlayer.timeChangeCounter = 0
   }

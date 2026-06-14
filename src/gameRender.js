@@ -41,6 +41,11 @@ export default function render() {
   }
 }
 
+function clearCanvas() {
+  globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height)
+  globals.ctxUHD.clearRect(0, 0, globals.canvasUHD.width, globals.canvasUHD.height)
+}
+
 // dibujar atajos de teclado
 function keyboardShortcuts() {
   let uhd = globals.ctxUHD
@@ -431,7 +436,7 @@ function renderHammer() {
 }
 
 function drawGameOver() {
-
+  clearCanvas()
   drawCorners()
 
   // globals
@@ -457,6 +462,7 @@ function drawGameOver() {
 }
 
 function drawNewGame() {
+  clearCanvas()
   drawCorners()
 
   // globals
@@ -490,6 +496,7 @@ function drawNewGame() {
 }
 
 function drawStory() {
+  clearCanvas()
   drawCorners()
 
   // Definir constantes
@@ -538,6 +545,7 @@ function drawStory() {
 
 
 function drawControls() {
+  clearCanvas()
   drawCorners()
 
   // globals
@@ -574,7 +582,7 @@ function drawControls() {
 }
 
 function drawScores() {
-
+  clearCanvas()
   drawCorners()
 
   // globals
