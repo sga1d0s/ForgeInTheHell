@@ -101,4 +101,8 @@ export default {
   // parar desgaste durante Blessing aunque failHitCounter suba
   failHitCounterAtBlessingStart: 0,
 
+  // audio
+  menuMusic: null,
+  menuMusicUnlocked: false,
+
 }

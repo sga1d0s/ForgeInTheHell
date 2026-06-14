@@ -1,7 +1,7 @@
 import globals from "./globals.js"
-import { initHTMLElements, initVars, 
-  loadAssets, initSprites, initLevel, 
-  initEvents, initSkeleton, initTimers,  initProcessText} from "./initialize.js"
+import { initHTMLElements, initVars,
+  loadAssets, initSprites, initLevel,
+  initEvents, initSkeleton, initTimers, initProcessText, initMenuMusic } from "./initialize.js"
 import update from "./gameLogic.js"
 import updateSprite from "./gameLogic.js"
 import render from "./gameRender.js"
@@ -35,6 +35,9 @@ function init() {
 
   // eventos de teclado
   initEvents()
+
+  // música de menú
+  initMenuMusic()
 
   // start the first frame request
   window.requestAnimationFrame(gameLoop)

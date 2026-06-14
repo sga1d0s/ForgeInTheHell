@@ -82,6 +82,26 @@ function initVars() {
   globals.eventManager = new EventManager();
 }
 
+// inicializa la música de menú
+function initMenuMusic() {
+  const audio = new Audio("./audio/CHIPTUNE_The_Bards_Tale.mp3")
+  audio.loop = true
+  audio.volume = 0.5
+  globals.menuMusic = audio
+}
+
+export function playMenuMusic() {
+  if (!globals.menuMusic || !globals.menuMusicUnlocked) return
+  if (!globals.menuMusic.paused) return
+  globals.menuMusic.play().catch(() => {})
+}
+
+export function stopMenuMusic() {
+  if (!globals.menuMusic || globals.menuMusic.paused) return
+  globals.menuMusic.pause()
+  globals.menuMusic.currentTime = 0
+}
+
 // carga de activos: TILEMAPS, IMAGES, SOUNDS
 function loadAssets() {
 
@@ -767,5 +787,6 @@ export {
   createHammerSparks,
   createAttackDust,
   ensureLowLifeAuraParticles,
-  initHammerPickupAt
+  initHammerPickupAt,
+  initMenuMusic
 }

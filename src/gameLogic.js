@@ -3,7 +3,7 @@ import { Game, SpriteID, State, StrikeBox, ParticleID, ParticleState } from "./c
 import detectCollisions from "./collisions.js"
 import {
   initSkeleton, initSkeletonAt, getRandomSkeletonSpawnPosition, createSkeletonSpawnCloud, createHammerSparks, initSprites, initLevel, createAttackDust,
-  ensureLowLifeAuraParticles,
+  ensureLowLifeAuraParticles, playMenuMusic, stopMenuMusic,
 } from "./initialize.js"
 
 export default function update() {
@@ -397,6 +397,7 @@ function newGame() {
     globals.gameState = Game.NEW_GAME;
   }
   if (globals.action.enter) {
+    stopMenuMusic()
     globals.gameState = Game.PLAYING;
   }
 }
@@ -822,6 +823,7 @@ function gameOver() {
   if (!globals.didReloadInGameOver) {
     reload();
     globals.didReloadInGameOver = true;
+    playMenuMusic()
   }
   globals.gameState = Game.NEW_GAME;
 
