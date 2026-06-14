@@ -89,6 +89,9 @@ function initSFX() {
 
   globals.sfxGameStart = new Audio("./audio/Fanfare.mp3")
   globals.sfxGameStart.volume = 0.7
+
+  globals.sfxDeath = new Audio("./audio/vgdeathsound.ogg")
+  globals.sfxDeath.volume = 0.8
 }
 
 export function playSFX(sound) {

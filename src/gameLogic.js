@@ -499,14 +499,17 @@ function updateLife() {
 
 // determina el tiempo entre muerto y gameOver
 function deathTimer() {
-  // incrementamos el contador de cambio de valor
+  // sonido de muerte una sola vez al entrar en estado de death
+  if (!globals.deathSoundPlayed) {
+    globals.deathSoundPlayed = true
+    stopSFX(globals.sfxGameStart)
+    playSFX(globals.sfxDeath)
+  }
+
   globals.gameOverPlayer.timeChangeCounter += globals.deltaTime
 
-  // si ha pasado el tiempo necesario, cambiamos el valor del timer
   if (globals.gameOverPlayer.timeChangeCounter > globals.gameOverPlayer.timeChangeValue) {
     globals.gameState = Game.OVER
-
-    // restear timeChangecounter
     globals.gameOverPlayer.timeChangeCounter = 0
   }
 }
@@ -836,10 +839,19 @@ function reload() {
 function gameOver() {
   // solo una vez al entrar en OVER
   if (!globals.didReloadInGameOver) {
-    stopSFX(globals.sfxGameStart)
     reload();
     globals.didReloadInGameOver = true;
-    playMenuMusic()
+    globals.deathSoundPlayed = false
+
+    // arrancar música de menú cuando termine el sonido de muerte
+    if (globals.sfxDeath && !globals.sfxDeath.paused) {
+      globals.sfxDeath.onended = () => {
+        playMenuMusic()
+        globals.sfxDeath.onended = null
+      }
+    } else {
+      playMenuMusic()
+    }
   }
   globals.gameState = Game.NEW_GAME;
 

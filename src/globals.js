@@ -106,6 +106,8 @@ export default {
   menuMusicUnlocked: false,
   sfxNavigate: null,
   sfxGameStart: null,
+  sfxDeath: null,
+  deathSoundPlayed: false,
   prevGameState: -1,
 
 }
